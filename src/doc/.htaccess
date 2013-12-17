@@ -1,0 +1,9 @@
+DirectoryIndex start
+Options +MultiViews +Includes
+RemoveType .html
+RemoveType .xhtml
+AddType text/html;charset=UTF-8 .html
+AddType application/xhtml+xml;charset=UTF-8;qs=0.999 .xhtml
+AddHandler server-parsed .html
+AddHandler server-parsed .xhtml
+ErrorDocument 404 /status404

@@ -1,0 +1,43 @@
+ACEUNIT README
+==============
+
+AceUnit (Advanced C and Embedded Unit): a comfortable C code unit test
+framework. AceUnit is JUnit 4.x style, easy, modular and flexible.  AceUnit can
+be used in resource constraint environments, e.g. embedded software development.
+
+
+DESIGN GOALS
+============
+* "User-compatible" with JUnit 4.x - works and behaves like JUnit 4.x annotation
+  based testing.
+* No framework overhead in test code.  That's because of the JUnit compatible
+  design but is worth noting explicitely, as this is what distinguishes this
+  framework most from other frameworks for unit testing C code.
+
+ 
+REQUIREMENTS
+============
+Java 1.5 is required to run the generator.
+Java 1.6 is required to build the generator.
+C89 is required for AceUnit.
+If C99 is available, AceUnit can make use of it.
+A C99 environment is strongly recommended.
+
+
+DIRECTORY STRUCTURE
+===================
+src/doc
+    The source code of the documentation.
+
+src/java
+    The source code of GenTest, which is the code generator for the AceUnit
+    test framework.
+
+src/native
+    The source code that you need for building programs with AceUnit.
+    This also contains tests which can be used to test AceUnit with itself.
+    Also, these tests are examples of how to use AceUnit.
+
+src/native/test
+    Several unit tests where AceUnit is tested with itself.
+    This is excellent examples of how to use AceUnit.

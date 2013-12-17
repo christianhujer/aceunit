@@ -1,0 +1,19 @@
+* Create global build.xml for Building releases
+* Improve website layout (make it similar to that of Japi, Gridarta etc.)
+* Make better distinction between public API and internal symbols even in header files
+
+* Alternatively allow for naming schemes instead of annotations so users can go without the A_Test annotations.
+* Turn runFixture in a non-void function that returns whether one or more test cases failed.
+* Add randomization of test order.
+* Add JUnit-compatible loggers.
+* Add proper runner tree that makes makes use of every logger method.
+* Add generation of main()
+* Support performance tests by measuring the time for tests.
+* Support looping of tests for performance tests.
+* Support fork() in the runner, just like check.
+* Rename all symbols to have a pseudo-namespace.
+* Add groups which are an orthogonal grouping system to the tree of suites with fixtures with testcases.
+* Extend the runner to get information about what to run.
+* Extend the runner to optionally use fork() like check.
+* Add a library for C to access the mapping table.
+* Add a library for Java to access the mapping table.

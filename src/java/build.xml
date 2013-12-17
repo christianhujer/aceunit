@@ -1,0 +1,178 @@
+<?xml version="1.0"?>
+<!--
+  ~ Copyright (c) 2007 - 2011, Christian Hujer
+  ~ All rights reserved.
+  ~ 
+  ~ Redistribution and use in source and binary forms, with or without
+  ~ modification, are permitted provided that the following conditions are met:
+  ~     * Redistributions of source code must retain the above copyright
+  ~       notice, this list of conditions and the following disclaimer.
+  ~     * Redistributions in binary form must reproduce the above copyright
+  ~       notice, this list of conditions and the following disclaimer in the
+  ~       documentation and/or other materials provided with the distribution.
+  ~     * Neither the name of the AceUnit developers nor the
+  ~       names of its contributors may be used to endorse or promote products
+  ~       derived from this software without specific prior written permission.
+  ~ 
+  ~ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+  ~ "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+  ~ LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+  ~ A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER
+  ~ OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+  ~ EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+  ~ PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+  ~ PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+  ~ LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+  ~ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+  ~ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+  -->
+<project name="AceUnit" default="jar">
+
+    <target
+        name        = "clean"
+        description = "Removes auto-generated files and directories."
+    >
+        <delete dir="classes" />
+        <delete file="AceUnit.jar" />
+    </target>
+
+    <target
+        name        = "compile"
+        description = "Compiles AceUnit java source code."
+    >
+        <mkdir dir="classes/production" />
+        <javac
+            srcdir   = "src/prj"
+            destdir  = "classes/production"
+            encoding = "utf-8"
+            debug    = "yes"
+            target   = "1.5"
+            source   = "1.5"
+        >
+            <classpath>
+                <pathelement location="lib/annotations.jar" />
+                <pathelement location="lib/japi-lib-argparser-0.3.0.jar" />
+            </classpath>
+            <compilerarg value="-Xlint:all" />
+        </javac>
+        <copy todir="classes/production">
+            <fileset dir="src/prj">
+                <include name="**/*.properties" />
+            </fileset>
+        </copy>
+    </target>
+
+    <target
+        name        = "jar"
+        description = "Creates AceUnit.jar executable jar archive."
+        depends     = "clean, compile"
+    >
+        <jar
+            destfile = "AceUnit.jar"
+            basedir  = "classes/production"
+        >
+            <manifest>
+                <attribute name="Main-Class" value="net.sf.aceunit.GenTest" />
+            </manifest>
+            <zipfileset dir="classes/production" />
+            <zipfileset src="lib/annotations.jar" />
+            <zipfileset src="lib/japi-lib-argparser-0.3.0.jar" />
+        </jar>
+    </target>
+
+    <target
+        name        = "unittest"
+        description = "Performs the unit tests."
+        depends     = "compile"
+    >
+        <mkdir dir="classes/test" />
+        <mkdir dir="docs/test" />
+        <javac
+            srcdir   = "src/tst"
+            destdir  = "classes/test"
+            encoding = "utf-8"
+            debug    = "yes"
+            target   = "1.5"
+            source   = "1.5"
+        >
+            <classpath>
+                <pathelement location="classes/production" />
+                <pathelement location="lib/annotations.jar" />
+                <pathelement location="lib/japi-lib-argparser-0.3.0.jar" />
+                <pathelement location="lib/junit-4.4.jar" />
+            </classpath>
+        </javac>
+        <copy todir="classes/production">
+            <fileset dir="src/prj">
+                <include name="**/*.properties" />
+            </fileset>
+        </copy>
+        <junit
+            fork="no"
+            printsummary="yes"
+            haltonfailure="yes"
+        >
+            <classpath>
+                <pathelement location="classes/production" />
+                <pathelement location="classes/test" />
+                <pathelement location="lib/annotations.jar" />
+                <pathelement location="lib/japi-lib-argparser-0.3.0.jar" />
+                <pathelement location="lib/junit-4.4.jar" />
+            </classpath>
+            <formatter type="plain" />
+            <formatter type="xml" />
+            <batchtest todir="docs/test">
+                <fileset dir="src/tst">
+                    <include name="test/**/*Test.java" />
+                    <exclude name="test/**/Abstract*Test.java" />
+                </fileset>
+            </batchtest>
+        </junit>
+        <junitreport todir="docs/test">
+            <fileset dir="docs/test">
+                <include name="TEST-*.xml" />
+            </fileset>
+            <report format="frames" todir="docs/test" />
+        </junitreport>
+    </target>
+
+    <target
+        name="doc"
+        description="Generates javadoc documentation."
+        depends="compile"
+    >
+        <mkdir dir="docs/api" />
+        <javadoc
+            access   = "private"
+            author   = "yes"
+            version  = "yes"
+            destdir  = "docs/api"
+            serialwarn  = "yes"
+            charset     = "utf-8"
+            docencoding = "utf-8"
+            encoding    = "utf-8"
+            source      = "1.5"
+            linksource  = "yes"
+        >
+            <classpath>
+                <pathelement location="lib/annotations.jar" />
+                <pathelement location="lib/japi-lib-argparser-0.3.0.jar" />
+            </classpath>
+            <packageset
+                dir="src/prj"
+                defaultexcludes="yes"
+            />
+            <taglet name="net.sf.japi.taglets.FixmeTaglet"         path="lib/japi-lib-taglets-trunk-1374M.jar" />
+            <taglet name="net.sf.japi.taglets.HistoryTaglet"       path="lib/japi-lib-taglets-trunk-1374M.jar" />
+            <taglet name="net.sf.japi.taglets.InvariantTaglet"     path="lib/japi-lib-taglets-trunk-1374M.jar" />
+            <taglet name="net.sf.japi.taglets.NoteTaglet"          path="lib/japi-lib-taglets-trunk-1374M.jar" />
+            <taglet name="net.sf.japi.taglets.PostconditionTaglet" path="lib/japi-lib-taglets-trunk-1374M.jar" />
+            <taglet name="net.sf.japi.taglets.PreconditionTaglet"  path="lib/japi-lib-taglets-trunk-1374M.jar" />
+            <taglet name="net.sf.japi.taglets.ReturnValueTaglet"   path="lib/japi-lib-taglets-trunk-1374M.jar" />
+            <taglet name="net.sf.japi.taglets.TodoTaglet"          path="lib/japi-lib-taglets-trunk-1374M.jar" />
+            <taglet name="net.sf.japi.taglets.WarningTaglet"       path="lib/japi-lib-taglets-trunk-1374M.jar" />
+            <taglet name="net.sf.japi.taglets.XxxTaglet"           path="lib/japi-lib-taglets-trunk-1374M.jar" />
+        </javadoc>
+    </target>
+
+</project>

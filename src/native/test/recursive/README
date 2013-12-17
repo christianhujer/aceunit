@@ -1,0 +1,8 @@
+This is a test for using AceUnit recursively.
+
+The directories C1, C2, C3 represent what you might call software components.
+These components each have their own test sets in a "tests" subdirectory.
+AceUnit shall recursively find all tests in all "tests" subdirectories.
+The "tests" subdirectories may group their fixtures in packages.
+Each package is represented by a subdirectory the same way as in Java.
+All test cases shall be executed.

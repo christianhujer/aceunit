@@ -1,0 +1,9 @@
+This is AceUnit Native's own test suite.
+
+Please note:
+It requires a POSIX compatible find command, a normal make command, Java and
+Ant to run.
+
+The recommended compiler for the test suite is GCC (for profiling).
+
+The recommended way of running the test suite is make -s -j

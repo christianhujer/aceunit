@@ -1,0 +1,11 @@
+body {
+    padding-bottom:3em;
+}
+address {
+    position:fixed;
+    bottom:0px;
+    background:#fff;
+    width:auto;
+    left:0px;
+    right:0px;
+}

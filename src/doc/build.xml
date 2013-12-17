@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2007 - 2011, Christian Hujer
+  ~ All rights reserved.
+  ~ 
+  ~ Redistribution and use in source and binary forms, with or without
+  ~ modification, are permitted provided that the following conditions are met:
+  ~     * Redistributions of source code must retain the above copyright
+  ~       notice, this list of conditions and the following disclaimer.
+  ~     * Redistributions in binary form must reproduce the above copyright
+  ~       notice, this list of conditions and the following disclaimer in the
+  ~       documentation and/or other materials provided with the distribution.
+  ~     * Neither the name of the AceUnit developers nor the
+  ~       names of its contributors may be used to endorse or promote products
+  ~       derived from this software without specific prior written permission.
+  ~ 
+  ~ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+  ~ "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+  ~ LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+  ~ A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER
+  ~ OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+  ~ EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+  ~ PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+  ~ PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+  ~ LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+  ~ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+  ~ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+  -->
+<!DOCTYPE project [
+    <!ENTITY catalogForAnt SYSTEM "catalogForAnt.xml">
+]>
+<project name="AceUnit Website" default="transform">
+
+
+    <property file="developer.properties" />
+    <property file="project.properties" />
+
+    <taskdef name="megaxslt" classname="com.hujer.ant.tasks.megaxslt.MegaXsltTask">
+        <classpath>
+            <pathelement location="lib/megaxslt.jar" />
+        </classpath>
+    </taskdef>
+
+    &catalogForAnt;
+
+
+    <target name="transform">
+        <mkdir dir="docs" />
+        <megaxslt
+            srcdir="."
+            destdir="docs"
+            includes="**/*.xhtml"
+            excludes="docs/**/*"
+            validatesource="true"
+            validatedest="true"
+            ending="shtml"
+            transformerFactoryImplementationClassName="net.sf.saxon.TransformerFactoryImpl"
+        >
+            <xmlcatalog refid="commonDTDs" />
+            <transformation stylesheet="transform.xslt" />
+            <transformation stylesheet="cleanupXhtml11.xslt" />
+        </megaxslt>
+        <megaxslt
+            srcdir="docs"
+            destdir="docs"
+            includes="**/*.shtml"
+            validatesource="true"
+            validatedest="false"
+            ending="html"
+            converttocanonical="true"
+            transformerFactoryImplementationClassName="net.sf.saxon.TransformerFactoryImpl"
+        >
+            <xmlcatalog refid="commonDTDs" />
+            <transformation stylesheet="xhtml2html.xslt" />
+        </megaxslt>
+        <copy
+            todir="docs"
+        >
+            <fileset dir=".">
+                <include name="**/.htaccess" />
+                <include name="**/*.css" />
+                <include name="**/*.png" />
+                <exclude name="**/.xvpics/*.png" />
+                <exclude name="**/docs/**" />
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="doxygen">
+        <exec dir="../native" executable="doxygen" failonerror="true">
+        </exec>
+        <copy
+            todir="docs/doxygen"
+        >
+            <fileset dir="../native/doc/html" />
+        </copy>
+        <echo file="docs/doxygen/.htaccess">DirectoryIndex index.html</echo>
+    </target>
+
+    <target name="uploadDoc" depends="transform, doxygen">
+        <exec executable="rsync" failonerror="true">
+            <arg line="-auzv -e ssh docs/ ${user.rsync.username}@${user.rsync.host}:${user.rsync.dir}" />
+        </exec>
+    </target>
+
+</project>

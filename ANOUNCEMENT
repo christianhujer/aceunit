@@ -1,0 +1,15 @@
+ANOUNCEMENT
+
+In future versions of AceUnit, the following eventually incompatible changes
+will be performed:
+* ACEUNIT_EMBEDDED will be renamed.
+* The id will change.
+  Old: normal id = string, ACEUNIT_EMBEDDED id = number.
+  New: normal id = number, ACEUNIT_EMBEDDED id = number.
+       The string will be separately available.
+* The runner will optionally support ids for selecting suites, fixtures and
+  test cases.
+* The group feature implementation will be completed.
+
+The changes will not affect tests.
+The changes might affect invocations of the runner and the build environment.

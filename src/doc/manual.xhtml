@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+        <meta name="Date" content="$Date: 2009-08-22 01:23:15 +0530 (Sat, 22 Aug 2009) $" />
+        <title>AceUnit Manual</title>
+        <link rel="Stylesheet" type="text/css" href="sitestyle.css" />
+        <meta name="X-Subversion-Id" content="$Id: manual.xhtml 533 2009-08-21 19:53:15Z christianhujer $" />
+    </head>
+    <body>
+        <h2 id="toc" />
+        <h2>Introduction</h2>
+        <p class="description">
+            AceUnit (Advanced C and Embedded Unit): a comfortable C code unit test framework.
+            AceUnit is JUnit 4.x style, easy, modular and flexible.
+            AceUnit can be used in resource constraint environments, e.g. embedded software development.
+        </p>
+        <h2>What's AceUnit for you?</h2>
+        <p>
+            AceUnit is a unit test framework.
+        </p>
+        <p>
+            As such it provides a framework for you that you can use for writing your unit tests.
+            As a framework for unit testing, AceUnit provides you with a hierarchical test structure.
+            Test Suites consist of Test Suites (recursively) and Test Fixtures.
+            A Test Fixture consists of Test Cases that can have a preparation (beforeClass / before) and cleanup (afterClass / after).
+            AceUnit provides a Runner that will automatically traverse that hierarchical structure, run all the tests from it and log the results.
+            AceUnit also provides a Generator that will derive the structural information required by the Runner from some simple conventions.
+            The Generator replaces what in other languages (like Java) is provided by reflection.
+            The Runner also includes an assertion and a logging infrastructure.
+        </p>
+        <p>
+            The most frequent use of AceUnit is to link AceUnit and tests written for AceUnit with the testling that you want to test with AceUnit.
+            Because usually the testling already has a <code>main()</code> and because (unlike e.g. in Java) the testling can have only one <code>main()</code>, AceUnit does not, unlike e.g. JUnit, provide its own <code>main()</code>.
+            To run AceUnit, hook the invocation of the Runner in your program wherever it looks appropriate to you.
+            An example would be somewhere within or near <code>main()</code>, where the arguments are parsed.
+        </p>
+        <h2>Quick Overview</h2>
+        <p>
+            Unit Tests in AceUnit are declared using annotations.
+            This works pretty much the same as JUnit 4.x.
+            JUnit 4.x can be considered industry reference for unit test frameworks.
+            Much of AceUnit was modelled after JUnit 4.x.
+        </p>
+        <p>
+            The most important annotation that you will need is <code>A_Test</code>.
+            The <code>A_Test</code> annotation tells AceUnit that a function is a unit test.
+            Simply place this as a modifier before your function declaration, where you would write static in case you would declare your function static.
+            This annotation will be the main interface between your unit tests and the AceUnit framework which will run them.
+        </p>
+        <h4>Example</h4>
+        <pre>A_Test void someTestMethod() {
+    // test case implementation for this test case goes here
+}</pre>
+        <p>
+            Assume your source is named <samp>MyTest.c</samp>.
+            There are only two more things which you will need in your source.
+            Both of these things are very easy.
+        </p>
+        <ul>
+            <li>Put <code>#include "MyTest.h"</code> at the beginning of your source to include the required header file.</li>
+            <li>Run <code>java -jar AceUnit.jar MyTest >MyTest.h</code> to generate this header file.</li>
+        </ul>
+        <p>
+            That's all what you need.
+        </p>
+        <h3>What is <code>AceUnit.jar</code>?</h3>
+        <p>
+            <code>AceUnit.jar</code> is a Java program and the core for automation in AceUnit.
+            It scans a test source code and will generate all required information that the AceUnit framework will need to run your tests.
+            That information will be placed in the specified header file.
+        </p>
+        <p>
+            We know that running Java in a C environment is not convenient.
+            As soon as the main framework is stable, there will be a C implementation of AceUnit.jar.
+        </p>
+        <h2>Variants of Unit Test Declaration</h2>
+        <p>
+            AceUnit supports <!--two-->the following styles of declaring unit tests:
+        </p>
+        <ul>
+            <li>Declaring test methods with annotations, e.g. <code><em>A_Test</em> void someTest() {...}</code></li>
+            <!--li>Declaring test methods with a naming convention, e.g. <code>void <em>test</em>Something() {...}</code></li-->
+        </ul>
+        <h3>Annotation based testing</h3>
+        <p>
+            When declaring tests with annotations, the following annotations are available:
+        </p>
+        <dl>
+            <!-- Keep the descriptions of the annotations in sync with those in AceUnitAnnotations.h -->
+            <dt><code>A_Test</code></dt>
+            <dd>Test annotation, use for test cases.</dd>
+            <dt><code>A_Before</code></dt>
+            <dd>Before annotation, use for methods that should be invoked before each test case in a fixture.</dd>
+            <dt><code>A_After</code></dt>
+            <dd>After annotation, use for methods that should be invoked after each test case in a fixture.</dd>
+            <dt><code>A_BeforeClass</code></dt>
+            <dd>BeforeClass annotation, use for methods that should be invoked once for the fixture before all of its test cases.</dd>
+            <dt><code>A_AfterClass</code></dt>
+            <dd>AfterClass annotation, use for methods that should be invoked once for the fixture after all of its test cases.</dd>
+            <dt><code>A_Ignore</code></dt>
+            <dd>
+                Ignore annotation, use for test cases to ignore.
+                This annotation is only allowed for methods annotated as <code>A_Test</code>.
+            </dd>
+            <!--
+            <dt><code>A_IGnoreR(reason)</code></dt>
+            <dd>
+                Ignore annotation, use for test cases to ignore.
+                This annotation is only allowed for methods annotated as <code>A_Test</code>.
+                <br />
+                <code>reason</code>: Description of the reason why this test case is currently ignored.
+            </dd>
+            -->
+        </dl>
+        <h3>Naming Convention based testing</h3>
+        <p>
+            The following naming convention is recommended for the test names:
+        </p>
+        <dl>
+            <dt>test*</dt>
+            <dd>A test case method.</dd>
+            <dt>before*</dt>
+            <dd>Before method, should be invoked before each test case in a fixture. Note: "*" MUST not match "Class*".</dd>
+            <dt>after*</dt>
+            <dd>After method, should be invoked after each test case in a fixture. Note: "*" MUST not match "Class*".</dd>
+            <dt>beforeClass*</dt>
+            <dd>BeforeClass method, should be invoked once for the fixture before all of its test cases.</dd>
+            <dt>afterClass*</dt>
+            <dd>AfterClass method, should be invoked once for the fixture after all of its test cases.</dd>
+        </dl>
+        <h2>AceUnit Glossary</h2>
+        <dl>
+            <dt>Annotation</dt>
+            <dd>A C preprocessor macro that is defined empty for the compiler but meaningful for the AceUnit test code generator.</dd>
+            <dt>Class</dt>
+            <dd>See <dfn>Fixture</dfn>.</dd>
+            <dt>Fixture</dt>
+            <dd>A fixture, aka Test Class, is a collection of tests along with operations that shall be performed before or after all or each of the tests contained in the fixture.</dd>
+            <dt>Test</dt>
+            <dd>A single test case is a simple C function that will be called to perform the test.</dd>
+            <dt>Test Case</dt>
+            <dd>See <dfn>Test</dfn>.</dd>
+            <dt>Test Class</dt>
+            <dd>See <dfn>Fixture</dfn>.</dd>
+            <dt>Test Fixture</dt>
+            <dd>See <dfn>Fixture</dfn>.</dd>
+        </dl>
+        <h2>The scheme of writing AceUnit tests</h2>
+        <p>
+            Writing AceUnit tests is easy, very easy.
+        </p>
+        <ul>
+            <li>Identify the symbol(s) that you want to test, e.g. <code>fooOp()</code> and <code>fooData</code> from <code>foo.c</code>.</li>
+            <li>Make sure that the symbols that you want to test are accessible.</li>
+            <li>Create a new C source, e.g. <code>fooTest.c</code>.</li>
+        </ul>
+        <h2>Writing your first AceUnit test first software.</h2>
+        <p>
+            Our scenario is developing a sorting algorithm.
+            A sorting algorithm works if the list that it was sorting is sorted after the algorithm is done.
+            To verify whether a sorting algorithm works, we need verify that its data was sorted.
+            Both, the sorting and the verification need a comparator that determines whether an element should be sorted before or after another element.
+        </p>
+        <h3>Testing Comparator</h3>
+        <p>
+            The comparator works when it returns the expected result for each pair of values.
+        </p>
+        <pre><![CDATA[/** A Comparator compares two values and returns a comparison result.
+ * @param o1 Pointer to first object to compare.
+ * @param o2 Pointer to second object to compare.
+ * @return Comparison result
+ * @retval 0 if o1 and o2 are equal.
+ * @retval <0 if o1 should be sorted before o2.
+ * @retval >0 if o1 should be sorted after o2.
+ */
+typedef int8_least_t(*comparator)(const void *o1, const void *o2);]]></pre>
+        <p>
+            For testing purposes, we want to sort ints.
+            So the first thing that we do is we test whether our comparator implementation works.
+        </p>
+        <pre><![CDATA[/** Comparator for int values.
+ * @see comparator
+ */
+int8_least_t compareInt(const void *o1, const void *o2) {
+    return 0;
+}]]></pre>
+        <p>
+            It is obvious that our current implementation is bogus.
+            In test first programming, you intentionally start with a bogus implementation to verify that your test actually detects that the implementation is bogus.
+        </p>
+        <pre><![CDATA[/** Tests that #compareInt() works. */
+A_Test void testCompareInt() {
+    int n1;
+    int n2;
+
+    n1 = 0;
+    n2 = 0;
+    assertEquals("Comparing two equal numbers must return 0.", 0, compareInt(&0, &1));
+
+    n1 = 1;
+    n2 = 2;
+    assertTrue("Comparing 1 with 2 must return a value <0.", compareInt(&n1, &n2) < 0);
+
+    n1 = 2;
+    n2 = 1;
+    assertTrue("Comparing 2 with 1 must return a value >0.", compareInt(&n1, &n2) > 0);
+}]]></pre>
+        <h2>Options</h2>
+        <p>
+            AceUnit supports the following options:
+        </p>
+        <dl>
+            <dt><code>#define ACEUNIT_STATIC_ASSERTIONS</code></dt>
+            <dd>
+                By defining this macro you will cause annotations to be equivalent to <code>static</code>.
+                That way you have easy and flexible control over whether test methods are static or not.
+                <p />
+                Declaring test methods as static has a significant advantage.
+                You will be able to use the same name in different fixtures and still build and run them all together.
+                For logging, it is not required that test methods have unique names.
+                Logging will always also include the associated fixture (e.g. filename + line number).
+                So you will always uniquely identify which test case failed, even if the names of the test cases are not unique.
+                <p />
+                However, there are debuggers which will cause head ache if you try to debug functions which are static.
+                Some tool chains (compilers / linkers) will not emit proper debug information for functions which are static.
+                <p />
+                The pros and cons for static test methods are both very significant.
+                Whether or not you want to use static depends on your environment.
+                Because of that, we've left the choice to you.
+                <p />
+                But we've prepared everything for you.
+                Toggling between these two options is as simple as (not) defining this macro.
+            </dd>
+            <dt><code>#define ACEUNIT_EMBEDDED</code></dt>
+            <dd>
+                By defining this macro you will turn AceUnit into embedded mode.
+                In embedded mode, AceUnit tries to consume as little memory as possible.
+                For instance, all strings are replaced by 16 bit values.
+                Note: Currently this macro is not 100% functional.
+            </dd>
+        </dl>
+    </body>
+</html>

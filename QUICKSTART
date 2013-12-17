@@ -1,0 +1,37 @@
+QUICKSTART
+==========
+
+This is a quick start guide to AceUnit.
+
+AceUnit is easy, so this only 3 steps.
+
+
+Step 1: Read the documentation.
+AceUnit consists of more comment lines than code lines.
+The developers took a lot of care that AceUnit is well-documented.
+If you have a question, try to find the answer in the documentation.
+Basically everything is there.
+And especially look at the tests.
+The tests are perfect examples of how to use and integrate AceUnit.
+
+Step 2: Never modify AceUnit.
+Do not modify AceUnit.
+Don't do that.
+AceUnit is designed to be easy yet flexible and extensible without modifying it.
+If you modify AceUnit, you will increase your own effort of upgrading to a newer version of AceUnit.
+If you think you need to modify AceUnit, you should rather contact the AceUnit developers.
+They can support you.
+They can change AceUnit in a way that your extension becomes possible without modifying AceUnit.
+Or, if your extension is useful, they can implement your idea in AceUnit.
+
+Step 3: Use AceUnit.
+How to use it should be clear from Step 1.
+Again, take a look at the tests.
+The tests are perfect examples of how to use and integrate AceUnit.
+
+
+Hints:
+* Make your build find the AceUnit sources.
+* You need to compile AceUnit.c and AceUnitData.c plus a Logger of your choice.
+* Don't forget to add AceUnit to the include path.
+* Invoke the AceUnit generator (AceUnit*.jar).
