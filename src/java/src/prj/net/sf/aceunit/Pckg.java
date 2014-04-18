@@ -84,7 +84,7 @@ public class Pckg extends Suite<Suite<? extends Test>> {
         out.format("#ifdef ACEUNIT_SUITES%n");
         out.format("%n");
         for (final Suite<? extends Test> suite : getTests()) {
-            out.format("extern TestSuite_t %s;%n", suite.getGlobalVariableName());
+            out.format("extern const TestSuite_t %s;%n", suite.getGlobalVariableName());
         }
         out.format("%n");
         out.format("const TestSuite_t *suitesOf%d[] = {%n", getId());
