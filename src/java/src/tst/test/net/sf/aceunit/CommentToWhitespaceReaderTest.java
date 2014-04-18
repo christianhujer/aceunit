@@ -33,6 +33,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.io.Reader;
 import java.io.StringReader;
 
 /**
@@ -571,7 +572,7 @@ public class CommentToWhitespaceReaderTest {
      * @param exp  Expected String, will be compared to the result of passing <var>orig</var> through a {@link CommentToWhitespaceReader}.
      * @throws IOException In case of I/O problems (unexpected).
      */
-    public void assertReplacement(@NotNull final String orig, @NotNull final String exp) throws IOException {
+    public static void assertReplacement(@NotNull final String orig, @NotNull final String exp) throws IOException {
         assertReplacementSingle(orig, exp);
         assertReplacementBlock(orig, exp);
     }
@@ -583,13 +584,8 @@ public class CommentToWhitespaceReaderTest {
      * @param exp  Expected String, will be compared to the result of passing <var>orig</var> through a {@link CommentToWhitespaceReader}.
      * @throws IOException In case of I/O problems (unexpected).
      */
-    public void assertReplacementSingle(@NotNull final String orig, @NotNull final String exp) throws IOException {
-        final StringReader origReader = new StringReader(orig);
-        final CommentToWhitespaceReader reader = new CommentToWhitespaceReader(origReader);
-        final StringBuilder sb = new StringBuilder();
-        //noinspection StatementWithEmptyBody
-        for (int c; (c = reader.read()) != -1; sb.append((char) c)) ;
-        Assert.assertEquals(exp, sb.toString());
+    public static void assertReplacementSingle(@NotNull final String orig, @NotNull final String exp) throws IOException {
+        assertReplacement(orig, exp, CommentToWhitespaceReaderTest::readSingleChars);
     }
 
     /**
@@ -599,14 +595,31 @@ public class CommentToWhitespaceReaderTest {
      * @param exp  Expected String, will be compared to the result of passing <var>orig</var> through a {@link CommentToWhitespaceReader}.
      * @throws IOException In case of I/O problems (unexpected).
      */
-    public void assertReplacementBlock(@NotNull final String orig, @NotNull final String exp) throws IOException {
-        final StringReader origReader = new StringReader(orig);
-        final CommentToWhitespaceReader reader = new CommentToWhitespaceReader(origReader);
+    public static void assertReplacementBlock(@NotNull final String orig, @NotNull final String exp) throws IOException {
+        assertReplacement(orig, exp, CommentToWhitespaceReaderTest::readBlockWiseChars);
+    }
+
+    private static void assertReplacement(final String orig, final String exp, final ReadChars readChars) throws IOException {
+        Assert.assertEquals(exp, readChars.readChars(new CommentToWhitespaceReader(new StringReader(orig))));
+    }
+
+    private static interface ReadChars {
+        String readChars(Reader reader) throws IOException;
+    }
+
+    private static String readSingleChars(final Reader reader) throws IOException {
+        final StringBuilder sb = new StringBuilder();
+        //noinspection StatementWithEmptyBody
+        for (int c; (c = reader.read()) != -1; sb.append((char) c)) ;
+        return sb.toString();
+    }
+
+    private static String readBlockWiseChars(final Reader reader) throws IOException {
         final StringBuilder sb = new StringBuilder();
         final char[] buf = new char[4096];
         //noinspection StatementWithEmptyBody
         for (int charsRead; (charsRead = reader.read(buf)) != -1; sb.append(buf, 0, charsRead)) ;
-        Assert.assertEquals(exp, sb.toString());
+        return sb.toString();
     }
 
 }
