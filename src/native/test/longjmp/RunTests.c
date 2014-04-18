@@ -44,7 +44,7 @@ int main(void) {
     int retVal = 0;
     runFixture(&LongJmpTestFixture);
     if (runnerData->testCaseFailureCount != 2) {
-        fprintf(stderr, "Test Cases: %d  Errors: %d (expecting 2)\n", runnerData->testCaseCount, runnerData->testCaseFailureCount);
+        fprintf(stderr, "Test Cases: %d  Errors: %d (expecting 2)\n", (int) runnerData->testCaseCount, (int) runnerData->testCaseFailureCount);
         retVal = 1;
     }
     return retVal;

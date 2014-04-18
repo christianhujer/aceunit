@@ -55,7 +55,7 @@ int main(void) {
     runFixture(&XmlLogTestFixture);
     globalLogger->runnerEnded();
     if (runnerData->testCaseFailureCount != 1) {
-        fprintf(stderr, "Test Cases: %d  Expected Errors: 1  Errors: %d\n", runnerData->testCaseCount, runnerData->testCaseFailureCount);
+        fprintf(stderr, "Test Cases: %d  Expected Errors: 1  Errors: %d\n", (int) runnerData->testCaseCount, (int) runnerData->testCaseFailureCount);
         retVal = 1;
     }
     return retVal;

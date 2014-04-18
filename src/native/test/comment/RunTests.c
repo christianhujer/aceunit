@@ -50,7 +50,7 @@ int main(void) {
     int retVal = 0;
     runFixture(&CommentTestFixture);
     if (runnerData->testCaseFailureCount != 0) {
-        fprintf(stderr, "Test Cases: %d  Errors: %d\n", runnerData->testCaseCount, runnerData->testCaseFailureCount);
+        fprintf(stderr, "Test Cases: %d  Errors: %d\n", (int) runnerData->testCaseCount, (int) runnerData->testCaseFailureCount);
         retVal = 1;
     }
     return retVal;

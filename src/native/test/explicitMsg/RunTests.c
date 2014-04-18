@@ -59,11 +59,11 @@ int main(void) {
     int retVal = 0;
     runFixture(&AceUnitTestFixture);
     if (runnerData->testCaseFailureCount != TEST_FAILURES_FOR_VERIFICATION) {
-        fprintf(stderr, "Test Cases: %d  Errors: %d\n", runnerData->testCaseCount, runnerData->testCaseFailureCount);
+        fprintf(stderr, "Test Cases: %d  Errors: %d\n", (int) runnerData->testCaseCount, (int) runnerData->testCaseFailureCount);
         retVal = 1;
     }
     if (runnerData->testCaseCount != TEST_CASES_FOR_VERIFICATION) {
-        fprintf(stderr, "Test Cases: %d but expected %d\n", runnerData->testCaseCount, TEST_CASES_FOR_VERIFICATION);
+        fprintf(stderr, "Test Cases: %d but expected %d\n", (int) runnerData->testCaseCount, TEST_CASES_FOR_VERIFICATION);
         retVal = 1;
     }
     return retVal;

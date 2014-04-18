@@ -1,28 +1,28 @@
-CVERSION=c89
+CVERSION:=c89
 
-ACE_UNIT_PATH=../../..
+ACE_UNIT_PATH:=../../..
 
-LINT=splint
+LINT:=splint
 
-PARTS=\
+PARTS:=\
       ExceptionHandling \
       TryExceptionHandling
 
-VPATH=$(ACE_UNIT_PATH)/native
+VPATH:=$(ACE_UNIT_PATH)/native
 
-OBJECTS=$(addsuffix .o,$(PARTS))
+OBJECTS:=$(addsuffix .o,$(PARTS))
 
-LINTOUTS=$(addsuffix .ln,$(PARTS))
+LINTOUTS:=$(addsuffix .ln,$(PARTS))
 
-CPPFLAGS=-I . -I $(ACE_UNIT_PATH)/native
+CPPFLAGS:=-I . -I $(ACE_UNIT_PATH)/native
 
-C_and_LD_FLAGS=-fprofile-arcs
+C_and_LD_FLAGS:=-fprofile-arcs
 
-CFLAGS=-fdiagnostics-show-option -std=$(CVERSION) -pedantic $(C_and_LD_FLAGS) -ftest-coverage -W -Wall -g
+CFLAGS:=-fdiagnostics-show-option -std=$(CVERSION) -pedantic $(C_and_LD_FLAGS) -ftest-coverage -W -Wall -g
 
-LDFLAGS=$(C_and_LD_FLAGS)
+LDFLAGS:=$(C_and_LD_FLAGS)
 
-LINTFLAGS=-badflag -weak
+LINTFLAGS:=+quiet -badflag -weak
 
 .PHONY : all
 all: test
