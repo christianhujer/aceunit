@@ -24,10 +24,12 @@ C_and_LD_FLAGS:=-fprofile-arcs
 CFLAGS?=-fdiagnostics-show-option -std=$(CVERSION) -pedantic $(C_and_LD_FLAGS) -ftest-coverage -W -Wall -g
 CXXFLAGS?=-fdiagnostics-show-option -pedantic $(C_and_LD_FLAGS) -ftest-coverage -W -Wall -g
 LDFLAGS?=$(C_and_LD_FLAGS)
-LINTFLAGS?=-badflag -weak
+LINTFLAGS?=+quiet -badflag -weak
 
-.PHONY : all clean coverage lint test
+.PHONY : all clean coverage lint help
 
+## Default target.
+# Same as test.
 all: test
 
 $(MAIN): $(OBJECTS)
@@ -38,19 +40,33 @@ $(ACEUNIT_JAVA_PATH)/AceUnit.jar: $(ACEUNIT_JAVA_SRC)
 #%.d: %.c
 #	$(CPP) -M -MM -MG $(CPPFLAGS) $< | sed 's,\($*\)\.o[ :]*,\1.o $@ : ,g' > $@
 
+## Creates a coverage report.
 coverage: test
 	gcov *.c
 
+## Runs the tests.
+# Note: Tests are run incrementally.
+# They will only be re-run if the input changed.
 test: $(MAIN)
 	./$(MAIN)
+	touch test
 
+## Removes all generated files.
 clean:
-	rm -f $(OBJECTS) $(GENERATED) $(DEPENDS) $(MAIN) $(OBJECTS:.o=.gcov) $(OBJECTS:.o=.gcno) $(OBJECTS:.o=.gcda)
+	rm -f $(OBJECTS) $(GENERATED) $(DEPENDS) $(MAIN) $(OBJECTS:.o=.c.gcov) $(OBJECTS:.o=.gcno) $(OBJECTS:.o=.gcda)
 
+## Runs lint.
 lint: $(LINTOUTS)
 
-$(OBJECTS) $(DEPENDS): Makefile
+$(OBJECTS) $(DEPENDS): $(MAKEFILE_LIST)
 
 ifneq ($(MAKECMDGOALS),clean)
 -include $(DEPENDS)
 endif
+
+../makehelp.pl:
+	wget -q --no-check-certificate -O $@ https://github.com/christianhujer/makehelp/raw/master/makehelp.pl
+
+## Prints this help text.
+help: ../makehelp.pl
+	@perl $^ $(MAKEFILE_LIST)
