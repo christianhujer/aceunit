@@ -53,7 +53,7 @@ test: $(MAIN)
 
 ## Removes all generated files.
 clean:
-	rm -f $(OBJECTS) $(GENERATED) $(DEPENDS) $(MAIN) $(OBJECTS:.o=.c.gcov) $(OBJECTS:.o=.gcno) $(OBJECTS:.o=.gcda)
+	rm -f $(OBJECTS) $(GENERATED) $(DEPENDS) $(MAIN) $(OBJECTS:.o=.c.gcov) $(OBJECTS:.o=.gcno) $(OBJECTS:.o=.gcda) test
 
 ## Runs lint.
 lint: $(LINTOUTS)
