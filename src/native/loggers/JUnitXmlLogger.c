@@ -64,7 +64,7 @@ static struct {
     char    *hostname;
     int     suiteId;
 } globalInfo = {
-    0
+    NULL, 0
 };
 
 /** The information about the current suite. */
@@ -79,7 +79,7 @@ static struct {
     float   time;
     char    *timestamp;
 } suiteInfo = {
-    0,
+    0, 0, 0, NULL, NULL, NULL, 0, 0.0, NULL
 };
 
 /** Initializes all global variables and prepares global log file output.
