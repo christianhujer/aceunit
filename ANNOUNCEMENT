@@ -10,6 +10,11 @@ will be performed:
 * The runner will optionally support ids for selecting suites, fixtures and
   test cases.
 * The group feature implementation will be completed.
+* The assert methods will no longer take messages.
+  A separate group of assertM methods that takes messages will be provided.
+  This takes recent development in the unit testing community into account.
+  The 4 A's rule, the Single Assert Rule and the Given-When-Then scheme all
+  make it pretty redundant of having an assertion message most of the time.
 
 The changes will not affect tests.
 The changes might affect invocations of the runner and the build environment.
