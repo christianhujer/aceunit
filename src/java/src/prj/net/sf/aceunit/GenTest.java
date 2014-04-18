@@ -168,9 +168,18 @@ public class GenTest extends BasicCommand {
      *
      * @param makefileFilename Filename of the Makefile to which dependencies should be written.
      */
-    @Option("MMD")
+    @Option("MF")
     public void setMakefileFilename(@Nullable final String makefileFilename) {
         this.makefileFilename = makefileFilename;
+    }
+
+    /**
+     * Enables the generation of a Makefile on-the-fly.
+     */
+    @Option("MMD")
+    public void setGenerateMakefileOnTheFly() {
+        if (makefileFilename != null)
+            makefileFilename = "Suite1.d";
     }
 
     /**
