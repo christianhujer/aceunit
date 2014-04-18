@@ -48,7 +48,7 @@ void FullPlainLoggerLog(const AssertionError_t *const recentError) {
 #ifdef ACEUNIT_EMBEDDED
 #error "FullPlainLogger does not support embedded AceUnit."
 #else
-    printf("%d:%d: error: in %d: %s\n", recentError->fixtureId, recentError->assertionId.lineNumber, recentError->testId, recentError->assertionId.message);
+    printf("%d:%d: error: in %d: %s\n", (int) recentError->fixtureId, (int) recentError->assertionId.lineNumber, (int) recentError->testId, recentError->assertionId.message);
 #endif
 }
 
