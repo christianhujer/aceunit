@@ -68,7 +68,7 @@ public class MethodList2 extends MethodList {
      */
     public MethodList2(@NotNull final String annotation, @NotNull final String symName, @NotNull final String title, @Nullable final String defaultValue) {
         super(annotation, symName, title);
-        this.pattern = Pattern.compile("\\b" + annotation + "\\b\\s*\\((.*?)\\).*?(\\b\\S+?\\b)\\s*?\\(", Pattern.MULTILINE | Pattern.DOTALL);
+        pattern = Pattern.compile("\\b" + annotation + "\\b\\s*\\((.*?)\\).*?(\\b\\S+?\\b)\\s*?\\(", Pattern.MULTILINE | Pattern.DOTALL);
         this.defaultValue = defaultValue;
     }
 
