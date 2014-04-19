@@ -19,11 +19,11 @@ LINTOUTS:=$(OBJECTS:.o=.ln)
 
 LINT:=splint
 
-CPPFLAGS:=-MMD -DACEUNIT_CONFIG_FILE=\"AceUnitConfig.h\" -I . -I $(ACEUNIT_NATIVE_PATH)
-C_and_LD_FLAGS:=-fprofile-arcs
-CFLAGS?=-fdiagnostics-show-option -std=$(CVERSION) -pedantic $(C_and_LD_FLAGS) -ftest-coverage -W -Wall -g
-CXXFLAGS?=-fdiagnostics-show-option -pedantic $(C_and_LD_FLAGS) -ftest-coverage -W -Wall -g
-LDFLAGS?=$(C_and_LD_FLAGS)
+CPPFLAGS:=-DACEUNIT_CONFIG_FILE=\"AceUnitConfig.h\" -I . -I $(ACEUNIT_NATIVE_PATH)
+
+COMPILER?=gcc
+-include ../$(COMPILER).mak
+
 LINTFLAGS?=+quiet -badflag -weak
 
 .PHONY : all clean coverage lint help
