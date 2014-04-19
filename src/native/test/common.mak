@@ -19,10 +19,11 @@ LINTOUTS:=$(OBJECTS:.o=.ln)
 
 LINT:=splint
 
-CPPFLAGS:=-DACEUNIT_CONFIG_FILE=\"AceUnitConfig.h\" -I . -I $(ACEUNIT_NATIVE_PATH)
-
 COMPILER?=gcc
--include ../$(COMPILER).mak
+include ../$(COMPILER).mak
+-include $(COMPILER).mak
+
+CPPFLAGS=$(CPPFLAGS_SPECIFIC) -DACEUNIT_CONFIG_FILE=\"AceUnitConfig.h\" -I . -I $(ACEUNIT_NATIVE_PATH)
 
 LINTFLAGS?=+quiet -badflag -weak
 
