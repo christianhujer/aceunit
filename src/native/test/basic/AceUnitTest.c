@@ -41,7 +41,7 @@
  * This looks redundant with runnerData->testCaseCount but actually it is not.
  * It might be the case that the runner mistakenly executes the wrong methods, e.g. when the generator finds the wrong methods.
  */
-extern int myTestCaseCount = 0;
+int myTestCaseCount = 0;
 
 /** Clears the current recent error. */
 static void clearRecentError()
