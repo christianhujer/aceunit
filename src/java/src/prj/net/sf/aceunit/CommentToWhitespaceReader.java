@@ -68,9 +68,6 @@ public class CommentToWhitespaceReader extends FilterReader {
         super(in);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public int read() throws IOException {
         synchronized (syncLock) {
             final Integer cachedChar = this.cachedChar;
@@ -100,7 +97,7 @@ public class CommentToWhitespaceReader extends FilterReader {
      */
     private int readImpl() throws IOException {
         final int c = super.read();
-        int rc;
+        final int rc;
         switch (state) {
         case NORMAL:
             if (c == '/') {
@@ -236,13 +233,10 @@ public class CommentToWhitespaceReader extends FilterReader {
         return rc;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public int read(@NotNull final char[] charBuffer, final int off, final int len) throws IOException {
         int i;
         for (i = 0; i < len; i++) {
-            int c = read();
+            final int c = read();
             if (c == -1) {
                 if (i == 0) {
                     return -1;

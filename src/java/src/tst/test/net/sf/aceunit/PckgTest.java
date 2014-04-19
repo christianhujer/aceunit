@@ -39,7 +39,6 @@ import org.jetbrains.annotations.NotNull;
  */
 public class PckgTest extends SuiteTest {
 
-    /** {@inheritDoc} */
     public Suite createSuite(@NotNull final String name) {
         return new Pckg(name);
     }

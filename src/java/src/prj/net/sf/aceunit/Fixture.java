@@ -136,16 +136,10 @@ public class Fixture extends Suite<TestCase> {
         testMethods.removeAll(ignoreMethods);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public boolean containsTests() {
         return testMethods.size() > 0;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @NotNull
     public String getCode(@NotNull final String baseName) {
         final Formatter out = new Formatter();
@@ -257,9 +251,6 @@ public class Fixture extends Suite<TestCase> {
         return out.toString();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public String getGlobalVariableName() {
         return getName() + "Fixture";

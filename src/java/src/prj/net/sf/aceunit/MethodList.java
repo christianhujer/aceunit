@@ -44,7 +44,7 @@ public class MethodList implements Iterable<String> {
      * The names of the methods found to be annotated.
      */
     @NotNull
-    protected final List<String> methodNames = new ArrayList<String>();
+    protected final List<String> methodNames = new ArrayList<>();
     /**
      * The annotation to find.
      */
@@ -82,7 +82,7 @@ public class MethodList implements Iterable<String> {
      */
     public MethodList(@NotNull final String annotation, @NotNull final String symName, @NotNull final String title) {
         this.annotation = annotation;
-        this.pattern = Pattern.compile("\\b" + annotation + "\\b.*?(?:A_Loop\\(.*?\\))?.*?(\\b\\S+?\\b)\\s*?\\(", Pattern.MULTILINE | Pattern.DOTALL);
+        pattern = Pattern.compile("\\b" + annotation + "\\b.*?(?:A_Loop\\(.*?\\))?.*?(\\b\\S+?\\b)\\s*?\\(", Pattern.MULTILINE | Pattern.DOTALL);
         this.symName = symName;
         this.title = title;
     }
@@ -192,9 +192,6 @@ public class MethodList implements Iterable<String> {
         return methodNames.contains(methodName);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @NotNull
     public Iterator<String> iterator() {
         return methodNames.iterator();

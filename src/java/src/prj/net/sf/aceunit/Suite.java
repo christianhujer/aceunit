@@ -46,7 +46,7 @@ public abstract class Suite<T extends Test> extends Test implements Iterable<T> 
     /**
      * The Tests contained in this Suite.
      */
-    private final List<T> tests = new ArrayList<T>();
+    private final List<T> tests = new ArrayList<>();
 
     /**
      * Creates a Suite.

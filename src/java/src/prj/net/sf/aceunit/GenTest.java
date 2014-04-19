@@ -60,11 +60,11 @@ public class GenTest extends BasicCommand {
     /**
      * The flattened list of all tests.
      */
-    private final List<String> allTests = new ArrayList<String>();
+    private final List<String> allTests = new ArrayList<>();
     /**
      * The root packages which were found so far.
      */
-    private final List<Pckg> roots = new ArrayList<Pckg>();
+    private final List<Pckg> roots = new ArrayList<>();
     /**
      * Whether to overwrite write-protected files.
      */
@@ -140,7 +140,7 @@ public class GenTest extends BasicCommand {
      */
     @Option({"disableGenSuites"})
     public void disableGenSuites() {
-        this.genSuites = false;
+        genSuites = false;
     }
 
     /**
@@ -402,7 +402,7 @@ public class GenTest extends BasicCommand {
      * @param test Package to append.
      * @throws IOException in case of I/O problems.
      */
-    private void writeAllTests(@NotNull final PrintWriter out, @NotNull final Test test) throws IOException {
+    private static void writeAllTests(@NotNull final PrintWriter out, @NotNull final Test test) throws IOException {
         out.format("%d: %s%n", test.getId(), test.getName());
         if (test instanceof Suite) {
             for (final Test subTest : ((Suite<Test>) test)) {
@@ -411,9 +411,6 @@ public class GenTest extends BasicCommand {
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public int run(@NotNull final List<String> args) throws Exception {
         if (args.isEmpty()) {
             help();

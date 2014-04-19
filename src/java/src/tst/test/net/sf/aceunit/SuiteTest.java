@@ -42,11 +42,9 @@ public class SuiteTest {
      */
     public Suite createSuite(@NotNull final String name) {
         return new Suite(name) {
-            /** {@inheritDoc} */
             public boolean containsTests() {
                 return false;
             }
-            /** {@inheritDoc} */
             @NotNull
             public String getCode(@NotNull final String baseName) {
                 return "";

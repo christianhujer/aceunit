@@ -43,30 +43,15 @@ public final class SourceFiles {
     /**
      * FileFilter to get directories.
      */
-    public static final FileFilter DIR_FILTER = new FileFilter() {
-        /** {@inheritDoc} */
-        public boolean accept(@NotNull final File pathname) {
-            return pathname.isDirectory();
-        }
-    };
+    public static final FileFilter DIR_FILTER = File::isDirectory;
     /**
      * FileFilter to get C source files.
      */
-    public static final FileFilter C_SOURCE_FILTER = new FileFilter() {
-        /** {@inheritDoc} */
-        public boolean accept(final File pathname) {
-            return pathname.isFile() && pathname.getName().endsWith(".c");
-        }
-    };
+    public static final FileFilter C_SOURCE_FILTER = pathname -> pathname.isFile() && pathname.getName().endsWith(".c");
     /**
      * FileFilter to get C++ source files.
      */
-    public static final FileFilter CPP_SOURCE_FILTER = new FileFilter() {
-        /** {@inheritDoc} */
-        public boolean accept(final File pathname) {
-            return pathname.isFile() && pathname.getName().endsWith(".cpp");
-        }
-    };
+    public static final FileFilter CPP_SOURCE_FILTER = pathname -> pathname.isFile() && pathname.getName().endsWith(".cpp");
 
     /**
      * Utility class - do not instance.
@@ -118,7 +103,7 @@ public final class SourceFiles {
      * @param force Set this to true if a write protection from the file should be removed.
      * @throws IOException In case of I/O problems.
      */
-    public static void writeIfChanged(@NotNull final File file, @NotNull final String text, final boolean force) throws IOException {
+    public static void writeIfChanged(@NotNull final File file, @NotNull final CharSequence text, final boolean force) throws IOException {
         if (!file.exists() || !text.equals(readSource(file))) {
             if (force && !file.canWrite()) {
                 getAnonymousLogger().info("Removing write protection from " + file);

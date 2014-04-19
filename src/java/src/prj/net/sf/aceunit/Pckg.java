@@ -47,9 +47,6 @@ public class Pckg extends Suite<Suite<? extends Test>> {
         super(name);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public boolean containsTests() {
         boolean containsTests = false;
         for (final Suite<? extends Test> suite : getTests()) {
@@ -67,9 +64,6 @@ public class Pckg extends Suite<Suite<? extends Test>> {
         add(suite);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @NotNull
     public String getCode(@NotNull final String baseName) {
         final Formatter out = new Formatter();

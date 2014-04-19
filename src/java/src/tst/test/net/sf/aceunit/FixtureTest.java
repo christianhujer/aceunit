@@ -35,7 +35,6 @@ import org.junit.Test;
  */
 public class FixtureTest extends SuiteTest {
 
-    /** {@inheritDoc} */
     public Fixture createSuite() {
         return new Fixture(null, null);
     }

@@ -76,9 +76,6 @@ public class FileComparator implements Comparator<File> {
         this.collator = collator;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public int compare(final File o1, final File o2) {
         if (collator == null) {
             return o1.compareTo(o2);
