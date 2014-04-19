@@ -1,6 +1,6 @@
-* Create global build.xml for Building releases
-* Improve website layout (make it similar to that of Japi, Gridarta etc.)
-* Make better distinction between public API and internal symbols even in header files
+* Create global build.xml for Building releases.
+* Improve website layout (make it similar to that of Japi, Gridarta etc.).
+* Make better distinction between public API and internal symbols even in header files.
 
 * Alternatively allow for naming schemes instead of annotations so users can go without the A_Test annotations.
 * Turn runFixture in a non-void function that returns whether one or more test cases failed.
@@ -17,3 +17,10 @@
 * Extend the runner to optionally use fork() like check.
 * Add a library for C to access the mapping table.
 * Add a library for Java to access the mapping table.
+* Modularize unit test Makefiles in order to support multiple compilers.
+* Support gcc (implicitely done).
+* Support armcc (Keil).
+* Support ucc (CalmSHINE16).
+* Support C251 (Keil C251).
+* Test the behavior of AceUnit with respect to LTO - Link Time Optimization.
+* Improve support for C++.
