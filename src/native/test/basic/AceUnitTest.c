@@ -41,10 +41,11 @@
  * This looks redundant with runnerData->testCaseCount but actually it is not.
  * It might be the case that the runner mistakenly executes the wrong methods, e.g. when the generator finds the wrong methods.
  */
-int myTestCaseCount = 0;
+extern int myTestCaseCount = 0;
 
 /** Clears the current recent error. */
-void clearRecentError() {
+static void clearRecentError()
+{
     if (runnerData->recentError != NULL) {
         runnerData->recentError = NULL;
     }
@@ -56,7 +57,8 @@ static bool assertionContinued = false;
 /** Helper method that asserts something that's then verified by a test case.
  * @param c Assertion case.
  */
-void helper(int c) {
+static void helper(int c)
+{
     assertionContinued = false;
     switch (c) {
     case 0:
@@ -103,7 +105,8 @@ void helper(int c) {
 }
 
 /** Tests that {@link #assertTrue()} with a true condition continues a test case. */
-A_Test void testAssertTrueWithTrueContinues() {
+A_Test void testAssertTrueWithTrueContinues()
+{
     myTestCaseCount++;
     helper(0);
     clearRecentError();
@@ -113,7 +116,8 @@ A_Test void testAssertTrueWithTrueContinues() {
 }
 
 /** Tests that {@link #assertTrue()} with a false condition does not continue a test case. */
-A_Test void testAssertTrueWithFalseReturns() {
+A_Test void testAssertTrueWithFalseReturns()
+{
     myTestCaseCount++;
     helper(1);
     clearRecentError();
@@ -123,7 +127,8 @@ A_Test void testAssertTrueWithFalseReturns() {
 }
 
 /** Tests that {@link #assertTrue()} with a true condition does not set recentError. */
-A_Test void testAssertTrueWithTrueNoRecentError() {
+A_Test void testAssertTrueWithTrueNoRecentError()
+{
     myTestCaseCount++;
     clearRecentError();
     assertTrue("assertTrue(msg, true) MUST NOT set recentError.", true);
@@ -134,7 +139,8 @@ A_Test void testAssertTrueWithTrueNoRecentError() {
 }
 
 /** Tests that {@link #assertTrue()} with a false condition sets recentError. */
-A_Test void testAssertTrueWithFalseSetsRecentError() {
+A_Test void testAssertTrueWithFalseSetsRecentError()
+{
     bool recentErrorSet = false;
 
     myTestCaseCount++;
@@ -150,7 +156,8 @@ A_Test void testAssertTrueWithFalseSetsRecentError() {
 }
 
 /** Tests that {@link #assertFalse()} with a true condition continues a test case. */
-A_Test void testAssertFalseWithFalseContinues() {
+A_Test void testAssertFalseWithFalseContinues()
+{
     myTestCaseCount++;
     helper(3);
     clearRecentError();
@@ -160,7 +167,8 @@ A_Test void testAssertFalseWithFalseContinues() {
 }
 
 /** Tests that {@link #assertFalse()} with a false condition does not continue a test case. */
-A_Test void testAssertFalseWithTrueReturns() {
+A_Test void testAssertFalseWithTrueReturns()
+{
     myTestCaseCount++;
     helper(4);
     clearRecentError();
@@ -170,7 +178,8 @@ A_Test void testAssertFalseWithTrueReturns() {
 }
 
 /** Tests that {@link #assertFalse()} with a true condition does not set recentError. */
-A_Test void testAssertFalseWithFalseNoRecentError() {
+A_Test void testAssertFalseWithFalseNoRecentError()
+{
     myTestCaseCount++;
     clearRecentError();
     assertFalse("assertFalse(msg, false) MUST NOT set recentError.", false);
@@ -181,7 +190,8 @@ A_Test void testAssertFalseWithFalseNoRecentError() {
 }
 
 /** Tests that {@link #assertFalse()} with a false condition sets recentError. */
-A_Test void testAssertFalseWithTrueSetsRecentError() {
+A_Test void testAssertFalseWithTrueSetsRecentError()
+{
     bool recentErrorSet = false;
 
     myTestCaseCount++;
@@ -197,7 +207,8 @@ A_Test void testAssertFalseWithTrueSetsRecentError() {
 }
 
 /** Tests that {@link #assertEquals()} with equal values continues a test case. */
-A_Test void testAssertEqualsWithEqualContinues() {
+A_Test void testAssertEqualsWithEqualContinues()
+{
     myTestCaseCount++;
     helper(6);
     clearRecentError();
@@ -207,7 +218,8 @@ A_Test void testAssertEqualsWithEqualContinues() {
 }
 
 /** Tests that {@link #assertEquals()} with unequal values does not continue a test case. */
-A_Test void testAssertEqualsWithUnequalReturns() {
+A_Test void testAssertEqualsWithUnequalReturns()
+{
     myTestCaseCount++;
     helper(7);
     clearRecentError();
@@ -217,7 +229,8 @@ A_Test void testAssertEqualsWithUnequalReturns() {
 }
 
 /** Tests that {@link #assertEquals()} with equal values does not set recentError. */
-A_Test void testAssertEqualsWithEqualNoRecentError() {
+A_Test void testAssertEqualsWithEqualNoRecentError()
+{
     int val1 = 10;
     int val2 = val1;
 
@@ -238,7 +251,8 @@ void
 testAssertEqualsWithUnequalSetsRecentError
 
 
-() {
+()
+{
     bool recentErrorSet = false;
 
     myTestCaseCount++;
