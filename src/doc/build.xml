@@ -38,6 +38,7 @@
     <taskdef name="megaxslt" classname="com.hujer.ant.tasks.megaxslt.MegaXsltTask">
         <classpath>
             <pathelement location="lib/megaxslt.jar" />
+            <pathelement location="lib/saxon9he.jar" />
         </classpath>
     </taskdef>
 
