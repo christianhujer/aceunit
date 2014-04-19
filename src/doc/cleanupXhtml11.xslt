@@ -95,7 +95,8 @@
     <!--<xsl:template match="@xmlns:*"/>-->
 
     <xsl:template match="text()">
-        <xsl:value-of select="helper:normalize(.)"/>
+        <xsl:copy />
+        <!--xsl:value-of select="helper:normalize(.)"/-->
         <!--xsl:choose>
             <xsl:when test=". = ' '"><xsl:text> </xsl:text></xsl:when>
             <xsl:otherwise>

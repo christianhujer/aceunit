@@ -44,8 +44,10 @@
         encoding="utf-8"
         media-type="text/html"
         omit-xml-declaration="yes"
-        saxon:character-representation="native;hex"
     />
+    <!---
+        saxon:character-representation="native;hex"
+    -->
 
     <!-- XHTML-Processing-Instructions löschen. -->
     <xsl:template match="processing-instruction('doc')"/>
