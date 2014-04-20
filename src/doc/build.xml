@@ -54,7 +54,7 @@
             excludes="docs/**/*"
             validatesource="true"
             validatedest="true"
-            ending="shtml"
+            ending="xhtml"
             transformerFactoryImplementationClassName="net.sf.saxon.TransformerFactoryImpl"
         >
             <xmlcatalog refid="commonDTDs" />
@@ -64,7 +64,7 @@
         <megaxslt
             srcdir="docs"
             destdir="docs"
-            includes="**/*.shtml"
+            includes="**/*.xhtml"
             validatesource="true"
             validatedest="false"
             ending="html"

@@ -1,5 +1,5 @@
 DirectoryIndex start
-Options +MultiViews +Includes
+Options +MultiViews
 RemoveType .html
 RemoveType .xhtml
 AddType text/html;charset=UTF-8 .html
