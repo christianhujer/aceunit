@@ -24,3 +24,6 @@
 * Support C251 (Keil C251).
 * Test the behavior of AceUnit with respect to LTO - Link Time Optimization.
 * Improve support for C++.
+
+* Change documentation generation from Saxon to xsltproc (it's simple enough, XSLT 2.0 shouldn't be required).
+* The DTDs, if required, should be downloaded automatically instead of having them checked-in.
