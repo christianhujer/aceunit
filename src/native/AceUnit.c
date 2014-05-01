@@ -405,7 +405,7 @@ void runSuites(const TestSuite_t *const suites[]
 }
 
 /** This always is the first suite. */
-extern TestSuite_t suite1;
+extern const TestSuite_t suite1;
 
 /** Runs the specified tests.
  *

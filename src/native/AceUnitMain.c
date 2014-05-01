@@ -56,7 +56,7 @@
 #endif
 
 /** This always is the first suite. */
-extern TestSuite_t suite1;
+extern const TestSuite_t suite1;
 
 /** Main program.
  * @return 0 in case all tests ran successfully, otherwise 1.
