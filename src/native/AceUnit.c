@@ -218,7 +218,7 @@ void runFixture(const TestFixture_t *const fixture
 /** Runs all test cases from the supplied fixtures.
  * @param fixtures  Test fixtures to run (NULL terminated).
  */
-void runFixtures(const TestFixture_t *const fixtures[]
+void runFixtures(const TestFixture_t *fixtures[]
 #ifdef ACEUNIT_GROUP
         , AceGroupId_t group
 #endif
@@ -389,7 +389,7 @@ void runSuite(const TestSuite_t *const suite
 /** Runs all test cases from the supplied test suites.
  * @param suites Test suites to run (NULL terminated).
  */
-void runSuites(const TestSuite_t *const suites[]
+void runSuites(const TestSuite_t *suites[]
 #ifdef ACEUNIT_GROUP
         , AceGroupId_t group
 #endif
@@ -417,7 +417,7 @@ void runTestsIfSpecified(const TestSuite_t *const suite, const AceTestId_t *cons
 #ifdef ACEUNIT_GROUP
         , AceUnitGroupid_t group
 #endif
-) {
+) reentrant {
     if (containsTests(tests, suite->id)) {
         runSuite(suite);
     } else {

@@ -81,7 +81,7 @@ public class Pckg extends Suite<Suite<? extends Test>> {
             out.format("extern const TestSuite_t %s;%n", suite.getGlobalVariableName());
         }
         out.format("%n");
-        out.format("const TestSuite_t *suitesOf%d[] = {%n", getId());
+        out.format("const TestSuite_t *const suitesOf%d[] = {%n", getId());
         for (final Suite<? extends Test> suite : getTests()) {
             out.format("    &%s,%n", suite.getGlobalVariableName());
         }
