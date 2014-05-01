@@ -624,6 +624,11 @@ extern void runSuite(const TestSuite_t *const suite, AceGroupId_t group);
 extern void runSuite(const TestSuite_t *const suite);
 #endif
 
+#ifdef ACEUNIT_SUITES
+/** First suite - entry point. */
+extern const TestSuite_t sutie1;
+#endif
+
 #if ACEUNIT_ASSERTION_STYLE == ACEUNIT_ASSERTION_STYLE_LONGJMP
 #include "AceUnitData.h"
 #endif
