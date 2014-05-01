@@ -1,3 +1,7 @@
+## Default target.
+# Same as test.
+all: test
+
 LOGGER?=FullPlainLogger
 CVERSION?=c89
 MAIN?=RunTests
@@ -19,19 +23,26 @@ LINTOUTS:=$(OBJECTS:.o=.ln)
 
 LINT:=splint
 
-COMPILER?=gcc
-include ../$(COMPILER).mak
+.PHONY : all clean coverage lint help
+
+help: export COMPILERS:=$(patsubst ../_compiler/%.mak,%,$(wildcard ../_compiler/*.mak))
+## Set this to the copmiler that you want to use.
+# Default: gcc
+# Current value: $(COMPILER)
+# Possible values: $(COMPILERS)
+export COMPILER?=gcc
+include ../_compiler/$(COMPILER).mak
 -include $(COMPILER).mak
+
+# Note: discovered bug in GNU make 3.81.
+# Instead of exporting COMPILER directly, try this:
+# COMPILER?=gcc
+# help: export COMPILER?=$(COMPILER)
+# Obviously, the variable COMPILER then points to rubbish instead of the desired string.
 
 CPPFLAGS=$(CPPFLAGS_SPECIFIC) -DACEUNIT_CONFIG_FILE=\"AceUnitConfig.h\" -I . -I $(ACEUNIT_NATIVE_PATH)
 
 LINTFLAGS?=+quiet -badflag -weak
-
-.PHONY : all clean coverage lint help
-
-## Default target.
-# Same as test.
-all: test
 
 $(MAIN): $(OBJECTS)
 
@@ -71,3 +82,7 @@ endif
 ## Prints this help text.
 help: ../makehelp.pl
 	@perl $^ $(MAKEFILE_LIST)
+	@echo
+	@echo Note: Some variable settings, like COMPILER, enable or disable certain variables or goals.
+	@echo Run $(MAKE) help COMPILER=compilername to find out what VARIABLEs and GOALs are supported in the context of a particular compiler.
+	@echo For example, run $(MAKE) help COMPILER=armcc to find out what variables are supported in the context of armcc.
