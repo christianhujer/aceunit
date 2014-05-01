@@ -256,8 +256,12 @@ typedef unsigned long int uint32_t;
 #endif
 #ifndef _SIZE_T_DEFINED
 #ifndef _SIZE_T_DEFINED_
+#ifndef _SIZE_T
 /** Replacement for stddef.h size_t in case stddef.h is not available. */
 typedef long unsigned int size_t;
+#define _SIZE_T_DEFINED
+#define _SIZE_T_DEFINED_
+#define _SIZE_T
 #endif
 #endif
 #ifndef __bool_true_false_are_defined
