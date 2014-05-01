@@ -123,17 +123,17 @@ void runFixture(const TestFixture_t *const fixture
 #define globalLog(X, Y) if ((NULL != globalLogger) && (NULL != globalLogger->X)) {\
     globalLogger->X(Y);\
 }
-    const testMethod_t *secondary; /* beforeClass, before, after, afterClass */
-    const testMethod_t *testCase;
-    const TestCaseId_t *testId;
+    const testMethod_t *volatile secondary; /* beforeClass, before, after, afterClass */
+    const testMethod_t *volatile testCase;
+    const TestCaseId_t *volatile testId;
 #ifdef ACEUNIT_LOOP
-    const aceunit_loop_t *loopMax;
-    aceunit_loop_t currentLoop;
+    const aceunit_loop_t *volatile loopMax;
+    aceunit_loop_t volatile currentLoop;
 #endif
 #ifdef ACEUNIT_GROUP
-    const AceGroupId_t *groups;
+    const AceGroupId_t *volatile groups;
 #endif
-    bool ranBeforeClass = false;
+    volatile bool ranBeforeClass = false;
 
 #ifdef ACEUNIT_LOG_FIXTURE
     globalLog(fixtureStarted, fixture->id);
@@ -250,17 +250,17 @@ void runFixtureIfSpecified(const TestFixture_t *const fixture, const AceTestId_t
 #define globalLog(X, Y) if ((NULL != globalLogger) && (NULL != globalLogger->X)) {\
     globalLogger->X(Y);\
 }
-    const testMethod_t *secondary; /* beforeClass, before, after, afterClass */
-    const testMethod_t *testCase;
-    const TestCaseId_t *testId;
+    const testMethod_t *volatile secondary; /* beforeClass, before, after, afterClass */
+    const testMethod_t *volatile testCase;
+    const TestCaseId_t *volatile testId;
 #ifdef ACEUNIT_LOOP
-    const aceunit_loop_t *loopMax;
-    aceunit_loop_t currentLoop;
+    const aceunit_loop_t *volatile loopMax;
+    aceunit_loop_t volatile currentLoop;
 #endif
 #ifdef ACEUNIT_GROUP
-    const AceGroupId_t *groups;
+    const AceGroupId_t *volatile groups;
 #endif
-    bool ranBeforeClass = false;
+    volatile bool ranBeforeClass = false;
 
 #ifdef ACEUNIT_LOG_FIXTURE
     globalLog(fixtureStarted, fixture->id);
