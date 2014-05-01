@@ -18,12 +18,16 @@
 * Add a library for C to access the mapping table.
 * Add a library for Java to access the mapping table.
 * Modularize unit test Makefiles in order to support multiple compilers.
+* Use the modularization even for the output.
 * Support gcc (implicitely done).
 * Support armcc (Keil).
 * Support ucc (CalmSHINE16).
 * Support C251 (Keil C251).
 * Test the behavior of AceUnit with respect to LTO - Link Time Optimization.
-* Improve support for C++.
+* Improve support for C++, i.e. provide constructors for structs.
+* Optionally auto-detect the version of C.
 
 * Change documentation generation from Saxon to xsltproc (it's simple enough, XSLT 2.0 shouldn't be required).
 * The DTDs, if required, should be downloaded automatically instead of having them checked-in.
+
+* When a file is written, and writing is skipped because the content didn't change, it should be checked whether the source is newer, otherwise this can confuse make.
