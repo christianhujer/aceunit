@@ -264,6 +264,7 @@ typedef long unsigned int size_t;
 #define _SIZE_T
 #endif
 #endif
+#endif
 #ifndef __bool_true_false_are_defined
 /** Replacement for stdbool.h bool in case stdbool.h is not available. */
 #if defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 199901L)
