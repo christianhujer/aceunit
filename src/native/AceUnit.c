@@ -352,7 +352,7 @@ void runSuite(const TestSuite_t *const suite
 #ifdef ACEUNIT_GROUP
         , AceGroupId_t group
 #endif
-) {
+) reentrant {
 #define globalLog(X, Y) if ((NULL != globalLogger) && (NULL != globalLogger->X)) {\
     globalLogger->X(Y);\
 }

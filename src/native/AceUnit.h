@@ -234,6 +234,10 @@
 /** Value for #ACEUNIT_C_MODE for providing proprietary replacement definitions by the user. */
 #define ACEUNIT_C_MODE_PROPRIETARY 3
 
+#if !defined(__C51__) && !defined(__C251__)
+#define reentrant
+#endif
+
 #if ACEUNIT_C_MODE == ACEUNIT_C_MODE_C99_INCLUDES
 #include <stddef.h>
 #include <stdint.h>
@@ -624,9 +628,9 @@ extern void runFixture(const TestFixture_t *const fixture);
  *              This parameter is only available if #ACEUNIT_GROUP is defined.
  */
 #if defined(ACEUNIT_GROUP) || defined(_doxygen)
-extern void runSuite(const TestSuite_t *const suite, AceGroupId_t group);
+extern void runSuite(const TestSuite_t *const suite, AceGroupId_t group) reentrant;
 #else
-extern void runSuite(const TestSuite_t *const suite);
+extern void runSuite(const TestSuite_t *const suite) reentrant;
 #endif
 
 #ifdef ACEUNIT_SUITES
