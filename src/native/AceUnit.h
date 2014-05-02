@@ -474,6 +474,16 @@ typedef int linenumber_t;
  */
 typedef struct {
 
+#ifndef ACEUNIT_EMBEDDED
+    /** The filename in which the assertion occurred. */
+    const char *filename;
+
+#if defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 199901L)
+    /** The function name in which the assertion occurred. */
+    const char *funcname;
+#endif
+#endif
+
     /** The line number at which the assertion occurred. */
     linenumber_t lineNumber;
 
@@ -489,8 +499,10 @@ typedef struct {
  */
 #ifdef ACEUNIT_EMBEDDED
 #define newAssertionError(message) { AssertionId_t assertion = { __LINE__ }; recordError(A_FIXTURE_ID, assertion); } ACEUNIT_ABORT
+#elif defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 199901L)
+#define newAssertionError(message) { AssertionId_t assertion = { __FILE__, __func__, __LINE__, message }; recordError(A_FIXTURE_ID, assertion); } ACEUNIT_ABORT
 #else
-#define newAssertionError(message) { AssertionId_t assertion = { __LINE__, message }; recordError(A_FIXTURE_ID, assertion); } ACEUNIT_ABORT
+#define newAssertionError(message) { AssertionId_t assertion = { __FILE__, __LINE__, message }; recordError(A_FIXTURE_ID, assertion); } ACEUNIT_ABORT
 #endif
 
 /** Assertion Error.
