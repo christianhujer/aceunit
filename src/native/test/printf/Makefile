@@ -1,6 +1,6 @@
 LOGGER=FullPlainLogger
 
-ACE_UNIT_FILES=AceUnit.c AceUnit.h AceUnitData.c AceUnitData.h AceUnitAnnotations.h AceUnitLogging.h $(LOGGER).c AceUnit.jar
+ACE_UNIT_FILES=AceUnit.c AceUnit.h AceUnitData.c AceUnitData.h AceUnitAnnotations.h AceUnitLogging.h AceUnitAssert.h $(LOGGER).c AceUnit.jar
 
 ACE_UNIT_PATH=../../../
 
@@ -21,6 +21,9 @@ AceUnit.c: $(ACE_UNIT_PATH)/native/AceUnit.c
 AceUnit.h: $(ACE_UNIT_PATH)/native/AceUnit.h
 	cp $< $@
 
+AceUnitAssert.h: $(ACE_UNIT_PATH)/native/AceUnitAssert.h
+	cp $< $@
+
 AceUnitData.c: $(ACE_UNIT_PATH)/native/AceUnitData.c
 	cp $< $@
 
@@ -33,7 +36,7 @@ AceUnitAnnotations.h: $(ACE_UNIT_PATH)/native/AceUnitAnnotations.h
 AceUnitLogging.h: $(ACE_UNIT_PATH)/native/AceUnitLogging.h
 	cp $< $@
 
-$(LOGGER).c: $(ACE_UNIT_PATH)/native/$(LOGGER).c
+$(LOGGER).c: $(ACE_UNIT_PATH)/native/loggers/$(LOGGER).c
 	cp $< $@
 
 AceUnit.jar: $(ACE_UNIT_PATH)/java/AceUnit.jar
