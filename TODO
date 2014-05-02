@@ -28,6 +28,7 @@
 * Optionally auto-detect the version of C.
 * Work with static link libraries.
 * Auto-detect "embedded" by checking if __STDC_HOSTED__ is defined.
+* Clear separation between test case location information (AceUnit-generated) and assertion location information (__FILE__, __LINE__, __func__).
 
 * Change documentation generation from Saxon to xsltproc (it's simple enough, XSLT 2.0 shouldn't be required).
 * The DTDs, if required, should be downloaded automatically instead of having them checked-in.
