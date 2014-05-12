@@ -14,7 +14,7 @@ DESIGN GOALS
   design but is worth noting explicitely, as this is what distinguishes this
   framework most from other frameworks for unit testing C code.
 
- 
+
 REQUIREMENTS
 ============
 Java 1.5 is required to run the generator.

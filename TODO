@@ -14,7 +14,7 @@
 * Rename all symbols to have a pseudo-namespace.
 * Add groups which are an orthogonal grouping system to the tree of suites with fixtures with testcases.
 * Extend the runner to get information about what to run.
-* Extend the runner to optionally use fork() like check.
+* Extend the runner to optionally use fork() like check. APUE should give enough info about resource management in context of fork().
 * Add a library for C to access the mapping table.
 * Add a library for Java to access the mapping table.
 * Modularize unit test Makefiles in order to support multiple compilers.
@@ -28,7 +28,10 @@
 * Optionally auto-detect the version of C.
 * Work with static link libraries.
 * Auto-detect "embedded" by checking if __STDC_HOSTED__ is defined.
+* Possibility for overriding __STDC_HOSTED__ for compilers which have a bogus definition, like armcc --c99.
 * Clear separation between test case location information (AceUnit-generated) and assertion location information (__FILE__, __LINE__, __func__).
+* Remove mandatory message, instead add a second set of macros that takes a formatted message, like void fail(void) vs. void failm(const char *format, ...);, void assertTrue(bool) vs. void assertTrueM(bool, const char *format, ...)
+* Add another mode for the include files which uses the C89 include files plus a proprietary definition of stdint and stdbool.
 
 * Change documentation generation from Saxon to xsltproc (it's simple enough, XSLT 2.0 shouldn't be required).
 * The DTDs, if required, should be downloaded automatically instead of having them checked-in.

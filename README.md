@@ -20,11 +20,11 @@ Supported Compilers / CPUs:
 Untested Compilers:
 - cl i386-pc-windows
 - gcc other platforms
+- Keil Cx51 8051
+- Keil C251 80251
+- Keil C166 C166
 
 Planned Compilers:
 - ucc Calm16
 - ucc SecuCalm
-- Keil Cx51 8051
-- Keil C251 80251
-- Keil C166 C166
 - Open64 x86-64, ia64, x86, mips, arm
