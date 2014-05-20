@@ -37,3 +37,5 @@
 * The DTDs, if required, should be downloaded automatically instead of having them checked-in.
 
 * When a file is written, and writing is skipped because the content didn't change, it should be checked whether the source is newer, otherwise this can confuse make.
+
+* Restructure the source, make two subprojects, library and generator.
