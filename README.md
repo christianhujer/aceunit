@@ -23,14 +23,20 @@ AceUnit (Advanced C and Embedded Unit): a comfortable C code unit test framework
   as this is what distinguishes AceUnit from other frameworks for unit testing C code.
 - No dependency on any header file.
 - Runnable in hosted and freestanding environments, on normal OS or even without OS, on PC and on devices.
+- Consume as few resources as possible.
 
 
 ## Requirements
 
+Build-Environment:
 - Java 8 is required to build and run the code generator.
 - C89 or newer is required to compile and run the tests.
 - If C99 is available, AceUnit can make use of it.
+
+Execution Environment:
 - AceUnit runs in both, hosted and freestanding environments!
+- 4 bytes of free RAM on the device on which the tests shall run.
+- ~50-200 bytes of stack, depending on the size of a `jmp_buf`.
 
 
 ## Compilers / CPUs
