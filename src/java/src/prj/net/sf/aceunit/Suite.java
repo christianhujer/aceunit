@@ -97,9 +97,9 @@ public abstract class Suite<T extends Test> extends Test implements Iterable<T> 
     public abstract String getCode(@NotNull final String baseName);
 
     /**
-     * Returns an iterable of contained tests.
+     * Returns a list of contained tests.
      *
-     * @return An iterable of contained tests.
+     * @return A list of contained tests.
      */
     public List<T> getTests() {
         return Collections.unmodifiableList(tests);

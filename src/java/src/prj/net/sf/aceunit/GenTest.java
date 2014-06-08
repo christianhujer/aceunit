@@ -192,12 +192,16 @@ public class GenTest extends BasicCommand {
         // Optimization Idea:
         // Allow specifying static fields from java.util.Locale.
         // Allow specifying countries and variants.
-        if ("".equals(fileSortingLocale)) {
+        switch (fileSortingLocale) {
+        case "":
             fileComparator = new FileComparator();
-        } else if (".".equals(fileSortingLocale)) {
+            break;
+        case ".":
             fileComparator = new FileComparator(Locale.getDefault());
-        } else {
+            break;
+        default:
             fileComparator = new FileComparator(new Locale(fileSortingLocale));
+            break;
         }
     }
 
@@ -362,7 +366,7 @@ public class GenTest extends BasicCommand {
      *
      * @param fixtureFile File of the original fixture C source code.
      * @param fixtureName Name of the fixture.
-     * @return
+     * @return The file to which the header for the specified fixture should be written.
      */
     private File getFileForFixtureH(final File fixtureFile, final String fixtureName) {
         // TODO:2013-12-15:christianhujer:Why is fixtureName needed if fixtureFile is there?
