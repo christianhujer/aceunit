@@ -70,7 +70,7 @@ public class Pckg extends Suite<Suite<? extends Test>> {
         out.format("/** AceUnit test header file for package %s.%n", baseName);
         out.format(" *%n");
         out.format(" * @warning This is a generated file. Do not edit. Your changes will be lost.%n");
-        out.format(" * @file %s.h%n", baseName);
+        out.format(" * @file%n");
         out.format(" */%n");
         out.format("%n");
         out.format("#include \"AceUnit.h\"%n");

@@ -299,7 +299,7 @@ public class GenTest extends BasicCommand {
                 System.out.println(cFile);
             }
             // FIXME:2013-12-15:christianhujer:Fix bogus package name foo.
-            final String hSource = pckg.getCode("foo");
+            final String hSource = pckg.getCode(getPackageName(pckgDir));
             if (genSuites) {
                 SourceFiles.writeIfChanged(cFile, hSource, force);
             }
@@ -309,6 +309,10 @@ public class GenTest extends BasicCommand {
             parent.addSuite(pckg);
         }
         return containedFixture;
+    }
+
+    private static String getPackageName(final File pckgDir) {
+        return pckgDir.toString().replaceAll("^\\.[/\\\\]", "").replaceAll("[/\\\\]", ".").replaceAll("^\\.$","<default>");
     }
 
     // TODO:2013-12-15:christianhujer:Why is base passed? It's unused.

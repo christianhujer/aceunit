@@ -118,7 +118,7 @@ public class Fixture extends Suite<TestCase> {
         out.format(" * This allows you to declare test methods as static.%n");
         out.format(" *%n");
         out.format(" * @warning This is a generated file. Do not edit. Your changes will be lost.%n");
-        out.format(" * @file %s.h%n", baseName);
+        out.format(" * @file%n");
         out.format(" */%n");
         out.format("%n");
         return out.toString();
