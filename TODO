@@ -39,3 +39,14 @@
 * When a file is written, and writing is skipped because the content didn't change, it should be checked whether the source is newer, otherwise this can confuse make.
 
 * Restructure the source, make two subprojects, library and generator.
+* Allow for A_Parameters annotation which declares parameters for a test case.
+  There should be two versions of such parameter annotations.
+  The first version should take a list of parameters.
+  The second version should take a pointer to a NULL-terminated array of pointers of parameters.
+  Multiple A_Parameters methods should be possible for the same method.
+  A_Parameters should be possible with A_Test, A_Before and A_BeforeClass methods.
+  Semantics would be
+  A_Parameters with A_BeforeClass: The entire fixture is repeated for each parameter.
+  A_Parameters with A_Before: Each test case is repeated for each parameter.
+  A_Parameters with A_Test: This test case is repeated for each parameter.
+  A_Parameters with A_BeforeClass and A_Before is very similar, just that the parameter is used only once overall when with A_BeforeClass, but once for every test case when with A_Before.
