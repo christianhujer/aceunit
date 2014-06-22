@@ -19,11 +19,13 @@ AceUnit versions are named after [Semantic Versioning 2.0.0](http://semver.org/)
 
 - Change the include file macros to be unstringified strings instead of stringified strings in order to work with compilers who cannot pass stringified strings on command line, such as Keil C251.
 - Simplify the configuration.
-- Simplify directory structure
 - Change configuration from undef/def scheme to 0/1 scheme, which allows to distinguish between unspecified, specified off and specified on for configuration macros.
 - Turn runFixture into a non-`void` function that returns whether one or more test cases failed.
 - Use `__STDC_HOSTED__` as a default for `ACEUNIT_EMBEDDED`.
 - Provide the option to use AceUnit as a static link library.
+- Remove mandatory message, instead add a second set of macros that takes a formatted message, like void `fail(void)` vs. `void failm(const char *format, ...);`, `void assertTrue(bool)` vs. void `assertTrueM(bool, const char *format, ...)`.
+
+- Simplify directory structure (done).
 
 
 ## AceUnit 1.1.0
@@ -76,7 +78,6 @@ AceUnit versions are named after [Semantic Versioning 2.0.0](http://semver.org/)
 - Work with static link libraries.
 - Auto-detect "embedded" by checking if `__STDC_HOSTED__` is defined.
 - Possibility for overriding `__STDC_HOSTED__` for compilers which have a bogus definition, like armcc --c99.
-- Remove mandatory message, instead add a second set of macros that takes a formatted message, like void `fail(void)` vs. `void failm(const char *format, ...);`, `void assertTrue(bool)` vs. void `assertTrueM(bool, const char *format, ...)`.
 - Add another mode for the include files which uses the C89 include files plus a proprietary definition of stdint and stdbool.
 - Change documentation generation from Saxon to `xsltproc` (it is simple enough, XSLT 2.0 should not be required).
 - The DTDs, if required, should be downloaded automatically instead of having them checked-in.
