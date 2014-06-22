@@ -25,27 +25,46 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-/** The JUnitXmlLogger is a {@link TestLogger_t} implementation that writes a test log that is compatible with that of JUnit when using XML log format.
+/** The JUnitXmlLogger is a #TestLogger_t implementation that writes a test log that is compatible with that of JUnit when using XML log format.
  * @author <a href="mailto:cher@riedquat.de">Christian Hujer</a>
  * @file JUnitXmlLogger.c
  */
 
 #include <stdio.h>
 #include <stdlib.h>
+#ifdef _BSD_SOURCE
+#include <unistd.h>
+#include <err.h>
+#endif
 
 #include "AceUnit.h"
 #include "AceUnitLogging.h"
 
 /** Returns the host name of the host this test is executed on.
+ * Tries to determine the hostname in that order:
+ * - BSD function `gethostname()`, if available.
+ * - Environment variable `HOSTNAME`.
+ * - Environment variable `COMPUTERNAME`.
  * @return Host name
  */
 static char *getHostname() {
     char *hostname;
+#ifdef _BSD_SOURCE
+    hostname = malloc(HOST_NAME_MAX + 1);
+    if (!gethostname(hostname, HOST_NAME_MAX))
+        return hostname;
+    warn("Could not determine hostname from system call");
+    free(hostname);
+    hostname = NULL;
+#endif
     hostname = getenv("HOSTNAME");
     if (NULL == hostname) {
         hostname = getenv("COMPUTERNAME");
     }
     if (NULL == hostname) {
+#ifdef _BSD_SOURCE
+        warn("Could not determine hostname from environment");
+#endif
         hostname = "unknown";
     }
     return hostname;
