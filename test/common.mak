@@ -6,12 +6,13 @@ LOGGER?=FullPlainLogger
 CVERSION?=c89
 MAIN?=RunTests
 
-ACEUNIT_NATIVE_PATH:=../..
-ACEUNIT_JAVA_PATH:=../../../java
+ACEUNIT_INCLUDE_PATH:=../../include
+ACEUNIT_SRC_PATH:=../../src
+ACEUNIT_JAVA_PATH:=../../generator
 ACEUNIT_JAVA_SRC:=$(shell find $(ACEUNIT_JAVA_PATH)/src -name "*.java")
 ACEUNIT_PARTS:=AceUnit AceUnitData $(LOGGER)
 
-VPATH=$(ACEUNIT_NATIVE_PATH) $(ACEUNIT_NATIVE_PATH)/loggers
+VPATH=$(ACEUNIT_SRC_PATH) $(ACEUNIT_SRC_PATH)/loggers
 
 GENERATED:=$(shell java -ea -jar $(ACEUNIT_JAVA_PATH)/AceUnit.jar --exit true --print=generated $(ACEUNIT_OPTS) -o alltests.txt .)
 SUITES:=$(filter *.c,$(GENERATED))
@@ -40,7 +41,7 @@ include ../_compiler/$(COMPILER).mak
 # help: export COMPILER?=$(COMPILER)
 # Obviously, the variable COMPILER then points to rubbish instead of the desired string.
 
-CPPFLAGS=$(CPPFLAGS_SPECIFIC) -DACEUNIT_CONFIG_FILE=\"AceUnitConfig.h\" -I . -I $(ACEUNIT_NATIVE_PATH)
+CPPFLAGS=$(CPPFLAGS_SPECIFIC) -DACEUNIT_CONFIG_FILE=\"AceUnitConfig.h\" -I . -I $(ACEUNIT_INCLUDE_PATH)
 
 LINTFLAGS?=+quiet -badflag -weak
 
