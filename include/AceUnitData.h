@@ -41,7 +41,7 @@
 typedef struct {
 
     /** The most recent error will be remembered here.
-     * This variable will be set by {@link #recordError()} and read by {@link #runFixture()}.
+     * This variable will be set by #recordError()} and read by {@link #runFixture().
      * It is set to NULL before each test case.
      * If it is not NULL after a test case, the test case failed.
      */
@@ -51,7 +51,7 @@ typedef struct {
     AssertionError_t recentErrorData;
 
     /** The id of the currently executed test case.
-     * This variable will be set by {@link #runFixture()} and read by {@link #recordError()}.
+     * This variable will be set by #runFixture()} and read by {@link #recordError().
      */
     TestCaseId_t currentTestId;
 

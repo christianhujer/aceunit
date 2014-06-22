@@ -42,13 +42,13 @@ void helper() {
     assertTrue("Test assertion, expected to fail.", false);
 }
 
-/** Tests that {@link #assertTrue()} does a longjmp. */
+/** Tests that #assertTrue() does a longjmp. */
 A_Test void testAssertDoesLongjmp() {
     helper();
     fail("This statement should not be reached.");
 }
 
-/** Tests that {@link #assertEquals()} with unequal values sets recentError. */
+/** Tests that #assertEquals() with unequal values sets recentError. */
 A_Test void testAssertDoesLongjmp2() {
     helper();
 }

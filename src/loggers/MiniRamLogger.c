@@ -26,7 +26,7 @@
  */
 
 /** Mini Ram Logger implementation that logs messages to RAM with as little memory consumption as possible.
- * The format of the messages is suitable for postprocessing to convert it into the same format as that of {@link FullPlainLogger.c}.
+ * The format of the messages is suitable for postprocessing to convert it into the same format as that of #FullPlainLogger.c.
  * This Logger also could serve as a template if you want to create your own logger that e.g. logs by writing to a NVM like EEPROM or Flash.
  * @author <a href="mailto:cher@riedquat.de">Christian Hujer</a>
  * @file MiniRamLogger.c

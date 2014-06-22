@@ -85,12 +85,12 @@
 #define A_AfterClass       ACEUNIT_DIRECT_ANNOTATION
 
 /** Ignore annotation, use for test cases to ignore.
- * This annotation is only allowed for methods annotated as {@link #A_Test}.
+ * This annotation is only allowed for methods annotated as #A_Test.
  */
 #define A_Ignore           ACEUNIT_META_ANNOTATION
 
 /** Puts a test in a specific group.
- * This annotation is only allowed for methods annotated as {@link #A_Test}.
+ * This annotation is only allowed for methods annotated as #A_Test.
  *
  * A test group allows tests to be grouped.
  * When the runner runs, it will pick only those tests belonging to the group given to the runner.

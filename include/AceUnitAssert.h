@@ -83,7 +83,7 @@
 #endif
 
 /** Asserts that two values are not equal.
- * If the values are equal, the test case fails and raises an {@link AssertionError_t} that will be logged.
+ * If the values are equal, the test case fails and raises an #AssertionError_t that will be logged.
  * @note If ACEUNIT_EXPLICIT_MESSAGES is set, expected and actual are converted to int32_t.
  * @warning The underlying implementation simply compares expected and actual using ==.
  *          It is the responsibility of the user to care about the types of \p expected and \p actual.
@@ -106,14 +106,14 @@
 #endif
 
 /** Asserts that a pointer is not NULL.
- * If the pointer is NULL, the test case fails and raises an {@link AssertionError_t} that will be logged.
+ * If the pointer is NULL, the test case fails and raises an #AssertionError_t that will be logged.
  * @param message Message, usually with the positive description of why the assertion should not fail.
  * @param ptr Pointer expected to be not NULL.
  */
 #define assertNotNull(message, ptr) do { if (NULL == (ptr)) { fail(message); } } while (false)
 
 /** Asserts that a pointer is NULL.
- * If the pointer is not NULL, the test case fails and raises an {@link AssertionError_t} that will be logged.
+ * If the pointer is not NULL, the test case fails and raises an #AssertionError_t that will be logged.
  * @param message Message, usually with the positive description of why the assertion should not fail.
  * @param ptr Pointer expected to be NULL.
  */

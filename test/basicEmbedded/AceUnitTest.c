@@ -102,7 +102,7 @@ void helper(int c) {
     assertionContinued = true;
 }
 
-/** Tests that {@link #assertTrue()} with a true condition continues a test case. */
+/** Tests that #assertTrue() with a true condition continues a test case. */
 A_Test void testAssertTrueWithTrueContinues() {
     myTestCaseCount++;
     helper(0);
@@ -112,7 +112,7 @@ A_Test void testAssertTrueWithTrueContinues() {
     }
 }
 
-/** Tests that {@link #assertTrue()} with a false condition does not continue a test case. */
+/** Tests that #assertTrue() with a false condition does not continue a test case. */
 A_Test void testAssertTrueWithFalseReturns() {
     myTestCaseCount++;
     helper(1);
@@ -122,7 +122,7 @@ A_Test void testAssertTrueWithFalseReturns() {
     }
 }
 
-/** Tests that {@link #assertTrue()} with a true condition does not set recentError. */
+/** Tests that #assertTrue() with a true condition does not set recentError. */
 A_Test void testAssertTrueWithTrueNoRecentError() {
     myTestCaseCount++;
     clearRecentError();
@@ -133,7 +133,7 @@ A_Test void testAssertTrueWithTrueNoRecentError() {
     }
 }
 
-/** Tests that {@link #assertTrue()} with a false condition sets recentError. */
+/** Tests that #assertTrue() with a false condition sets recentError. */
 A_Test void testAssertTrueWithFalseSetsRecentError() {
     bool recentErrorSet = false;
 
@@ -149,7 +149,7 @@ A_Test void testAssertTrueWithFalseSetsRecentError() {
     }
 }
 
-/** Tests that {@link #assertFalse()} with a true condition continues a test case. */
+/** Tests that #assertFalse() with a true condition continues a test case. */
 A_Test void testAssertFalseWithFalseContinues() {
     myTestCaseCount++;
     helper(3);
@@ -159,7 +159,7 @@ A_Test void testAssertFalseWithFalseContinues() {
     }
 }
 
-/** Tests that {@link #assertFalse()} with a false condition does not continue a test case. */
+/** Tests that #assertFalse() with a false condition does not continue a test case. */
 A_Test void testAssertFalseWithTrueReturns() {
     myTestCaseCount++;
     helper(4);
@@ -169,7 +169,7 @@ A_Test void testAssertFalseWithTrueReturns() {
     }
 }
 
-/** Tests that {@link #assertFalse()} with a true condition does not set recentError. */
+/** Tests that #assertFalse() with a true condition does not set recentError. */
 A_Test void testAssertFalseWithFalseNoRecentError() {
     myTestCaseCount++;
     clearRecentError();
@@ -180,7 +180,7 @@ A_Test void testAssertFalseWithFalseNoRecentError() {
     }
 }
 
-/** Tests that {@link #assertFalse()} with a false condition sets recentError. */
+/** Tests that #assertFalse() with a false condition sets recentError. */
 A_Test void testAssertFalseWithTrueSetsRecentError() {
     bool recentErrorSet = false;
 
@@ -196,7 +196,7 @@ A_Test void testAssertFalseWithTrueSetsRecentError() {
     }
 }
 
-/** Tests that {@link #assertEquals()} with equal values continues a test case. */
+/** Tests that #assertEquals() with equal values continues a test case. */
 A_Test void testAssertEqualsWithEqualContinues() {
     myTestCaseCount++;
     helper(6);
@@ -206,7 +206,7 @@ A_Test void testAssertEqualsWithEqualContinues() {
     }
 }
 
-/** Tests that {@link #assertEquals()} with unequal values does not continue a test case. */
+/** Tests that #assertEquals() with unequal values does not continue a test case. */
 A_Test void testAssertEqualsWithUnequalReturns() {
     myTestCaseCount++;
     helper(7);
@@ -216,7 +216,7 @@ A_Test void testAssertEqualsWithUnequalReturns() {
     }
 }
 
-/** Tests that {@link #assertEquals()} with equal values does not set recentError. */
+/** Tests that #assertEquals() with equal values does not set recentError. */
 A_Test void testAssertEqualsWithEqualNoRecentError() {
     int val1 = 10;
     int val2 = val1;
@@ -230,7 +230,7 @@ A_Test void testAssertEqualsWithEqualNoRecentError() {
     }
 }
 
-/** Tests that {@link #assertEquals()} with unequal values sets recentError.
+/** Tests that #assertEquals() with unequal values sets recentError.
  * The strange formatting is intentional for <a href="https://sourceforge.net/tracker/index.php?func=detail&amp;aid=1887942&amp;group_id=207094&amp;atid=1000227">[ 1887942 ] Java Generator does not detect wrongly formatted test source</a>
  */
 A_Test

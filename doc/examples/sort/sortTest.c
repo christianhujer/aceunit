@@ -70,7 +70,7 @@ bool isSorted(const void *vector, const size_t nmemb, const size_t size, const c
     return true;
 }
 
-/** Tests that {@link compareInt()} works. */
+/** Tests that #compareInt() works. */
 A_Test void testCompareInt() {
     int n1;
     int n2;
@@ -88,7 +88,7 @@ A_Test void testCompareInt() {
     assertTrue("Comparing 2 with 1 must return a value >0.", compareInt(&n1, &n2) > 0);
 }
 
-/** Tests that {@link qsort()} works. */
+/** Tests that #qsort() works. */
 A_Test void testSort() {
     int testling[] = { 5, 4, 3, 2, 1 };
     assertFalse("This vector is not yet sorted.", isSorted(testling, 5, sizeof(int), &compareInt));

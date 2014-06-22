@@ -38,7 +38,7 @@
 #include "AceUnitData.h"
 #include "AceUnitPrintfTest.h"
 
-/** Tests that {@link #assertEquals()} with equal values does not set recentError. */
+/** Tests that #assertEquals() with equal values does not set recentError. */
 A_Test void testPrintfSimple() {
     char *format = "foo";
     char *expected = "foo";
