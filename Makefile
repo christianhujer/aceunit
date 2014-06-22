@@ -4,4 +4,4 @@ all: prjcheck
 
 .PHONY: prjcheck
 prjcheck:
-	! grep -Rn ' $$' src --include="*.[ch]" --include="*.java" --include="Makefile" --include="*.mak"
+	! grep -Rn ' $$' src include generator --include="*.[ch]" --include="*.java" --include="Makefile" --include="*.mak"
