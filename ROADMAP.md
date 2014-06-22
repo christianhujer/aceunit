@@ -56,11 +56,11 @@ AceUnit versions are named after [Semantic Versioning 2.0.0](http://semver.org/)
 - Modularize unit test Makefiles in order to support multiple compilers.
 - Directly support more compilers: gcc, armcc, Keil C51, Keil C251, Keil C166, Samsung UCC for CalmSHINE16 / SecureCALM
 - Better separation between test case location information (AceUnit-geneated) and assertion location information (`__FILE__`, `__LINE__`, `__func__`).
-- Create global build.xml for Building releases.
+- Create global `build.xml` or Makefile for Building releases.
 - Improve website layout (make it similar to that of Japi, Gridarta etc.).
 - Optional randomization of test order (at runtime, with a pseudo random number generator).
 - Better distinction between public API and internal symbols even in header files.
-- Add generation of main()
+- Add generation of `main()`.
 - Add proper runner tree that makes makes use of every logger method.
 - Support performance tests by measuring the time for tests.
 - Support looping of tests for performance tests.
@@ -74,12 +74,11 @@ AceUnit versions are named after [Semantic Versioning 2.0.0](http://semver.org/)
 - Improve support for C++, i.e. provide constructors for structs.
 - Optionally auto-detect the version of C.
 - Work with static link libraries.
-- Auto-detect "embedded" by checking if __STDC_HOSTED__ is defined.
-- Possibility for overriding __STDC_HOSTED__ for compilers which have a bogus definition, like armcc --c99.
-- Clear separation between test case location information (AceUnit-generated) and assertion location information (__FILE__, __LINE__, __func__).
-- Remove mandatory message, instead add a second set of macros that takes a formatted message, like void fail(void) vs. void failm(const char *format, ...);, void assertTrue(bool) vs. void assertTrueM(bool, const char *format, ...)
+- Auto-detect "embedded" by checking if `__STDC_HOSTED__` is defined.
+- Possibility for overriding `__STDC_HOSTED__` for compilers which have a bogus definition, like armcc --c99.
+- Remove mandatory message, instead add a second set of macros that takes a formatted message, like void `fail(void)` vs. `void failm(const char *format, ...);`, `void assertTrue(bool)` vs. void `assertTrueM(bool, const char *format, ...)`.
 - Add another mode for the include files which uses the C89 include files plus a proprietary definition of stdint and stdbool.
-- Change documentation generation from Saxon to xsltproc (it is simple enough, XSLT 2.0 should not be required).
+- Change documentation generation from Saxon to `xsltproc` (it is simple enough, XSLT 2.0 should not be required).
 - The DTDs, if required, should be downloaded automatically instead of having them checked-in.
 
 
