@@ -35,76 +35,76 @@
 
 #ifdef ACEUNIT_LOG_RUNNER
 /** @see TestLogger_t.runnerStarted */
-void logRunnerStarted()
+void AceUnitLoggerStub_runnerStarted()
 {
 }
 #endif
 
 #ifdef ACEUNIT_LOG_SUITE
 /** @see TestLogger_t.suiteStarted */
-void logSuiteStarted()
+void AceUnitLoggerStub_suiteStarted()
 {
 }
 #endif
 
 #ifdef ACEUNIT_LOG_FIXTURE
 /** @see TestLogger_t.fixtureStarted */
-void logFixtureStarted(const FixtureId_t fixture)
+void AceUnitLoggerStub_fixtureStarted(const FixtureId_t fixture)
 {
 }
 #endif
 
 #ifdef ACEUNIT_LOG_TESTCASE
 /** @see TestLogger_t.testCaseStarted */
-void logTestCaseStarted(TestCaseId_t testCase)
+void AceUnitLoggerStub_testCaseStarted(TestCaseId_t testCase)
 {
 }
 #endif
 
 /** @see TestLogger_t.testCaseCailed */
-void logTestCaseFailed(const AssertionError_t *error)
+void AceUnitLoggerStub_testCaseFailed(const AssertionError_t *error)
 {
 }
 
 #ifdef ACEUNIT_LOG_TESTCASE
 /** @see TestLogger_t.testCaseEnded */
-void logTestCaseEnded(TestCaseId_t testCase)
+void AceUnitLoggerStub_testCaseEnded(TestCaseId_t testCase)
 {
 }
 #endif
 
 #ifdef ACEUNIT_LOG_FIXTURE
-void logFixtureEnded(const FixtureId_t fixture)
+void AceUnitLoggerStub_fixtureEnded(const FixtureId_t fixture)
 {
 }
 #endif
 
 #ifdef ACEUNIT_LOG_SUITE
 /** @see TestLogger_t.suiteEnded */
-void logSuiteEnded()
+void AceUnitLoggerStub_suiteEnded()
 {
 }
 #endif
 
 #ifdef ACEUNIT_LOG_RUNNER
 /** @see TestLogger_t.runnerEnded */
-void logRunnerEnded()
+void AceUnitLoggerStub_runnerEnded()
 {
 }
 #endif
 
 /** This Logger. */
 AceUnitNewLogger(
-    loggerStub, /* CHANGE THIS NAME!!! */
-    logRunnerStarted,
-    logSuiteStarted,
-    logFixtureStarted,
-    logTestCaseStarted,
-    logTestCaseFailed,
-    logTestCaseEnded,
-    logFixtureEnded,
-    logSuiteEnded,
-    logRunnerEnded
+    AceUnitLoggerStub_instance,
+    AceUnitLoggerStub_runnerStarted,
+    AceUnitLoggerStub_suiteStarted,
+    AceUnitLoggerStub_fixtureStarted,
+    AceUnitLoggerStub_testCaseStarted,
+    AceUnitLoggerStub_testCaseFailed,
+    AceUnitLoggerStub_testCaseEnded,
+    AceUnitLoggerStub_fixtureEnded,
+    AceUnitLoggerStub_suiteEnded,
+    AceUnitLoggerStub_runnerEnded
 );
 
-TestLogger_t *globalLogger = &loggerStub; /* XXX Hack. Remove. */
+TestLogger_t *globalLogger = &AceUnitLoggerStub_instance; /* XXX Hack. Remove. */
