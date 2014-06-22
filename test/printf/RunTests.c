@@ -1,4 +1,4 @@
-/* Copyright (c) 2007 - 2011, Christian Hujer
+/* Copyright (c) 2014, Christian Hujer
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -25,34 +25,27 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-/** Unit Test for AceUnit's own printf.
- * @author <a href="mailto:cher@riedquat.de">Christian Hujer</a>
- * @file
- */
-
 #include <stdbool.h>
 #include <stdio.h>
 
 #include "AceUnitData.h"
-#include "AceUnitPrintfTest.h"
 
-/** Clears the current recent error. */
-void clearRecentError()
-{
-    if (runnerData->recentError != NULL) {
-        runnerData->recentError = NULL;
+extern TestFixture_t AceUnitPrintfTestFixture;
+
+/** Run the tests.
+ * @note This is only here temporarily.
+ * @note Command line arguments currently are ignored.
+ * In future versions, this part will be auto-generated.
+ * @return Exit status.
+ * @retval 0 if all tests ran successfully.
+ * @retval 1 if there were test errors or failures.
+ */
+int main(void) {
+    int retVal = 0;
+    runFixture(&AceUnitPrintfTestFixture);
+    if (runnerData->testCaseFailureCount != 0) {
+        fprintf(stderr, "Test Cases: %d  Errors: %d\n", (int) runnerData->testCaseCount, (int) runnerData->testCaseFailureCount);
+        retVal = 1;
     }
-}
-
-/** Tests that #assertEquals() with equal values does not set recentError. */
-A_Test void testPrintfSimple() {
-    char *format = "foo";
-    char *expected = "foo";
-
-
-    assertEquals("assertEquals(msg, val1, val2) MUST NOT set recentError.", expected, format);
-    if (runnerData->recentError != NULL) {
-        clearRecentError();
-        fail("Expected recentError to be NULL.");
-    }
+    return retVal;
 }
