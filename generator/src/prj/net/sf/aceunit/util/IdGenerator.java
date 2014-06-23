@@ -24,70 +24,45 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package net.sf.aceunit;
 
-import net.sf.aceunit.util.IdGenerator;
-import org.jetbrains.annotations.NotNull;
+package net.sf.aceunit.util;
 
 /**
- * A test, which can be anything that actually is a Test.
+ * Generator for consecutive Ids.
  *
  * @author <a href="mailto:cher@riedquat.de">Christian Hujer</a>
  */
-public abstract class Test {
+public class IdGenerator {
 
     /**
-     * The name of this Test.
+     * The last used id.
      */
-    private final String name;
-    /**
-     * The id of this Test.
-     */
-    private int id;
+    private int lastId;
 
     /**
-     * Creates a Test.
-     *
-     * @param name The name of this test.
+     * Creates an IdGenerator.
+     * The {@link #lastId} will be 0 which means the id returned by {@link #getNextId()} will be 1.
      */
-    protected Test(@NotNull final String name) {
-        this.name = name;
+    public IdGenerator() {
+        this(0);
     }
 
     /**
-     * Returns the name of this test.
+     * Creates an IdGenerator.
      *
-     * @return The name of this test.
+     * @param lastId Last id used, the first call to {@link #getNextId()} will return that value + 1.
      */
-    public String getName() {
-        return name;
+    public IdGenerator(final int lastId) {
+        this.lastId = lastId;
     }
 
     /**
-     * Returns the id of this Test.
+     * Returns the next id.
      *
-     * @return The id of this Test.
-     * @throws IllegalStateException in case the id is not yet set.
+     * @return The next id.
      */
-    public int getId() throws IllegalStateException {
-        if (id == 0) {
-            throw new IllegalStateException("Id not yet set.");
-        }
-        return id;
-    }
-
-    /**
-     * Sets the id of this test (recursively).
-     *
-     * @param generator IdGenerator from which the id to set is retrieved.
-     * @throws IllegalStateException in case the id is already set.
-     * @note Because of the recursive behaviour, the generator might be used more than once.
-     */
-    public void setId(@NotNull final IdGenerator generator) throws IllegalStateException {
-        if (id != 0) {
-            throw new IllegalStateException("Id already set.");
-        }
-        id = generator.getNextId();
+    public synchronized int getNextId() {
+        return ++lastId;
     }
 
 }

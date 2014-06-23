@@ -27,6 +27,8 @@
 
 package net.sf.aceunit;
 
+import net.sf.aceunit.util.FileComparator;
+import net.sf.aceunit.util.IdGenerator;
 import net.sf.japi.io.args.ArgParser;
 import net.sf.japi.io.args.BasicCommand;
 import net.sf.japi.io.args.Option;

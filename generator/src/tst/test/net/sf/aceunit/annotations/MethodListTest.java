@@ -1,4 +1,4 @@
-/* Copyright (c) 2007 - 2011, Christian Hujer
+/* Copyright (c) 2007 - 2014, Christian Hujer
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -25,35 +25,36 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package test.net.sf.aceunit;
+package test.net.sf.aceunit.annotations;
 
 import net.sf.aceunit.annotations.MethodList;
-import net.sf.aceunit.MethodLists;
-import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
-
-import static org.junit.Assert.assertEquals;
 
 /** Unit Test for {@link MethodList}.
  * @author <a href="mailto:cher@riedquat.de">Christian Hujer</a>
  */
 public class MethodListTest extends AbstractMethodListTest<MethodList> {
 
+    /**
+     * Creates a MethodList for A_Test.
+     */
+    @Before
+    public void createTestMethodList() {
+        methodList = new MethodList("A_Test", "testCases", "test cases");
+    }
+
     /** Tests that a method list finds a single annotated methods. */
     @Test
     public void testFindSingleAnnotatedMethod() {
-        final MethodList methodList = MethodLists.createTestMethodList();
         final String cSource = "A_Test void test1() {}";
         methodList.findMethods(cSource);
-        Assert.assertTrue(methodList.contains("test1"));
-        assertEquals(1, methodList.getMethodNames().size());
-        assertEquals(1, methodList.size());
+        assertContainsOnly("test1");
     }
 
     /** Tests that a method list finds multiple annotated methods. */
     @Test
     public void testFindMultipleAnnotatedMethod() {
-        methodList = MethodLists.createTestMethodList();
         final String cSource = "A_Test void test1() {} A_Test void test2() {} A_Test void test3() {}";
         methodList.findMethods(cSource);
         assertContainsOnly("test1", "test2", "test3");
@@ -62,7 +63,6 @@ public class MethodListTest extends AbstractMethodListTest<MethodList> {
     /** Tests that a method list finds a single annotated methods even if surrounded by other methods. */
     @Test
     public void testFindSingleAnnotatedMethod2() {
-        methodList = MethodLists.createTestMethodList();
         final String cSource = "void dummy1() {} A_Test void test1() {} void dummy2() {}";
         methodList.findMethods(cSource);
         assertContainsOnly("test1");
@@ -72,35 +72,15 @@ public class MethodListTest extends AbstractMethodListTest<MethodList> {
     /** Tests that a method list finds multiple annotated methods even if surrounded by other methods. */
     @Test
     public void testFindMultipleAnnotatedMethod2() {
-        methodList = MethodLists.createTestMethodList();
         final String cSource = "void dummy1() {} A_Test void test1() {} void dummy2() {} A_Test void test2() {} void dummy3() {} A_Test void test3() {} void dummy4() {}";
         methodList.findMethods(cSource);
         assertContainsOnly("test1", "test2", "test3");
         assertNotContains("dummy1", "dummy2", "dummy3", "dummy4");
     }
 
-    /** Tests that removing a method list from another works. */
-    @Test
-    public void testRemoveAll() {
-        final MethodList tests = MethodLists.createTestMethodList();
-        final MethodList ignore = MethodLists.createIgnoreMethodList();
-        final String cSource = "void dummy1() {} A_Test void test1() {} void dummy2() {} A_Ignore A_Test void test2() {} void dummy3() {} A_Test A_Ignore void test3() {} void dummy4() {} A_Ignore void ignore1() {}";
-        tests.findMethods(cSource);
-        ignore.findMethods(cSource);
-
-        assertContainsOnly(tests, "test1", "test2", "test3");
-        assertContainsOnly(ignore, "test2", "test3", "ignore1");
-
-        tests.removeAll(ignore);
-
-        assertContainsOnly(tests, "test1");
-        assertContainsOnly(ignore, "test2", "test3", "ignore1"); // ignore MUST NOT have been modified by removeAll()
-    }
-
     /** Tests that the returned iterator works correctly. */
     @Test
     public void testIterator() {
-        methodList = MethodLists.createTestMethodList();
         final String cSource = "void dummy1() {} A_Test void test1() {} void dummy2() {} A_Test void test2() {} void dummy3() {} A_Test void test3() {} void dummy4() {}";
         methodList.findMethods(cSource);
         assertContainsOnly("test1", "test2", "test3");
@@ -111,7 +91,6 @@ public class MethodListTest extends AbstractMethodListTest<MethodList> {
      */
     @Test
     public void testMethodWithoutReturnType() {
-        methodList = MethodLists.createTestMethodList();
         final String cSource = "A_Test test1() {}";
         methodList.findMethods(cSource);
         assertContainsOnly("test1");
@@ -122,10 +101,9 @@ public class MethodListTest extends AbstractMethodListTest<MethodList> {
      */
     @Test
     public void testMethodWithMultilinePrototype() {
-        methodList = MethodLists.createTestMethodList();
         final String cSource = "A_Test\nstatic\ninline\nvoid\ntest1\n(\n)\n\n{\n}";
         methodList.findMethods(cSource);
         assertContainsOnly("test1");
     }
 
-} // class MethodListTest
+}

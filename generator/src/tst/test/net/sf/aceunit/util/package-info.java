@@ -1,4 +1,4 @@
-/* Copyright (c) 2007 - 2011, Christian Hujer
+/* Copyright (c) 2008 - 2011, Christian Hujer
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -24,70 +24,8 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package net.sf.aceunit;
 
-import net.sf.aceunit.util.IdGenerator;
-import org.jetbrains.annotations.NotNull;
-
-/**
- * A test, which can be anything that actually is a Test.
- *
+/** Unit tests for package {@link net.sf.aceunit.util}.
  * @author <a href="mailto:cher@riedquat.de">Christian Hujer</a>
  */
-public abstract class Test {
-
-    /**
-     * The name of this Test.
-     */
-    private final String name;
-    /**
-     * The id of this Test.
-     */
-    private int id;
-
-    /**
-     * Creates a Test.
-     *
-     * @param name The name of this test.
-     */
-    protected Test(@NotNull final String name) {
-        this.name = name;
-    }
-
-    /**
-     * Returns the name of this test.
-     *
-     * @return The name of this test.
-     */
-    public String getName() {
-        return name;
-    }
-
-    /**
-     * Returns the id of this Test.
-     *
-     * @return The id of this Test.
-     * @throws IllegalStateException in case the id is not yet set.
-     */
-    public int getId() throws IllegalStateException {
-        if (id == 0) {
-            throw new IllegalStateException("Id not yet set.");
-        }
-        return id;
-    }
-
-    /**
-     * Sets the id of this test (recursively).
-     *
-     * @param generator IdGenerator from which the id to set is retrieved.
-     * @throws IllegalStateException in case the id is already set.
-     * @note Because of the recursive behaviour, the generator might be used more than once.
-     */
-    public void setId(@NotNull final IdGenerator generator) throws IllegalStateException {
-        if (id != 0) {
-            throw new IllegalStateException("Id already set.");
-        }
-        id = generator.getNextId();
-    }
-
-}
+package test.net.sf.aceunit.util;

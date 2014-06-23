@@ -603,10 +603,6 @@ public class CommentToWhitespaceReaderTest {
         Assert.assertEquals(exp, readChars.readChars(new CommentToWhitespaceReader(new StringReader(orig))));
     }
 
-    private static interface ReadChars {
-        String readChars(Reader reader) throws IOException;
-    }
-
     private static String readSingleChars(final Reader reader) throws IOException {
         final StringBuilder sb = new StringBuilder();
         //noinspection StatementWithEmptyBody
@@ -620,6 +616,10 @@ public class CommentToWhitespaceReaderTest {
         //noinspection StatementWithEmptyBody
         for (int charsRead; (charsRead = reader.read(buf)) != -1; sb.append(buf, 0, charsRead)) ;
         return sb.toString();
+    }
+
+    private static interface ReadChars {
+        String readChars(Reader reader) throws IOException;
     }
 
 }

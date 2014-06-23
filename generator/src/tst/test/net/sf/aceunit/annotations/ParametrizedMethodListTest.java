@@ -1,4 +1,4 @@
-/* Copyright (c) 2007 - 2011, Christian Hujer
+/* Copyright (c) 2007 - 2014, Christian Hujer
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -25,53 +25,31 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package net.sf.aceunit;
+package test.net.sf.aceunit.annotations;
 
-import org.jetbrains.annotations.NotNull;
+import net.sf.aceunit.annotations.ParametrizedMethodList;
+import org.junit.Test;
 
-import java.io.File;
-import java.text.Collator;
-import java.util.Comparator;
-import java.util.Locale;
+import static org.junit.Assert.assertEquals;
 
-/**
- * Comparator for Files.
- *
- * @author <a href="mailto:cher@riedquat.de">Christian Hujer</a>
- */
-public class FileComparator implements Comparator<File> {
-
-    // Optimization Idea:
-    // For multiple or large sort operations, many comparisons are done.
-    // Thus many conversions from File to String would happen.
-    // A WeakHashMap<File, String> could cache the File.toString() results.
-    // If performance is an issue, this also could be a WeakHashMap<File, CollationKey>.
-
-    /**
-     * The Collator of this FileComparator.
-     */
-    private final Collator collator;
-
-    /**
-     * Creates a FileComparator.
-     *
-     * @param locale Locale for comparing file(name)s.
-     */
-    public FileComparator(final Locale locale) {
-        this(Collator.getInstance(locale));
+public class ParametrizedMethodListTest extends AbstractMethodListTest<ParametrizedMethodList> {
+    /** Tests that a method is detected for A_Loop. */
+    @Test
+    public void testLoopMethod() {
+        methodList = new ParametrizedMethodList("A_Loop", "loop", "looping methods", "1");
+        final String cSource = "A_Test\nA_Loop(20)\nvoid loopMe(void)\n{\n}\n";
+        methodList.findMethods(cSource);
+        assertContainsOnly("loopMe");
+        assertEquals("20", methodList.getArg("loopMe"));
     }
 
-    /**
-     * Creates a FileComparator.
-     *
-     * @param collator Collator for comparing file(name)s.
-     */
-    public FileComparator(@NotNull final Collator collator) {
-        this.collator = collator;
+    /** Tests that commas in an annotation with arguments work. */
+    @Test
+    public void testCommasInAnnotationArgs() {
+        methodList = new ParametrizedMethodList("A_WithParams", "params", "Parameters", null);
+        final String cSource = "A_Test A_WithParams(\"foo\", \"bar\", \"qux\") void callMeWithArgs(const char *arg)\n{\n}\n";
+        methodList.findMethods(cSource);
+        assertContainsOnly("callMeWithArgs");
+        assertEquals("\"foo\", \"bar\", \"qux\"", methodList.getArg("callMeWithArgs"));
     }
-
-    public int compare(final File o1, final File o2) {
-        return collator.compare(o1.toString(), o2.toString());
-    }
-
 }

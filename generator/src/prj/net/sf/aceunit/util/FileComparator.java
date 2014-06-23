@@ -24,70 +24,54 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package net.sf.aceunit;
 
-import net.sf.aceunit.util.IdGenerator;
+package net.sf.aceunit.util;
+
 import org.jetbrains.annotations.NotNull;
 
+import java.io.File;
+import java.text.Collator;
+import java.util.Comparator;
+import java.util.Locale;
+
 /**
- * A test, which can be anything that actually is a Test.
+ * Comparator for Files.
  *
  * @author <a href="mailto:cher@riedquat.de">Christian Hujer</a>
  */
-public abstract class Test {
+public class FileComparator implements Comparator<File> {
+
+    // Optimization Idea:
+    // For multiple or large sort operations, many comparisons are done.
+    // Thus many conversions from File to String would happen.
+    // A WeakHashMap<File, String> could cache the File.toString() results.
+    // If performance is an issue, this also could be a WeakHashMap<File, CollationKey>.
 
     /**
-     * The name of this Test.
+     * The Collator of this FileComparator.
      */
-    private final String name;
-    /**
-     * The id of this Test.
-     */
-    private int id;
+    private final Collator collator;
 
     /**
-     * Creates a Test.
+     * Creates a FileComparator.
      *
-     * @param name The name of this test.
+     * @param locale Locale for comparing file(name)s.
      */
-    protected Test(@NotNull final String name) {
-        this.name = name;
+    public FileComparator(final Locale locale) {
+        this(Collator.getInstance(locale));
     }
 
     /**
-     * Returns the name of this test.
+     * Creates a FileComparator.
      *
-     * @return The name of this test.
+     * @param collator Collator for comparing file(name)s.
      */
-    public String getName() {
-        return name;
+    public FileComparator(@NotNull final Collator collator) {
+        this.collator = collator;
     }
 
-    /**
-     * Returns the id of this Test.
-     *
-     * @return The id of this Test.
-     * @throws IllegalStateException in case the id is not yet set.
-     */
-    public int getId() throws IllegalStateException {
-        if (id == 0) {
-            throw new IllegalStateException("Id not yet set.");
-        }
-        return id;
-    }
-
-    /**
-     * Sets the id of this test (recursively).
-     *
-     * @param generator IdGenerator from which the id to set is retrieved.
-     * @throws IllegalStateException in case the id is already set.
-     * @note Because of the recursive behaviour, the generator might be used more than once.
-     */
-    public void setId(@NotNull final IdGenerator generator) throws IllegalStateException {
-        if (id != 0) {
-            throw new IllegalStateException("Id already set.");
-        }
-        id = generator.getNextId();
+    public int compare(final File o1, final File o2) {
+        return collator.compare(o1.toString(), o2.toString());
     }
 
 }

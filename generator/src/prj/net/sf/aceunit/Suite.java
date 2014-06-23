@@ -27,6 +27,7 @@
 
 package net.sf.aceunit;
 
+import net.sf.aceunit.util.IdGenerator;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
