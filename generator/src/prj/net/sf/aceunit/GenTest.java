@@ -81,7 +81,7 @@ public class GenTest extends BasicCommand {
     /**
      * The FileComparator for sorting.
      */
-    private FileComparator fileComparator = new FileComparator();
+    private Comparator<File> fileComparator = Comparator.naturalOrder();
     /**
      * The name of the Makefile to which dependencies should be written.
      */
@@ -194,7 +194,7 @@ public class GenTest extends BasicCommand {
         // Allow specifying countries and variants.
         switch (fileSortingLocale) {
         case "":
-            fileComparator = new FileComparator();
+            fileComparator = Comparator.naturalOrder();
             break;
         case ".":
             fileComparator = new FileComparator(Locale.getDefault());
@@ -280,38 +280,29 @@ public class GenTest extends BasicCommand {
         //     The correct solution would be to separate scan and output.
         //     However, that solution might require more memory.
         //     So before that solution is implemented, a footprint analysis is required.
-        if (parent == null) {
+        final boolean hasParent = parent != null;
+        if (!hasParent) {
             pckg.setId(idGenerator);
             roots.add(pckg);
         }
-        for (final File dir : listSortedFiles(pckgDir, SourceFiles.DIR_FILTER)) {
+        for (final File dir : listSortedFiles(pckgDir, SourceFiles.DIR_FILTER))
             containedFixture |= performPckg(base, pckg, dir);
-        }
-        for (final File fixtureFile : listSortedFiles(pckgDir, SourceFiles.C_SOURCE_FILTER)) {
+        for (final File fixtureFile : listSortedFiles(pckgDir, SourceFiles.C_AND_CPP_SOURCE_FILTER))
             containedFixture |= performFixture(base, pckg, fixtureFile);
-        }
-        for (final File fixtureFile : listSortedFiles(pckgDir, SourceFiles.CPP_SOURCE_FILTER)) {
-            containedFixture |= performFixture(base, pckg, fixtureFile);
-        }
         if (containedFixture) {
             // XXX:2009-08-16:christianhujer:The id is already set above if there is no parent.
-            if (parent != null) {
+            if (hasParent)
                 pckg.setId(idGenerator);
-            }
             final File cFile = getFileForSuiteC(pckgDir, pckg);
-            if (printSet.contains(Print.sources) || printSet.contains(Print.suites) || printSet.contains(Print.generated)) {
+            if (printSet.contains(Print.sources) || printSet.contains(Print.suites) || printSet.contains(Print.generated))
                 System.out.println(cFile);
-            }
-            // FIXME:2013-12-15:christianhujer:Fix bogus package name foo.
             final String hSource = pckg.getCode(getPackageName(pckgDir));
-            if (genSuites) {
+            if (genSuites)
                 SourceFiles.writeIfChanged(cFile, hSource, force);
-            }
             allTests.add(pckgDir.toString().replaceAll("^\\./", "").replaceAll("[\\\\/]", "."));
         }
-        if (containedFixture && parent != null) {
+        if (containedFixture && parent != null)
             parent.addSuite(pckg);
-        }
         return containedFixture;
     }
 

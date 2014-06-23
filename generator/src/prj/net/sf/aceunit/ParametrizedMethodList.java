@@ -40,7 +40,7 @@ import java.util.regex.Pattern;
  *
  * @author <a href="mailto:cher@riedquat.de">Christian Hujer</a>
  */
-public class MethodList2 extends MethodList {
+public class ParametrizedMethodList extends MethodList {
 
     /**
      * The regular expression to use for finding annotated methods.
@@ -66,7 +66,7 @@ public class MethodList2 extends MethodList {
      * @param title        Title to use e.g. in comments.
      * @param defaultValue Default value to return by {@link #getArg(String)} for not annotated methods.
      */
-    public MethodList2(@NotNull final String annotation, @NotNull final String symName, @NotNull final String title, @Nullable final String defaultValue) {
+    public ParametrizedMethodList(@NotNull final String annotation, @NotNull final String symName, @NotNull final String title, @Nullable final String defaultValue) {
         super(annotation, symName, title);
         pattern = Pattern.compile("\\b" + annotation + "\\b\\s*\\((.*?)\\).*?(\\b\\S+?\\b)\\s*?\\(", Pattern.MULTILINE | Pattern.DOTALL);
         this.defaultValue = defaultValue;
@@ -85,13 +85,11 @@ public class MethodList2 extends MethodList {
             final String methodName = matcher.group(2);
             methodNames.add(methodName);
             String arg = matcher.group(1);
-            if (arg == null) {
+            if (arg == null)
                 arg = "";
-            }
             arg = arg.trim();
-            if (arg.length() == 0) {
+            if (arg.length() == 0)
                 arg = "1";
-            }
             args.put(methodName, arg);
         }
     }

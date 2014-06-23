@@ -48,43 +48,43 @@ public class Fixture extends Suite<TestCase> {
     /**
      * The list of {@code @Test} methods.
      */
-    private final MethodList testMethods = MethodList.createTestMethodList();
+    private final MethodList testMethods = MethodLists.createTestMethodList();
     /**
      * The list of {@code @Before} methods.
      */
-    private final MethodList beforeMethods = MethodList.createBeforeMethodList();
+    private final MethodList beforeMethods = MethodLists.createBeforeMethodList();
     /**
      * The list of {@code @After} methods.
      */
-    private final MethodList afterMethods = MethodList.createAfterMethodList();
+    private final MethodList afterMethods = MethodLists.createAfterMethodList();
     /**
      * The list of {@code @BeforeClass} methods.
      */
-    private final MethodList beforeClassMethods = MethodList.createBeforeClassMethodList();
+    private final MethodList beforeClassMethods = MethodLists.createBeforeClassMethodList();
     /**
      * The list of {@code @AfterClass} methods.
      */
-    private final MethodList afterClassMethods = MethodList.createAfterClassMethodList();
-    /**
-     * The list of {@code @Ignore} methods.
-     */
-    private final MethodList ignoreMethods = MethodList.createIgnoreMethodList();
-    /**
-     * The list of {@code @Loop} methods.
-     */
-    private final MethodList2 loopMethods = MethodList.createLoopMethodList();
-    /**
-     * The list of {@code @Group} methods.
-     */
-    private final MethodList2 groupMethods = MethodList.createGroupMethodList();
-    /**
-     * All method lists for easy iteration.
-     */
-    private final List<MethodList> methodLists = Arrays.asList(testMethods, beforeMethods, afterMethods, beforeClassMethods, afterClassMethods, ignoreMethods, loopMethods, groupMethods);
+    private final MethodList afterClassMethods = MethodLists.createAfterClassMethodList();
     /**
      * All method lists for used methods for easy iteration.
      */
     private final List<MethodList> usedMethodLists = Arrays.asList(testMethods, beforeMethods, afterMethods, beforeClassMethods, afterClassMethods);
+    /**
+     * The list of {@code @Ignore} methods.
+     */
+    private final MethodList ignoreMethods = MethodLists.createIgnoreMethodList();
+    /**
+     * The list of {@code @Loop} methods.
+     */
+    private final ParametrizedMethodList loopMethods = MethodLists.createLoopMethodList();
+    /**
+     * The list of {@code @Group} methods.
+     */
+    private final ParametrizedMethodList groupMethods = MethodLists.createGroupMethodList();
+    /**
+     * All method lists for easy iteration.
+     */
+    private final List<MethodList> methodLists = Arrays.asList(testMethods, beforeMethods, afterMethods, beforeClassMethods, afterClassMethods, ignoreMethods, loopMethods, groupMethods);
 
     /**
      * Creates a Fixture with the specified id.
@@ -105,9 +105,8 @@ public class Fixture extends Suite<TestCase> {
      */
     public Fixture(@Nullable final File file, @Nullable final String source) {
         super(file != null ? file.getName().replaceAll("\\.c$", "") : "dummy");
-        if (source != null) {
+        if (source != null)
             findMethods(source);
-        }
     }
 
     private static String getHeader(final String baseName) {
@@ -130,9 +129,8 @@ public class Fixture extends Suite<TestCase> {
      * @param cSource C source to search.
      */
     private void findMethods(@NotNull final String cSource) {
-        for (final MethodList methodList : methodLists) {
+        for (final MethodList methodList : methodLists)
             methodList.findMethods(cSource);
-        }
         testMethods.removeAll(ignoreMethods);
     }
 
@@ -159,30 +157,25 @@ public class Fixture extends Suite<TestCase> {
         out.format("%n");
 
         out.format("/* The prototypes are here to be able to include this header file at the beginning of the test file instead of at the end. */%n");
-        for (final MethodList methods1 : usedMethodLists) {
-            for (final String method : methods1) {
-                if (!method.contains("::")) {
+        for (final MethodList methods1 : usedMethodLists)
+            for (final String method : methods1)
+                if (!method.contains("::"))
                     out.format("%s void %s(void);%n", methods1.getAnnotation(), method);
-                }
-            }
-        }
         out.format("%n");
 
         out.format("/** The test case ids of this fixture. */%n");
         out.format("static const TestCaseId_t testIds[] = {%n");
         final String formatString = String.format("    %%%dd, /* %%s */%%n", (int) (Math.log10(testMethods.size()) + 1));
-        for (final TestCase testCase : getTests()) {
+        for (final TestCase testCase : getTests())
             out.format(formatString, testCase.getId(), testCase.getName());
-        }
         out.format("};%n");
         out.format("%n");
 
         out.format("#ifndef ACEUNIT_EMBEDDED%n");
         out.format("/** The test names of this fixture. */%n");
         out.format("static const char *const testNames[] = {%n");
-        for (final String method : testMethods) {
+        for (final String method : testMethods)
             out.format("    \"%s\",%n", method);
-        }
         out.format("};%n");
         out.format("#endif%n");
         out.format("%n");
@@ -190,18 +183,16 @@ public class Fixture extends Suite<TestCase> {
         out.format("#ifdef ACEUNIT_LOOP%n");
         out.format("/** The loops of this fixture. */%n");
         out.format("static const aceunit_loop_t loops[] = {%n");
-        for (final String method : testMethods) {
+        for (final String method : testMethods)
             out.format("    %s,%n", loopMethods.getArg(method));
-        }
         out.format("};%n");
         out.format("#endif%n");
         out.format("%n");
         out.format("#ifdef ACEUNIT_GROUP%n");
         out.format("/** The groups of this fixture. */%n");
         out.format("static const AceGroupId_t groups[] = {%n");
-        for (final String method : testMethods) {
+        for (final String method : testMethods)
             out.format("    %s,%n", groupMethods.getArg(method));
-        }
         out.format("};%n");
         out.format("#endif%n");
         out.format("%n");
@@ -209,9 +200,8 @@ public class Fixture extends Suite<TestCase> {
         for (final MethodList methods : usedMethodLists) {
             out.format("/** The %s of this fixture. */%n", methods.getTitle());
             out.format("static const testMethod_t %s[] = {%n", methods.getSymName());
-            for (final String method : methods) {
+            for (final String method : methods)
                 out.format("    %s,%n", method);
-            }
             out.format("    NULL%n");
             out.format("};%n");
             out.format("%n");
@@ -260,9 +250,8 @@ public class Fixture extends Suite<TestCase> {
      * Creates a TestCase for each contained test method.
      */
     public void createTestCases() {
-        for (final String method : testMethods) {
+        for (final String method : testMethods)
             add(new TestCase(method));
-        }
     }
 
 }

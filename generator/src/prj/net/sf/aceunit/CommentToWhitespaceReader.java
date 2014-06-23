@@ -71,15 +71,13 @@ public class CommentToWhitespaceReader extends FilterReader {
     public int read() throws IOException {
         synchronized (syncLock) {
             final Integer cachedChar = this.cachedChar;
-            if (cachedChar != null) {
+            if (cachedChar != null)
                 try {
                     return cachedChar;
                 } finally {
-                    if (cachedChar != -1) {
+                    if (cachedChar != -1)
                         this.cachedChar = null;
-                    }
                 }
-            }
             int rc;
             //noinspection StatementWithEmptyBody
             while ((rc = readImpl()) == -2) ;
@@ -238,11 +236,8 @@ public class CommentToWhitespaceReader extends FilterReader {
         for (i = 0; i < len; i++) {
             final int c = read();
             if (c == -1) {
-                if (i == 0) {
-                    return -1;
-                } else {
-                    break;
-                }
+                if (i == 0) return -1;
+                break;
             }
             charBuffer[off + i] = (char) c;
         }

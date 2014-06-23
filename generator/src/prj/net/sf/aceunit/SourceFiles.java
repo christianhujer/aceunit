@@ -45,18 +45,21 @@ public final class SourceFiles {
      */
     public static final FileFilter DIR_FILTER = File::isDirectory;
     /**
-     * FileFilter to get C source files.
+     * FileFilter to get C and C++ source files.
      */
-    public static final FileFilter C_SOURCE_FILTER = pathname -> pathname.isFile() && pathname.getName().endsWith(".c");
-    /**
-     * FileFilter to get C++ source files.
-     */
-    public static final FileFilter CPP_SOURCE_FILTER = pathname -> pathname.isFile() && pathname.getName().endsWith(".cpp");
+    public static final FileFilter C_AND_CPP_SOURCE_FILTER = pathname -> pathname.isFile() && endsWith(pathname.getName(), ".c", ".cpp");
 
     /**
      * Utility class - do not instance.
      */
     private SourceFiles() {
+    }
+
+    private static boolean endsWith(final String text, final String... suffixes) {
+        for (final String suffix : suffixes)
+            if (text.endsWith(suffix))
+                return true;
+        return false;
     }
 
     /**

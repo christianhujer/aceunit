@@ -27,12 +27,15 @@
 
 package test.net.sf.aceunit;
 
-import java.util.ArrayList;
-import java.util.List;
 import net.sf.aceunit.MethodList;
+import net.sf.aceunit.MethodLists;
+import net.sf.aceunit.ParametrizedMethodList;
 import org.jetbrains.annotations.NotNull;
 import org.junit.Assert;
 import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /** Unit Test for {@link MethodList}.
  * @author <a href="mailto:cher@riedquat.de">Christian Hujer</a>
@@ -42,8 +45,8 @@ public class MethodListTest {
     /** Tests that the annotation is properly returned. */
     @Test
     public void testGetAnnotation() {
-        final MethodList methodList1 = MethodList.createTestMethodList();
-        final MethodList methodList2 = MethodList.createBeforeMethodList();
+        final MethodList methodList1 = MethodLists.createTestMethodList();
+        final MethodList methodList2 = MethodLists.createBeforeMethodList();
         Assert.assertEquals("A_Test", methodList1.getAnnotation());
         Assert.assertEquals("A_Before", methodList2.getAnnotation());
     }
@@ -51,7 +54,7 @@ public class MethodListTest {
     /** Tests that a method list finds a single annotated methods. */
     @Test
     public void testFindSingleAnnotatedMethod() {
-        final MethodList methodList = MethodList.createTestMethodList();
+        final MethodList methodList = MethodLists.createTestMethodList();
         final String cSource = "A_Test void test1() {}";
         methodList.findMethods(cSource);
         Assert.assertTrue(methodList.contains("test1"));
@@ -62,7 +65,7 @@ public class MethodListTest {
     /** Tests that a method list finds multiple annotated methods. */
     @Test
     public void testFindMultipleAnnotatedMethod() {
-        final MethodList methodList = MethodList.createTestMethodList();
+        final MethodList methodList = MethodLists.createTestMethodList();
         final String cSource = "A_Test void test1() {} A_Test void test2() {} A_Test void test3() {}";
         methodList.findMethods(cSource);
         Assert.assertTrue(methodList.contains("test1"));
@@ -75,7 +78,7 @@ public class MethodListTest {
     /** Tests that a method list finds a single annotated methods even if surrounded by other methods. */
     @Test
     public void testFindSingleAnnotatedMethod2() {
-        final MethodList methodList = MethodList.createTestMethodList();
+        final MethodList methodList = MethodLists.createTestMethodList();
         final String cSource = "void dummy1() {} A_Test void test1() {} void dummy2() {}";
         methodList.findMethods(cSource);
         assertContains(methodList, "test1");
@@ -87,7 +90,7 @@ public class MethodListTest {
     /** Tests that a method list finds multiple annotated methods even if surrounded by other methods. */
     @Test
     public void testFindMultipleAnnotatedMethod2() {
-        final MethodList methodList = MethodList.createTestMethodList();
+        final MethodList methodList = MethodLists.createTestMethodList();
         final String cSource = "void dummy1() {} A_Test void test1() {} void dummy2() {} A_Test void test2() {} void dummy3() {} A_Test void test3() {} void dummy4() {}";
         methodList.findMethods(cSource);
         assertContains(methodList, "test1", "test2", "test3");
@@ -99,8 +102,8 @@ public class MethodListTest {
     /** Tests that removing a method list from another works. */
     @Test
     public void testRemoveAll() {
-        final MethodList tests = MethodList.createTestMethodList();
-        final MethodList ignore = MethodList.createIgnoreMethodList();
+        final MethodList tests = MethodLists.createTestMethodList();
+        final MethodList ignore = MethodLists.createIgnoreMethodList();
         final String cSource = "void dummy1() {} A_Test void test1() {} void dummy2() {} A_Ignore A_Test void test2() {} void dummy3() {} A_Test A_Ignore void test3() {} void dummy4() {} A_Ignore void ignore1() {}";
         tests.findMethods(cSource);
         ignore.findMethods(cSource);
@@ -117,7 +120,7 @@ public class MethodListTest {
     /** Tests that the returned iterator works correctly. */
     @Test
     public void testIterator() {
-        final MethodList methodList = MethodList.createTestMethodList();
+        final MethodList methodList = MethodLists.createTestMethodList();
         final String cSource = "void dummy1() {} A_Test void test1() {} void dummy2() {} A_Test void test2() {} void dummy3() {} A_Test void test3() {} void dummy4() {}";
         methodList.findMethods(cSource);
         final List<String> foundMethods = new ArrayList<String>();
@@ -135,7 +138,7 @@ public class MethodListTest {
      */
     @Test
     public void testMethodWithoutReturnType() {
-        final MethodList methodList = MethodList.createTestMethodList();
+        final MethodList methodList = MethodLists.createTestMethodList();
         final String cSource = "A_Test test1() {}";
         methodList.findMethods(cSource);
         final List<String> foundMethods = new ArrayList<String>();
@@ -151,7 +154,7 @@ public class MethodListTest {
      */
     @Test
     public void testMethodWithMultilinePrototype() {
-        final MethodList methodList = MethodList.createTestMethodList();
+        final MethodList methodList = MethodLists.createTestMethodList();
         final String cSource = "A_Test\nstatic\ninline\nvoid\ntest1\n(\n)\n\n{\n}";
         methodList.findMethods(cSource);
         final List<String> foundMethods = new ArrayList<String>();
@@ -162,6 +165,33 @@ public class MethodListTest {
         Assert.assertEquals(1, foundMethods.size());
     }
 
+    /** Tests that a method is detected for A_Loop. */
+    @Test
+    public void testLoopMethod() {
+        final ParametrizedMethodList methodList = MethodLists.createLoopMethodList();
+        final String cSource = "A_Test\nA_Loop(20)\nvoid loopMe(void)\n{\n}\n";
+        methodList.findMethods(cSource);
+        final List<String> foundMethods = new ArrayList<>();
+        for (final String methodName : methodList)
+            foundMethods.add(methodName);
+        Assert.assertTrue(foundMethods.contains("loopMe"));
+        Assert.assertEquals(1, foundMethods.size());
+        Assert.assertEquals("20", methodList.getArg("loopMe"));
+    }
+
+    /** Tests that commas in an annotation with arguments work. */
+    @Test
+    public void testCommasInAnnotationArgs() {
+        final ParametrizedMethodList methodList = new ParametrizedMethodList("A_WithParams", "params", "Parameters", null);
+        final String cSource = "A_Test A_WithParams(\"foo\", \"bar\", \"qux\") void callMeWithArgs(const char *arg)\n{\n}\n";
+        methodList.findMethods(cSource);
+        final List<String> foundMethods = new ArrayList<>();
+        for (final String methodName : methodList)
+            foundMethods.add(methodName);
+        Assert.assertTrue(foundMethods.contains("callMeWithArgs"));
+        Assert.assertEquals(1, foundMethods.size());
+        Assert.assertEquals("\"foo\", \"bar\", \"qux\"", methodList.getArg("callMeWithArgs"));
+    }
     /** Asserts that a method list contains (at least) the specified method names.
      * @param methodList Method list to check.
      * @param methodNames Method names to check.

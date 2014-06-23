@@ -27,6 +27,8 @@
 
 package net.sf.aceunit;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.File;
 import java.text.Collator;
 import java.util.Comparator;
@@ -51,14 +53,6 @@ public class FileComparator implements Comparator<File> {
     private final Collator collator;
 
     /**
-     * Creates a FileComparator w/o locale.
-     * The natural ordering of files is used.
-     */
-    public FileComparator() {
-        this((Collator) null);
-    }
-
-    /**
      * Creates a FileComparator.
      *
      * @param locale Locale for comparing file(name)s.
@@ -72,16 +66,12 @@ public class FileComparator implements Comparator<File> {
      *
      * @param collator Collator for comparing file(name)s.
      */
-    public FileComparator(final Collator collator) {
+    public FileComparator(@NotNull final Collator collator) {
         this.collator = collator;
     }
 
     public int compare(final File o1, final File o2) {
-        if (collator == null) {
-            return o1.compareTo(o2);
-        } else {
-            return collator.compare(o1.toString(), o2.toString());
-        }
+        return collator.compare(o1.toString(), o2.toString());
     }
 
 }
