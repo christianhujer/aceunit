@@ -59,4 +59,4 @@ public class PckgTest extends SuiteTest {
         Assert.assertTrue("After adding a fixture with test cases, a package is no longer empty.", oUT.containsTests());
     }
 
-} // class SuiteTest
+}

@@ -38,4 +38,4 @@ public class GenTestTest {
     /** Tests that. */
     @Test
     public void testDummy() {}
-} // class GenTestTest
+}

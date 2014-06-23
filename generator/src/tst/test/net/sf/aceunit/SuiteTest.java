@@ -60,4 +60,4 @@ public class SuiteTest {
         createSuite("dummy").getId();
     }
 
-} // class SuiteTest
+}

@@ -66,6 +66,7 @@ public class Pckg extends Suite<Suite<? extends Test>> {
 
     @NotNull
     public String getCode(@NotNull final String baseName) {
+        // TODO Can velocity or something similar make this nicer?
         final Formatter out = new Formatter();
         out.format("/** AceUnit test header file for package %s.%n", baseName);
         out.format(" *%n");
