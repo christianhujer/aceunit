@@ -41,7 +41,7 @@ include ../_compiler/$(COMPILER).mak
 # help: export COMPILER?=$(COMPILER)
 # Obviously, the variable COMPILER then points to rubbish instead of the desired string.
 
-CPPFLAGS=$(CPPFLAGS_SPECIFIC) -DACEUNIT_CONFIG_FILE=\"AceUnitConfig.h\" -I . -I $(ACEUNIT_INCLUDE_PATH)
+CPPFLAGS=$(CPPFLAGS_SPECIFIC) -DACEUNIT_CONFIG_FILE=AceUnitConfig.h -I . -I $(ACEUNIT_INCLUDE_PATH)
 
 LINTFLAGS?=+quiet -badflag -weak
 

@@ -17,7 +17,6 @@ AceUnit versions are named after [Semantic Versioning 2.0.0](http://semver.org/)
 
 ## AceUnit 1.0.0
 
-- Change the include file macros to be unstringified strings instead of stringified strings in order to work with compilers who cannot pass stringified strings on command line, such as Keil C251.
 - Simplify the configuration.
 - Change configuration from undef/def scheme to 0/1 scheme, which allows to distinguish between unspecified, specified off and specified on for configuration macros.
 - Turn runFixture into a non-`void` function that returns whether one or more test cases failed.
@@ -26,6 +25,7 @@ AceUnit versions are named after [Semantic Versioning 2.0.0](http://semver.org/)
 - Remove mandatory message, instead add a second set of macros that takes a formatted message, like void `fail(void)` vs. `void failm(const char *format, ...);`, `void assertTrue(bool)` vs. void `assertTrueM(bool, const char *format, ...)`.
 
 - Simplify directory structure (done).
+- Change the include file macros to be unstringified strings instead of stringified strings in order to work with compilers who cannot pass stringified strings on command line, such as Keil C251. (done)
 
 
 ## AceUnit 1.1.0

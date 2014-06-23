@@ -165,7 +165,12 @@
  *  <dt><code>ACEUNIT_CONFIG_FILE</code></dt>
  *  <dd>
  *      If you want to configure AceUnit more comfortably than with defines passed via make to your compiler, you can define this macro.
- *      The macro then must evaluate to a valid include file.
+ *      The macro then must evaluate to a valid include file name without quotes.
+ *      <br />
+ *      The rationale of using no quotes is compiler behavior.
+ *      All tested compilers support stringification.
+ *      But not all tested compilers support passing a macro from the command line of which the value is a string already.
+ *      For example, Keil C251 does not support passing a macro from the command line of which the value is a string.
  *  </dd>
  *  <dt><code>ACEUNIT_SETJMP_INCLUDE</code></dt>
  *  <dd>
@@ -210,8 +215,11 @@
  * @file AceUnit.h
  */
 
+#define stringify(X) stringify2(X)
+#define stringify2(X) #X
+
 #ifdef ACEUNIT_CONFIG_FILE
-#include ACEUNIT_CONFIG_FILE
+#include stringify(ACEUNIT_CONFIG_FILE)
 #endif
 
 /* Auto-definition of ACEUNIT_C_MODE if it is not defined. */
