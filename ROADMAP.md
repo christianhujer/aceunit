@@ -81,6 +81,7 @@ AceUnit versions are named after [Semantic Versioning 2.0.0](http://semver.org/)
 - Add another mode for the include files which uses the C89 include files plus a proprietary definition of stdint and stdbool.
 - Change documentation generation from Saxon to `xsltproc` (it is simple enough, XSLT 2.0 should not be required).
 - The DTDs, if required, should be downloaded automatically instead of having them checked-in.
+- The output format for help messages should be nicened by ArgParser, not the properties file itself.
 
 
 ## Items from the original TODO list which are dropped
