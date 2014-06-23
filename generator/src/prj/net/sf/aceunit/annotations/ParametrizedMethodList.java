@@ -1,4 +1,4 @@
-/* Copyright (c) 2008 - 2011, Christian Hujer
+/* Copyright (c) 2008 - 2014, Christian Hujer
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -25,15 +25,20 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package net.sf.aceunit;
+package net.sf.aceunit.annotations;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.MatchResult;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static java.util.regex.Pattern.DOTALL;
+import static java.util.regex.Pattern.MULTILINE;
+import static java.util.regex.Pattern.compile;
 
 /**
  * Special variant of MethodList which supports a parametrized annotation.
@@ -68,7 +73,7 @@ public class ParametrizedMethodList extends MethodList {
      */
     public ParametrizedMethodList(@NotNull final String annotation, @NotNull final String symName, @NotNull final String title, @Nullable final String defaultValue) {
         super(annotation, symName, title);
-        pattern = Pattern.compile("\\b" + annotation + "\\b\\s*\\((.*?)\\).*?(\\b\\S+?\\b)\\s*?\\(", Pattern.MULTILINE | Pattern.DOTALL);
+        pattern = compile("\\b" + annotation + "\\b\\s*\\((.*?)\\).*?(\\b\\S+?\\b)\\s*?\\(", MULTILINE | DOTALL);
         this.defaultValue = defaultValue;
     }
 
@@ -81,17 +86,28 @@ public class ParametrizedMethodList extends MethodList {
         methodNames.clear();
         args.clear();
         final Matcher matcher = pattern.matcher(cSource);
-        while (matcher.find()) {
-            final String methodName = matcher.group(2);
-            methodNames.add(methodName);
-            String arg = matcher.group(1);
-            if (arg == null)
-                arg = "";
-            arg = arg.trim();
-            if (arg.length() == 0)
-                arg = "1";
-            args.put(methodName, arg);
-        }
+        while (matcher.find())
+            processFoundMethodMatch(matcher);
+    }
+
+    private void processFoundMethodMatch(final MatchResult matchResult) {
+        final String methodName = matchResult.group(2);
+        final String arg = matchResult.group(1);
+        addMethodEntry(methodName, arg);
+    }
+
+    private void addMethodEntry(final String methodName, final String arg) {
+        methodNames.add(methodName);
+        args.put(methodName, normalizeArg(arg));
+    }
+
+    private static String normalizeArg(String arg) {
+        if (arg == null)
+            arg = "";
+        arg = arg.trim();
+        if (arg.length() == 0)
+            arg = "1";
+        return arg;
     }
 
     /**

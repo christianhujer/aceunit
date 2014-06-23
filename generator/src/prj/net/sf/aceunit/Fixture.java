@@ -27,6 +27,8 @@
 
 package net.sf.aceunit;
 
+import net.sf.aceunit.annotations.MethodList;
+import net.sf.aceunit.annotations.ParametrizedMethodList;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

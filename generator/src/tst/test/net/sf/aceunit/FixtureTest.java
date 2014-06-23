@@ -28,19 +28,16 @@
 package test.net.sf.aceunit;
 
 import net.sf.aceunit.Fixture;
-import org.junit.Test;
+import org.jetbrains.annotations.Nullable;
 
 /** Unit Test for {@link Fixture}.
  * @author <a href="mailto:cher@riedquat.de">Christian Hujer</a>
  */
 public class FixtureTest extends SuiteTest {
 
-    public Fixture createSuite() {
+    @Override
+    public Fixture createSuite(@Nullable final String name) {
         return new Fixture(null, null);
     }
 
-    /** Dummy Test to workaround a bug in IntelliJ IDEA. */
-    @Test public void dummy() {
-    }
-
-} // class MethodListsTest
+}

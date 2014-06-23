@@ -1,4 +1,4 @@
-/* Copyright (c) 2007 - 2011, Christian Hujer
+/* Copyright (c) 2007 - 2014, Christian Hujer
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -25,13 +25,17 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package net.sf.aceunit;
+package net.sf.aceunit.annotations;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static java.util.regex.Pattern.DOTALL;
+import static java.util.regex.Pattern.MULTILINE;
+import static java.util.regex.Pattern.compile;
 
 /**
  * A MethodList finds and contains all methods of a certain annotation type.
@@ -82,7 +86,7 @@ public class MethodList implements Iterable<String> {
      */
     public MethodList(@NotNull final String annotation, @NotNull final String symName, @NotNull final String title) {
         this.annotation = annotation;
-        pattern = Pattern.compile("\\b" + annotation + "\\b.*?(?:A_Loop\\(.*?\\))?.*?(\\b\\S+?\\b)\\s*?\\(", Pattern.MULTILINE | Pattern.DOTALL);
+        pattern = compile("\\b" + annotation + "\\b.*?(?:A_Loop\\(.*?\\))?.*?(\\b\\S+?\\b)\\s*?\\(", MULTILINE | DOTALL);
         this.symName = symName;
         this.title = title;
     }
@@ -105,9 +109,8 @@ public class MethodList implements Iterable<String> {
     public void findMethods(@NotNull final String cSource) {
         methodNames.clear();
         final Matcher matcher = pattern.matcher(cSource);
-        while (matcher.find()) {
+        while (matcher.find())
             methodNames.add(matcher.group(1));
-        }
     }
 
     /**

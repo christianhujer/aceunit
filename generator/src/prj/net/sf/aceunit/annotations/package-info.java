@@ -25,9 +25,8 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-/** This is the Java Generator of AceUnit.
- * The Java Generator scans suites (c sources with fixtures and directories containing them) and generates the required header files.
- * For more information, see {@link net.sf.aceunit.GenTest}.
+/** This is the Annotations for C framework which is currently still part of AceUnit.
+ * It's being refactored out in order to provide an annotations for C framework independent of AceUnit.
  * @author <a href="mailto:cher@riedquat.de">Christian Hujer</a>
  */
-package net.sf.aceunit;
+package net.sf.aceunit.annotations;

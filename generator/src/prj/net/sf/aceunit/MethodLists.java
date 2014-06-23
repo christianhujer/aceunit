@@ -1,5 +1,8 @@
 package net.sf.aceunit;
 
+import net.sf.aceunit.annotations.MethodList;
+import net.sf.aceunit.annotations.ParametrizedMethodList;
+
 public class MethodLists {
     /**
      * Creates a MethodList for A_Test.
