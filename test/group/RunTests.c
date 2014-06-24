@@ -47,8 +47,8 @@ extern const TestFixture_t GroupTestFixture;
  */
 int main(void) {
     int retVal = 0;
-    runFixture(&GroupTestFixture, 0);
-    runFixture(&GroupTestFixture, 1);
-    runFixture(&GroupTestFixture, 2);
+    runFixture(&GroupTestFixture, NULL, 0);
+    runFixture(&GroupTestFixture, NULL, 1);
+    runFixture(&GroupTestFixture, NULL, 2);
     return retVal;
 }

@@ -57,7 +57,7 @@ extern const TestFixture_t AceUnitTestFixture;
  */
 int main(void) {
     int retVal = 0;
-    runFixture(&AceUnitTestFixture);
+    runFixture(&AceUnitTestFixture, NULL);
     if (runnerData->testCaseFailureCount != TEST_FAILURES_FOR_VERIFICATION) {
         fprintf(stderr, "Test Cases: %d  Errors: %d\n", (int) runnerData->testCaseCount, (int) runnerData->testCaseFailureCount);
         retVal = 1;

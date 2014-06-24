@@ -632,14 +632,20 @@ typedef struct {
 extern void recordError(const FixtureId_t fixtureId, const AssertionId_t assertionId);
 
 /** Runs all test cases from a test fixture.
- * @param fixture  Test fixture to run.
- * @param group Group to run.
- *              This parameter is only available if #ACEUNIT_GROUP is defined.
+ * @param fixture
+ *      Test fixture to run.
+ * @param tests
+ *      Tests to run.
+ *      This can be `NULL`, in which case all tests are run.
+ *      Otherwise the last entry of \p tests must be #NO_TEST.
+ * @param group
+ *      Group to run.
+ *      This parameter is only available if #ACEUNIT_GROUP is defined.
  */
 #if defined(ACEUNIT_GROUP) || defined(_doxygen)
-extern void runFixture(const TestFixture_t *const fixture, AceGroupId_t group);
+extern void runFixture(const TestFixture_t *const fixture, const AceTestId_t *const tests, AceGroupId_t group);
 #else
-extern void runFixture(const TestFixture_t *const fixture);
+extern void runFixture(const TestFixture_t *const fixture, const AceTestId_t *const tests);
 #endif
 
 /** Runs all test cases from a test suite.

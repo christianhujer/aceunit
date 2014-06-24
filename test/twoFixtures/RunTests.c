@@ -51,8 +51,8 @@ extern TestFixture_t Fixture2Fixture;
  */
 int main(void) {
     int retVal = 0;
-    runFixture(&Fixture1Fixture);
-    runFixture(&Fixture2Fixture);
+    runFixture(&Fixture1Fixture, NULL);
+    runFixture(&Fixture2Fixture, NULL);
     if (runnerData->testCaseFailureCount != 0) {
         fprintf(stderr, "Test Cases: %d  Errors: %d\n", (int) runnerData->testCaseCount, (int) runnerData->testCaseFailureCount);
         retVal = 1;

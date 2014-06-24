@@ -48,7 +48,7 @@ extern const TestFixture_t CommentTestFixture;
  */
 int main(void) {
     int retVal = 0;
-    runFixture(&CommentTestFixture);
+    runFixture(&CommentTestFixture, NULL);
     if (runnerData->testCaseFailureCount != 0) {
         fprintf(stderr, "Test Cases: %d  Errors: %d\n", (int) runnerData->testCaseCount, (int) runnerData->testCaseFailureCount);
         retVal = 1;

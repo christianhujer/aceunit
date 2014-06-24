@@ -52,7 +52,7 @@ extern TestFixture_t XmlLogTestFixture;
 int main(void) {
     int retVal = 0;
     globalLogger->runnerStarted();
-    runFixture(&XmlLogTestFixture);
+    runFixture(&XmlLogTestFixture, NULL);
     globalLogger->runnerEnded();
     if (runnerData->testCaseFailureCount != 1) {
         fprintf(stderr, "Test Cases: %d  Expected Errors: 1  Errors: %d\n", (int) runnerData->testCaseCount, (int) runnerData->testCaseFailureCount);

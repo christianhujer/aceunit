@@ -45,7 +45,7 @@ extern int loopCount3;
  */
 int main(void) {
     int retVal = 0;
-    runFixture(&AceUnitLoopTestFixture);
+    runFixture(&AceUnitLoopTestFixture, NULL);
     if (runnerData->testCaseFailureCount != 0) {
         fprintf(stderr, "Test Cases: %d  Errors: %d\n", (int) runnerData->testCaseCount, (int) runnerData->testCaseFailureCount);
         retVal = 1;

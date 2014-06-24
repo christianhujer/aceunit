@@ -43,34 +43,38 @@
  * @param fixtureId    Id of the fixture that contained the test case with the failed assertion.
  * @param assertionId  Id of the assertion that failed.
  */
-void recordError(const FixtureId_t fixtureId, const AssertionId_t assertionId) {
+void recordError(const FixtureId_t fixtureId, const AssertionId_t assertionId)
+{
     runnerData->recentError = &runnerData->recentErrorData;
     runnerData->recentError->fixtureId   = fixtureId;
     runnerData->recentError->assertionId = assertionId;
     runnerData->recentError->testId      = runnerData->currentTestId;
 }
 
-#ifdef ACEUNIT_SUITES
 /** Returns if the specified test id is contained in a list of test ids.
  *
- * @note Always returns \c true if \p tests contains the value #ALL_TESTS.
+ * @note Always returns \c true if \p tests contains the value #ALL_TESTS or if \p tests is `NULL`.
  *
- * @param tests Tests in which to look for \p testId, terminated by #NO_TEST.
- * @param testId Test id for which to look.
- * @return Whether \p testId is contained in \p tests or not.
- * @retval true if \p testId is contained in \p tests.
+ * @param tests
+ *      Tests in which to look for \p testId, terminated by #NO_TEST.
+ *      If this is `NULL`, `true` is returned.
+ * @param testId
+ *      Test id for which to look.
+ * @return Whether \p test is to be executed.
+ * @retval true if \p tests is `NULL`.
+ * @retval true if \p test is contained in \p tests.
  * @retval true if \p tests contains #ALL_TESTS.
  * @retval false otherwise
  */
-static bool containsTests(const AceTestId_t *tests, const AceTestId_t test) {
-    for (;NO_TEST != *tests; tests++) {
-        if ((test == *tests) || (ALL_TESTS == *tests)) {
+static bool hasToRunTest(const AceTestId_t *tests, const AceTestId_t test)
+{
+    if (!tests)
+        return true;
+    for (;NO_TEST != *tests; tests++)
+        if ((test == *tests) || (ALL_TESTS == *tests))
             return true;
-        }
-    }
     return false;
 }
-#endif
 
 /** The Logger. */
 extern TestLogger_t *globalLogger;
@@ -108,113 +112,6 @@ extern TestLogger_t *globalLogger;
 #endif
 
 
-/** Runs all test cases from a test fixture.
- * @param fixture  Test fixture to run.
- * @param group Group to run.
- */
-void runFixture(const TestFixture_t *const fixture
-#ifdef ACEUNIT_GROUP
-        , AceGroupId_t group
-#endif
-        ) {
-#define invokeAll(X) for (secondary = fixture->X; NULL != *secondary; secondary++) {\
-    (*secondary)();\
-}
-#define globalLog(X, Y) if ((NULL != globalLogger) && (NULL != globalLogger->X)) {\
-    globalLogger->X(Y);\
-}
-    const testMethod_t *volatile secondary; /* beforeClass, before, after, afterClass */
-    const testMethod_t *volatile testCase;
-    const TestCaseId_t *volatile testId;
-#ifdef ACEUNIT_LOOP
-    const aceunit_loop_t *volatile loopMax;
-    aceunit_loop_t volatile currentLoop;
-#endif
-#ifdef ACEUNIT_GROUP
-    const AceGroupId_t *volatile groups;
-#endif
-    volatile bool ranBeforeClass = false;
-
-#ifdef ACEUNIT_LOG_FIXTURE
-    globalLog(fixtureStarted, fixture->id);
-#endif
-    for (
-        testCase = fixture->testCase,
-#ifdef ACEUNIT_LOOP
-        loopMax = fixture->loops,
-#endif
-#ifdef ACEUNIT_GROUP
-        groups = fixture->groups,
-#endif
-        testId = fixture->testIds;
-        NULL != *testCase;
-        testCase++,
-#ifdef ACEUNIT_LOOP
-        loopMax++,
-#endif
-#ifdef ACEUNIT_GROUP
-        groups++,
-#endif
-        testId++
-    ) {
-#ifdef ACEUNIT_GROUP
-        if (*groups == group) {
-#endif
-            if (!ranBeforeClass) {
-                ACEUNIT_PRE_BEFORECLASS
-                invokeAll(beforeClass);
-                ACEUNIT_POST_BEFORECLASS
-                ranBeforeClass = true;
-            }
-            runnerData->currentTestId = *testId;
-#ifdef ACEUNIT_LOG_TESTCASE
-            globalLog(testCaseStarted, runnerData->currentTestId);
-#endif
-            ACEUNIT_PRE_BEFORE
-            invokeAll(before);
-            ACEUNIT_POST_BEFORE
-            runnerData->recentError = NULL;
-            ACEUNIT_PRE_TEST
-#if ACEUNIT_ASSERTION_STYLE == ACEUNIT_ASSERTION_STYLE_LONGJMP
-            if (0 == setjmp(runnerData->jmpBuf)) {
-#endif
-#ifdef ACEUNIT_LOOP
-                for (currentLoop = 0; (currentLoop < *loopMax) && (NULL == runnerData->recentError); currentLoop++) {
-#endif
-                    (*testCase)();
-#ifdef ACEUNIT_LOOP
-                }
-#endif
-#if ACEUNIT_ASSERTION_STYLE == ACEUNIT_ASSERTION_STYLE_LONGJMP
-            }
-#endif
-            ACEUNIT_POST_TEST
-            runnerData->testCaseCount++;
-            if (NULL != runnerData->recentError) {
-                globalLog(testCaseFailed, runnerData->recentError);
-                runnerData->testCaseFailureCount++;
-            }
-            ACEUNIT_PRE_AFTER
-            invokeAll(after);
-            ACEUNIT_POST_AFTER
-#ifdef ACEUNIT_LOG_TESTCASE
-            globalLog(testCaseEnded, runnerData->currentTestId);
-#endif
-            runnerData->currentTestId = TestCaseId_NULL;
-#ifdef ACEUNIT_GROUP
-        }
-#endif
-    }
-    ACEUNIT_PRE_AFTERCLASS
-    invokeAll(afterClass);
-    ACEUNIT_POST_AFTERCLASS
-#ifdef ACEUNIT_LOG_FIXTURE
-    globalLog(fixtureEnded, fixture->id);
-#endif
-#undef invokeAll
-#undef globalLog
-}
-
 /** Runs all test cases from the supplied fixtures.
  * @param fixtures  Test fixtures to run (NULL terminated).
  */
@@ -222,28 +119,27 @@ void runFixtures(const TestFixture_t *fixtures[]
 #ifdef ACEUNIT_GROUP
         , AceGroupId_t group
 #endif
-) {
-    while (NULL != *fixtures) {
-        runFixture(*fixtures
+)
+{
+    for (; NULL != *fixtures; fixtures++)
+        runFixture(*fixtures, NULL
 #ifdef ACEUNIT_GROUP
                 , group
 #endif
         );
-        fixtures++;
-    }
 }
 
-#ifdef ACEUNIT_SUITES
 /** Runs the specified test cases from a test fixture.
  * @param fixture  Test fixture to run.
  * @param tests    Tests to run.
  * @param group Group to run.
  */
-void runFixtureIfSpecified(const TestFixture_t *const fixture, const AceTestId_t *const tests
+void runFixture(const TestFixture_t *const fixture, const AceTestId_t *const tests
 #ifdef ACEUNIT_GROUP
         , AceGroupId_t group
 #endif
-        ) {
+        )
+{
 #define invokeAll(X) for (secondary = fixture->X; NULL != *secondary; secondary++) {\
     (*secondary)();\
 }
@@ -284,7 +180,7 @@ void runFixtureIfSpecified(const TestFixture_t *const fixture, const AceTestId_t
 #endif
         testId++
     ) {
-        if (containsTests(tests, *testId)) {
+        if (hasToRunTest(tests, *testId)) {
 #ifdef ACEUNIT_GROUP
             if (*groups == group) {
 #endif
@@ -344,6 +240,7 @@ void runFixtureIfSpecified(const TestFixture_t *const fixture, const AceTestId_t
 #undef globalLog
 }
 
+#ifdef ACEUNIT_SUITES
 /** Runs all test cases from the supplied suite.
  * @param suite  Test suite to run.
  * @param group Group to run.
@@ -372,7 +269,7 @@ void runSuite(const TestSuite_t *const suite
         }
     } else {
         /* this is a Fixture */
-        runFixture((TestFixture_t *) suite
+        runFixture((TestFixture_t *) suite, NULL
 #ifdef ACEUNIT_GROUP
                 , group
 #endif
@@ -418,7 +315,7 @@ void runTestsIfSpecified(const TestSuite_t *const suite, const AceTestId_t *cons
         , AceUnitGroupid_t group
 #endif
 ) reentrant {
-    if (containsTests(tests, suite->id)) {
+    if (hasToRunTest(tests, suite->id)) {
         runSuite(suite);
     } else {
         const TestSuite_t *const *suites = suite->suites;
@@ -433,7 +330,7 @@ void runTestsIfSpecified(const TestSuite_t *const suite, const AceTestId_t *cons
             }
         } else {
             /** this is a Fixture */
-            runFixtureIfSpecified((TestFixture_t *) suite, tests
+            runFixture((TestFixture_t *) suite, tests
 #ifdef ACEUNIT_GROUP
                     , group
 #endif
