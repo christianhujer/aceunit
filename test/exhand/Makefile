@@ -1,20 +1,18 @@
 CVERSION:=c89
 
-ACE_UNIT_PATH:=../../..
-
 LINT:=splint
 
 PARTS:=\
       ExceptionHandling \
       TryExceptionHandling
 
-VPATH:=$(ACE_UNIT_PATH)/native
+VPATH:=../../src/
 
 OBJECTS:=$(addsuffix .o,$(PARTS))
 
 LINTOUTS:=$(addsuffix .ln,$(PARTS))
 
-CPPFLAGS:=-I . -I $(ACE_UNIT_PATH)/native
+CPPFLAGS:=-I . -I ../../include/
 
 C_and_LD_FLAGS:=-fprofile-arcs
 
