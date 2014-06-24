@@ -26,54 +26,54 @@
  */
 
 #include <stdio.h>
+#include <stdlib.h>
 #include "AceUnit.h"
 #include "AceUnitData.h"
+#if defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 199901L)
+#include <inttypes.h>
+#else
+#define PRId16 "hd"
+#endif
 
 /** Main program for running AceUnit tests.
- * Invokes the runner.
- * It will only properly work if #ACEUNIT_SUITES is defined.
- * If #ACEUNIT_SUITES is not defined, this file will effectively be empty.
- *
- * It supports two configuration parameters:
- * <dl>
- *  <dt><code>TEST_FAILURES_FOR_VERIFICATION</code> (optional, default: 0)</dt>
- *  <dd>The number of test cases expected to fail. Defaults to 0.</dd>
- *  <dt><code>TEST_CASES_FOR_VERIFICATION</code> (optional, default: undef)</dt>
- *  <dd>The number of test cases expected to be executed.</dd>
- * </dl>
+ * Invokes the runner for suite1.
  *
  * @author <a href="mailto:cher@riedquat.de">Christian Hujer</a>
- * @file AceUnitMain.c
+ * @file
+ * @ingroup AceUnit
  */
-
-#ifdef ACEUNIT_SUITES
-
-#ifndef TEST_FAILURES_FOR_VERIFICATION
-/** The number of test cases expected to fail.
- * Defaults to 0.
- */
-#define TEST_FAILURES_FOR_VERIFICATION 0
-#endif
 
 /** This always is the first suite. */
 extern const TestSuite_t suite1;
 
 /** Main program.
+ * @param argc
+ *      Number of command line arguments.
+ * @param argv
+ *      Command line arguments.
+ *      The first optional argument is a number of expected test cases to fail.
+ *      The second optional argument is a number of expected test cases in total.
  * @return 0 in case all tests ran successfully, otherwise 1.
  */
-int main(void) {
+int main(int argc, char *argv[])
+{
     int retVal = 0;
+    int expectedTestCaseFailureCount = 0;
+    int expectedTestCaseCount = 0;
+
+    if (argc >= 2)
+        expectedTestCaseFailureCount = atoi(argv[1]);
+    if (argc >= 3)
+        expectedTestCaseCount = atoi(argv[2]);
+
     runSuite(&suite1);
-    if (runnerData->testCaseFailureCount != TEST_FAILURES_FOR_VERIFICATION) {
-        fprintf(stderr, "Error: %d test cases failed, expected %d test cases to fail.\n", (int) runnerData->testCaseFailureCount, (int) TEST_FAILURES_FOR_VERIFICATION);
+    if (runnerData->testCaseFailureCount != expectedTestCaseFailureCount) {
+        fprintf(stderr, "Error: %" PRId16 " test cases failed, expected %d test cases to fail.\n", runnerData->testCaseFailureCount, expectedTestCaseFailureCount);
         retVal = 1;
     }
-#ifdef TEST_CASES_FOR_VERIFICATION
-    if (runnerData->testCaseCount != TEST_CASES_FOR_VERIFICATION) {
-        fprintf(stderr, "Test Cases: %d but expected %d\n", runnerData->testCaseCount, TEST_CASES_FOR_VERIFICATION);
+    if ((expectedTestCaseCount != 0) && (runnerData->testCaseCount != expectedTestCaseCount)) {
+        fprintf(stderr, "Test Cases: %" PRId16 " but expected %d\n", runnerData->testCaseCount, expectedTestCaseCount);
         retVal = 1;
     }
-#endif
     return retVal;
 }
-#endif
