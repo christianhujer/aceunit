@@ -43,9 +43,6 @@
  * @ingroup AceUnit
  */
 
-/** This always is the first suite. */
-extern const TestSuite_t suite1;
-
 /** Main program.
  * @param argc
  *      Number of command line arguments.

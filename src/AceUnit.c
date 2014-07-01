@@ -303,9 +303,6 @@ void runSuites(const TestSuite_t *suites[]
     }
 }
 
-/** This always is the first suite. */
-extern const TestSuite_t suite1;
-
 /** Runs the specified tests.
  *
  * @param suite Suite or fixture at which the test runner currently is at.

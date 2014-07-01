@@ -43,9 +43,6 @@
 #include "AceUnit.h"
 #include "AceUnitData.h"
 
-/** This always is the first suite. */
-extern const TestSuite_t suite1;
-
 /** Converts a string to a AceTestId_t, halting the program on errors.
  * @param s
  *      String to convert.
