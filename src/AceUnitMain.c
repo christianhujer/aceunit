@@ -51,7 +51,7 @@ extern const TestSuite_t suite1;
  *      Number of command line arguments.
  * @param argv
  *      Command line arguments.
- *      The first optional argument is a number of expected test cases to fail.
+ *      The first optional argument is a number of expected test cases to fail, which defaults to zero.
  *      The second optional argument is a number of expected test cases in total.
  * @return 0 in case all tests ran successfully, otherwise 1.
  */
