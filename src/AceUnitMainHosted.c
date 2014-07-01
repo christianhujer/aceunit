@@ -59,7 +59,7 @@ AceTestId_t atoAceTestId(const char *s)
     rawTestId = strtol(s, &endptr, 0);
     if (*endptr && (errno == 0))
         errno = EINVAL;
-    else if (rawTestId > UINT16_MAX)
+    else if (rawTestId > ACETESTID_MAX)
         errno = ERANGE;
     if (errno)
         err(1, "Not a valid test id: %s", s);

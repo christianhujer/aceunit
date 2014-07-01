@@ -432,6 +432,9 @@ typedef int bool;
 /** TestId_t specifies a test. */
 typedef uint16_t AceTestId_t;
 
+/** Maximum possible value for type AceTestId_t. */
+#define ACETESTID_MAX UINT16_MAX
+
 /** Special value for #AceTestId_t that specifies no test.
  * The value is zero.
  * This value can be used to terminate vectors of #AceTestId_t values.
