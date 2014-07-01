@@ -140,7 +140,9 @@ void runFixture(const TestFixture_t *const fixture, const AceTestId_t *const tes
 #endif
         )
 {
-#define invokeAll(X) for (secondary = fixture->X; NULL != *secondary; secondary++) {\
+#define foreach(ptr, init) for (ptr = init; NULL != *ptr; ptr++)
+
+#define invokeAll(X) foreach (secondary, fixture->X) {\
     (*secondary)();\
 }
 #define globalLog(X, Y) if ((NULL != globalLogger) && (NULL != globalLogger->X)) {\
