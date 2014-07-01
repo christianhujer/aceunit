@@ -34,6 +34,7 @@
  */
 
 #include <err.h>
+#include <errno.h>
 #include <inttypes.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -44,6 +45,26 @@
 
 /** This always is the first suite. */
 extern const TestSuite_t suite1;
+
+/** Converts a string to a AceTestId_t, halting the program on errors.
+ * @param s
+ *      String to convert.
+ * @return AceTestId_t converted from \p s
+ */
+AceTestId_t atoAceTestId(const char *s)
+{
+    char *endptr;
+    long int rawTestId;
+
+    rawTestId = strtol(s, &endptr, 0);
+    if (*endptr && (errno == 0))
+        errno = EINVAL;
+    else if (rawTestId > UINT16_MAX)
+        errno = ERANGE;
+    if (errno)
+        err(1, "Not a valid test id: %s", s);
+    return (AceTestId_t) rawTestId;
+}
 
 /** Runs the suites from the specified ids.
  * @param argc
@@ -57,7 +78,7 @@ void runSuitesFromIds(int argc, char *argv[])
     int i;
 
     for (i = 0; i < argc; i++)
-        tests[i] = atoi(argv[i]);
+        tests[i] = atoAceTestId(argv[i]);
 
     tests[i] = 0;
 
