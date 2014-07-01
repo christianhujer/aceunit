@@ -13,6 +13,7 @@ DIRS= \
      twoFixtures \
      xmlLog \
 #     printf \
+#     KeilTest \
 
 .PHONY : all
 all: $(DIRS)
