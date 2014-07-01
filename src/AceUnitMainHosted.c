@@ -82,6 +82,38 @@ void runSuitesFromIds(int argc, char *argv[])
     runTests(tests);
 }
 
+/** The parsed command line arguments. */
+struct arguments {
+
+    /** The expected number of test cases to fail. */
+    int expectedTestCaseFailureCount;
+
+    /** The expected number of test cases to run. */
+    int expectedTestCaseCount;
+};
+
+/** Parse the command line arguments.
+ * @param argc
+ *      Argument count
+ * @param argv
+ *      Arguments
+ * @param input
+ *      Where to store the arguments.
+ */
+static void parseArgs(int argc, char *argv[], struct arguments *input)
+{
+    int opt;
+
+    while ((opt = getopt(argc, argv, "f:t:")) != -1) {
+        switch (opt) {
+        case 'f': input->expectedTestCaseFailureCount = atoi(optarg); break;
+        case 't': input->expectedTestCaseCount = atoi(optarg) ; break;
+        default:
+            errx(EXIT_FAILURE, "Usage: %s [-f expectedTestCaseFailureCount] [-t expectedTestCaseCount] [TEST_IDs]\n", argv[0]);
+        }
+    }
+}
+
 /** Main program.
  * @param argc
  *      Number of command line arguments.
@@ -93,28 +125,19 @@ void runSuitesFromIds(int argc, char *argv[])
  */
 int main(int argc, char *argv[])
 {
-    int expectedTestCaseFailureCount = 0;
-    int expectedTestCaseCount = 0;
-    int opt;
+    struct arguments arguments = { 0, 0 };
 
-    while ((opt = getopt(argc, argv, "f:t:")) != -1) {
-        switch (opt) {
-        case 'f': expectedTestCaseFailureCount = atoi(optarg); break;
-        case 't': expectedTestCaseCount = atoi(optarg) ; break;
-        default:
-            errx(EXIT_FAILURE, "Usage: %s [-f expectedTestCaseFailureCount] [-t expectedTestCaseCount] [TEST_IDs]\n", argv[0]);
-        }
-    }
+    parseArgs(argc, argv, &arguments);
 
     if (optind >= argc)
         runSuite(&suite1);
     else
         runSuitesFromIds(argc - optind, &argv[optind]);
 
-    if (expectedTestCaseFailureCount != runnerData->testCaseFailureCount)
-        errx(EXIT_FAILURE, "expected failed test cases: %d; actual failed test cases: %" PRId16, expectedTestCaseFailureCount, runnerData->testCaseFailureCount);
-    if ((expectedTestCaseCount != 0) && (expectedTestCaseCount != runnerData->testCaseCount))
-        errx(EXIT_FAILURE, "expected test cases: %d; actual test cases: %" PRId16, expectedTestCaseCount, runnerData->testCaseCount);
+    if (arguments.expectedTestCaseFailureCount != runnerData->testCaseFailureCount)
+        errx(EXIT_FAILURE, "expected failed test cases: %d; actual failed test cases: %" PRId16, arguments.expectedTestCaseFailureCount, runnerData->testCaseFailureCount);
+    if ((arguments.expectedTestCaseCount != 0) && (arguments.expectedTestCaseCount != runnerData->testCaseCount))
+        errx(EXIT_FAILURE, "expected test cases: %d; actual test cases: %" PRId16, arguments.expectedTestCaseCount, runnerData->testCaseCount);
 
     return EXIT_SUCCESS;
 }
