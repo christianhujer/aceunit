@@ -33,6 +33,7 @@
  * @ingroup AceUnit
  */
 
+#include <argp.h>
 #include <err.h>
 #include <errno.h>
 #include <inttypes.h>
@@ -42,6 +43,22 @@
 
 #include "AceUnit.h"
 #include "AceUnitData.h"
+
+/** Argp program name and version. */
+const char *argp_program_version = "AceUnit 1.0-master";
+
+/** Argp email address. */
+const char *argp_program_bug_address = "<cherriedquat@gmail.com>";
+
+
+/** Command line options. */
+static struct argp_option options[] = {
+    { "expectedTestCaseCount",
+        't', "NUMBER", 0, "Expected number of test cases.", 0 },
+    { "expectedTestCaseFailureCount",
+        'f', "NUMBER", 0, "Expected number of test failures.", 0 },
+    { 0, 0, 0, 0, 0, 0 }
+};
 
 /** Converts a string to a AceTestId_t, halting the program on errors.
  * @param s
@@ -92,41 +109,19 @@ struct arguments {
     int expectedTestCaseCount;
 };
 
-/** Program name. */
-static const char *programname;
-
-/** Parse one option.
- * @param key
- *      Option key.
- * @param arg
- *      Option argument.
- * @param input
- *      Where to store the arguments.
- */
-static void parse_opt(int key, char *arg, struct arguments *input)
+static error_t parse_opt(int key, char *arg, struct argp_state *state)
 {
+    struct arguments *arguments = state->input;
     switch (key) {
-    case 'f': input->expectedTestCaseFailureCount = atoi(arg); break;
-    case 't': input->expectedTestCaseCount = atoi(arg) ; break;
-    default:
-        errx(EXIT_FAILURE, "Usage: %s [-f expectedTestCaseFailureCount] [-t expectedTestCaseCount] [TEST_IDs]\n", programname);
+    case 'f': arguments->expectedTestCaseFailureCount = atoi(arg); break;
+    case 't': arguments->expectedTestCaseCount = atoi(arg) ; break;
+    case ARGP_KEY_ARG: return 0;
+    default: return ARGP_ERR_UNKNOWN;
     }
+    return 0;
 }
 
-/** Parse the command line arguments.
- * @param argc
- *      Argument count
- * @param argv
- *      Arguments
- * @param input
- *      Where to store the arguments.
- */
-static void parseArgs(int argc, char *argv[], struct arguments *input)
-{
-    int key;
-    while ((key = getopt(argc, argv, "f:t:")) != -1)
-        parse_opt(key, optarg, input);
-}
+static struct argp argp = { options, parse_opt, "[TESTCASEID...]", NULL, NULL, NULL, NULL };
 
 /** Main program.
  * @param argc
@@ -140,9 +135,8 @@ static void parseArgs(int argc, char *argv[], struct arguments *input)
 int main(int argc, char *argv[])
 {
     struct arguments arguments = { 0, 0 };
-    programname = argv[0];
 
-    parseArgs(argc, argv, &arguments);
+    argp_parse(&argp, argc, argv, 0, 0, &arguments);
 
     if (optind >= argc)
         runSuite(&suite1);
