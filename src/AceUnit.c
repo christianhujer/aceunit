@@ -341,19 +341,6 @@ void runTestsIfSpecified(const TestSuite_t *const suite, const AceTestId_t *cons
     }
 }
 
-/** Runs the specified tests.
- * All tests (test cases and suites - fixtures as well as packages) share the same number space.
- * With other words, the number for a test case is unique (within where you run AceUnit.jar).
- * That means you can specify test suites, fixtures or tests.
- *
- * @note Each test will be executed only zero or one times, even if \p tests contains duplicates.
- *       Duplicates may be explicit or implicit.
- *       Explicit duplicates means the same test id is specified more than once.
- *       Implicit duplicates means the same test id is specified indirectly twice.
- *       Indirect specification of a test id is not via its test id but via its fixture or suite id.
- *
- * @param tests tests to run, terminated with zero.
- */
 void runTests(const AceTestId_t *const tests) {
     runTestsIfSpecified(&suite1, tests);
 }
