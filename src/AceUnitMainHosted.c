@@ -92,6 +92,27 @@ struct arguments {
     int expectedTestCaseCount;
 };
 
+/** Program name. */
+static const char *programname;
+
+/** Parse one option.
+ * @param key
+ *      Option key.
+ * @param arg
+ *      Option argument.
+ * @param input
+ *      Where to store the arguments.
+ */
+static void parse_opt(int key, char *arg, struct arguments *input)
+{
+    switch (key) {
+    case 'f': input->expectedTestCaseFailureCount = atoi(arg); break;
+    case 't': input->expectedTestCaseCount = atoi(arg) ; break;
+    default:
+        errx(EXIT_FAILURE, "Usage: %s [-f expectedTestCaseFailureCount] [-t expectedTestCaseCount] [TEST_IDs]\n", programname);
+    }
+}
+
 /** Parse the command line arguments.
  * @param argc
  *      Argument count
@@ -102,16 +123,9 @@ struct arguments {
  */
 static void parseArgs(int argc, char *argv[], struct arguments *input)
 {
-    int opt;
-
-    while ((opt = getopt(argc, argv, "f:t:")) != -1) {
-        switch (opt) {
-        case 'f': input->expectedTestCaseFailureCount = atoi(optarg); break;
-        case 't': input->expectedTestCaseCount = atoi(optarg) ; break;
-        default:
-            errx(EXIT_FAILURE, "Usage: %s [-f expectedTestCaseFailureCount] [-t expectedTestCaseCount] [TEST_IDs]\n", argv[0]);
-        }
-    }
+    int key;
+    while ((key = getopt(argc, argv, "f:t:")) != -1)
+        parse_opt(key, optarg, input);
 }
 
 /** Main program.
@@ -126,6 +140,7 @@ static void parseArgs(int argc, char *argv[], struct arguments *input)
 int main(int argc, char *argv[])
 {
     struct arguments arguments = { 0, 0 };
+    programname = argv[0];
 
     parseArgs(argc, argv, &arguments);
 
