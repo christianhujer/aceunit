@@ -17,15 +17,14 @@ AceUnit versions are named after [Semantic Versioning 2.0.0](http://semver.org/)
 
 ## AceUnit 1.0.0
 
-- Add a main() function that takes parameters. (in progress)
 - Simplify the configuration. (in progress)
 - Change configuration from undef/def scheme to 0/1 scheme, which allows to distinguish between unspecified, specified off and specified on for configuration macros. (in progress)
-- Turn runFixture into a non-`void` function that returns whether one or more test cases failed.
 
 - Use `__STDC_HOSTED__` as a default for `ACEUNIT_EMBEDDED`, rename `ACEUNIT_EMBEDDED` to `ACEUNIT_TINY`, and make the normal AceUnit an extension, not alteration, of `ACEUNIT_TINY`.
 - Provide the option to use AceUnit as a static link library.
 - Remove mandatory message, instead add a second set of macros that takes a formatted message, like void `fail(void)` vs. `void failm(const char *format, ...);`, `void assertTrue(bool)` vs. void `assertTrueM(bool, const char *format, ...)`.
 
+- Add a main() function that takes parameters. (done)
 - Simplify directory structure. (done)
 - Change the include file macros to be unstringified strings instead of stringified strings in order to work with compilers who cannot pass stringified strings on command line, such as Keil C251. (done)
 
@@ -93,3 +92,4 @@ Usually they have been dropped in favor of better alternatives or due to lack of
 They will probably not be implemented.
 
 - Alternatively allow for naming schemes instead of annotations so users can go without the `A_Test` annotations.
+- Turn runFixture into a non-`void` function that returns whether one or more test cases failed.
