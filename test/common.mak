@@ -1,3 +1,5 @@
+TEST_ROOT_DIR:=$(dir $(lastword $(MAKEFILE_LIST)))
+ROOT_DIR:=$(TEST_ROOT_DIR)../
 ## Default target.
 # Same as test.
 all: test
@@ -6,9 +8,9 @@ LOGGER?=FullPlainLogger
 CVERSION?=c89
 MAIN?=RunTests
 
-ACEUNIT_INCLUDE_PATH:=../../include
-ACEUNIT_SRC_PATH:=../../src
-ACEUNIT_JAVA_PATH:=../../generator
+ACEUNIT_INCLUDE_PATH:=$(ROOT_DIR)include
+ACEUNIT_SRC_PATH:=$(ROOT_DIR)src
+ACEUNIT_JAVA_PATH:=$(ROOT_DIR)generator
 ACEUNIT_JAVA_SRC:=$(shell find $(ACEUNIT_JAVA_PATH)/src -name "*.java")
 ACEUNIT_PARTS:=AceUnit AceUnitData $(LOGGER)
 
@@ -26,13 +28,13 @@ LINT:=splint
 
 .PHONY : all clean coverage lint help
 
-help: export COMPILERS:=$(patsubst ../_compiler/%.mak,%,$(wildcard ../_compiler/*.mak))
+help: export COMPILERS:=$(patsubst $(TEST_ROOT_DIR)_compiler/%.mak,%,$(wildcard $(TEST_ROOT_DIR)_compiler/*.mak))
 ## Set this to the copmiler that you want to use.
 # Default: gcc
 # Current value: $(COMPILER)
 # Possible values: $(COMPILERS)
 export COMPILER?=gcc
-include ../_compiler/$(COMPILER).mak
+include $(TEST_ROOT_DIR)_compiler/$(COMPILER).mak
 -include $(COMPILER).mak
 
 # Note: discovered bug in GNU make 3.81.
@@ -77,11 +79,11 @@ ifneq ($(MAKECMDGOALS),clean)
 -include $(DEPENDS)
 endif
 
-../makehelp.pl:
+$(TEST_ROOT_DIR)makehelp.pl:
 	wget -q --no-check-certificate -O $@ https://github.com/christianhujer/makehelp/raw/master/makehelp.pl
 
 ## Prints this help text.
-help: ../makehelp.pl
+help: $(TEST_ROOT_DIR)makehelp.pl
 	@perl $^ $(MAKEFILE_LIST)
 	@echo
 	@echo Note: Some variable settings, like COMPILER, enable or disable certain variables or goals.
