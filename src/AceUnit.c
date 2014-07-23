@@ -201,17 +201,17 @@ void runFixture(const TestFixture_t *const fixture, const AceTestId_t *const tes
                 ACEUNIT_POST_BEFORE
                 runnerData->recentError = NULL;
                 ACEUNIT_PRE_TEST
-#if ACEUNIT_ASSERTION_STYLE == ACEUNIT_ASSERTION_STYLE_LONGJMP
-                if (0 == setjmp(runnerData->jmpBuf)) {
-#endif
 #ifdef ACEUNIT_LOOP
-                    for (currentLoop = 0; (currentLoop < *loopMax) && (NULL == runnerData->recentError); currentLoop++) {
+                for (currentLoop = 0; (currentLoop < *loopMax) && (NULL == runnerData->recentError); currentLoop++) {
+#endif
+#if ACEUNIT_ASSERTION_STYLE == ACEUNIT_ASSERTION_STYLE_LONGJMP
+                    if (0 == setjmp(runnerData->jmpBuf)) {
 #endif
                         (*testCase)();
-#ifdef ACEUNIT_LOOP
+#if ACEUNIT_ASSERTION_STYLE == ACEUNIT_ASSERTION_STYLE_LONGJMP
                     }
 #endif
-#if ACEUNIT_ASSERTION_STYLE == ACEUNIT_ASSERTION_STYLE_LONGJMP
+#ifdef ACEUNIT_LOOP
                 }
 #endif
                 ACEUNIT_POST_TEST
