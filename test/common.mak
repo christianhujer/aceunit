@@ -61,7 +61,7 @@ coverage: test
 # Note: Tests are run incrementally.
 # They will only be re-run if the input changed.
 test: $(MAIN)
-	./$(MAIN)
+	./$(MAIN) $(MAIN_ARGS)
 	touch test
 
 ## Removes all generated files.
