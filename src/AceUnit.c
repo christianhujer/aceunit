@@ -232,9 +232,11 @@ void runFixture(const TestFixture_t *const fixture, const AceTestId_t *const tes
 #endif
         }
     }
-    ACEUNIT_PRE_AFTERCLASS
-    invokeAll(afterClass);
-    ACEUNIT_POST_AFTERCLASS
+    if (ranBeforeClass) {
+        ACEUNIT_PRE_AFTERCLASS
+        invokeAll(afterClass);
+        ACEUNIT_POST_AFTERCLASS
+    }
 #ifdef ACEUNIT_LOG_FIXTURE
     globalLog(fixtureEnded, fixture->id);
 #endif
