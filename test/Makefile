@@ -1,6 +1,7 @@
 DIRS= \
      basic \
      basicEmbedded \
+     bugs/callingAfterClass \
      comment \
      cplusplus \
      cplusplus2 \
