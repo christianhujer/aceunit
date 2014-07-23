@@ -35,8 +35,18 @@ import net.sf.japi.io.args.Option;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.io.*;
-import java.util.*;
+import java.io.File;
+import java.io.FileFilter;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.EnumSet;
+import java.util.List;
+import java.util.Locale;
 
 /**
  * Program for generating the code that's needed to execute a fixture.
@@ -128,7 +138,7 @@ public class GenTest extends BasicCommand {
      *
      * @param print Which filenames to print.
      */
-    @Option({"print"})
+    @Option("print")
     public void setPrint(@NotNull final String print) {
         printSet.clear();
         for (final String element : print.split(",")) {
@@ -140,7 +150,7 @@ public class GenTest extends BasicCommand {
      * Disables suite generation.
      * If suite generation is turned of, the feature ACEUNIT_SUITES cannot be used.
      */
-    @Option({"disableGenSuites"})
+    @Option("disableGenSuites")
     public void disableGenSuites() {
         genSuites = false;
     }
@@ -150,7 +160,7 @@ public class GenTest extends BasicCommand {
      *
      * @param allTestsFilename Filename of the file to which a table of all tests shall be written.
      */
-    @Option({"o"})
+    @Option("o")
     public void setAllTestsFilename(@Nullable final String allTestsFilename) {
         this.allTestsFilename = allTestsFilename;
     }
@@ -189,7 +199,7 @@ public class GenTest extends BasicCommand {
      *
      * @param fileSortingLocale Locale for sorting files.
      */
-    @Option({"locale"})
+    @Option("locale")
     public void setFileSortingLocale(@NotNull final String fileSortingLocale) {
         // Optimization Idea:
         // Allow specifying static fields from java.util.Locale.
@@ -213,9 +223,9 @@ public class GenTest extends BasicCommand {
      * @param baseName Base name to generate tests for.
      *                 This may be a file when appending '.c' or a directory or both.
      *                 If it is neither nor, an {@link IllegalArgumentException} is thrown.
-     * @return <code>true</code> if tests were found, otherwise <code>false</code>.
+     * @return {@code true} if tests were found, otherwise {@code false}.
      * @throws IOException              In case of I/O problems.
-     * @throws IllegalArgumentException in case <var>baseName</var> is not a directory and no file <code><var>baseName</var>.c</code> was found.
+     * @throws IllegalArgumentException in case <var>baseName</var> is not a directory and no file {@code <var>baseName</var>.c} was found.
      */
     private boolean perform(@NotNull final String baseName) throws IOException {
         final File baseDir = new File(baseName);
@@ -269,9 +279,9 @@ public class GenTest extends BasicCommand {
      * Performs the generation of tests for a package.
      *
      * @param base    Base directory of the tree, required to determine what part of the path is package.
-     * @param parent  Parent package of this package, <code>null</code> if top-level.
+     * @param parent  Parent package of this package, {@code null} if top-level.
      * @param pckgDir Directory to treat as package.
-     * @return <code>true</code> if the package tree contained a fixture, otherwise <code>false</code>
+     * @return {@code true} if the package tree contained a fixture, otherwise {@code false}
      * @throws IOException In case of I/O problems.
      */
     private boolean performPckg(@NotNull final File base, @Nullable final Pckg parent, @NotNull final File pckgDir) throws IOException {
@@ -320,7 +330,7 @@ public class GenTest extends BasicCommand {
      * @param base        Base directory of the tree, required to determine what part of the path is package.
      * @param pckg        Package to which the fixture will be added.
      * @param fixtureFile File that contains the fixtureFile.
-     * @return <code>true</code> if the source code contained a fixture, otherwise <code>false</code>
+     * @return {@code true} if the source code contained a fixture, otherwise {@code false}
      * @throws IOException In case of I/O problems.
      */
     private boolean performFixture(@NotNull final File base, @NotNull final Pckg pckg, @NotNull final File fixtureFile) throws IOException {
@@ -412,6 +422,7 @@ public class GenTest extends BasicCommand {
         }
     }
 
+    @Override
     public int run(@NotNull final List<String> args) throws Exception {
         if (args.isEmpty()) {
             help();

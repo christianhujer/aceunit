@@ -70,7 +70,7 @@ public abstract class Suite<T extends Test> extends Test implements Iterable<T> 
     /**
      * Returns whether this suite contains tests.
      *
-     * @return <code>true</code> if this fixture contains test cases, otherwise <code>false</code>.
+     * @return {@code true} if this fixture contains test cases, otherwise {@code false}.
      */
     public abstract boolean containsTests();
 

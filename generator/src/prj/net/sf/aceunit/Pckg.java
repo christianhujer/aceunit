@@ -47,6 +47,7 @@ public class Pckg extends Suite<Suite<? extends Test>> {
         super(name);
     }
 
+    @Override
     public boolean containsTests() {
         boolean containsTests = false;
         for (final Suite<? extends Test> suite : getTests()) {
@@ -64,6 +65,7 @@ public class Pckg extends Suite<Suite<? extends Test>> {
         add(suite);
     }
 
+    @Override
     @NotNull
     public String getCode(@NotNull final String baseName) {
         // TODO Can velocity or something similar make this nicer?

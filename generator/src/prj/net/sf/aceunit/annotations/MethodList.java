@@ -29,7 +29,11 @@ package net.sf.aceunit.annotations;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -117,12 +121,13 @@ public class MethodList implements Iterable<String> {
      * Returns whether this MethodList contains a method with the specified name.
      *
      * @param methodName Method name to look for.
-     * @return <code>true</code> if this MethodList contains a method with the specified name, otherwise <code>false</code>.
+     * @return {@code true} if this MethodList contains a method with the specified name, otherwise {@code false}.
      */
     public boolean contains(@NotNull final String methodName) {
         return methodNames.contains(methodName);
     }
 
+    @Override
     @NotNull
     public Iterator<String> iterator() {
         return methodNames.iterator();

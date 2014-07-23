@@ -82,6 +82,7 @@ public class ParametrizedMethodList extends MethodList {
      *
      * @param cSource C source to search.
      */
+    @Override
     public void findMethods(@NotNull final String cSource) {
         methodNames.clear();
         args.clear();
@@ -105,7 +106,7 @@ public class ParametrizedMethodList extends MethodList {
         if (arg == null)
             arg = "";
         arg = arg.trim();
-        if (arg.length() == 0)
+        if (arg.isEmpty())
             arg = "1";
         return arg;
     }

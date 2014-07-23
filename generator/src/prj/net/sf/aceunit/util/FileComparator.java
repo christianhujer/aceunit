@@ -70,6 +70,7 @@ public class FileComparator implements Comparator<File> {
         this.collator = collator;
     }
 
+    @Override
     public int compare(final File o1, final File o2) {
         return collator.compare(o1.toString(), o2.toString());
     }

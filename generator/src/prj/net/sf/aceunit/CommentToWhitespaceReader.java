@@ -53,7 +53,7 @@ public class CommentToWhitespaceReader extends FilterReader {
     private State state = State.NORMAL;
     /**
      * The cached character is used to return a char that can only be returned when its following char was known.
-     * If this is <code>null</code>, there is no cached character.
+     * If this is {@code null}, there is no cached character.
      */
     @Nullable
     private Integer cachedChar;
@@ -62,12 +62,13 @@ public class CommentToWhitespaceReader extends FilterReader {
      * Creates a new NoCommentReader.
      *
      * @param in a Reader protected providing the underlying stream.
-     * @throws NullPointerException if <code>in</code> is <code>null</code>
+     * @throws NullPointerException if {@code in} is {@code null}
      */
     public CommentToWhitespaceReader(@NotNull final Reader in) {
         super(in);
     }
 
+    @Override
     public int read() throws IOException {
         synchronized (syncLock) {
             final Integer cachedChar = this.cachedChar;
@@ -231,6 +232,7 @@ public class CommentToWhitespaceReader extends FilterReader {
         return rc;
     }
 
+    @Override
     public int read(@NotNull final char[] charBuffer, final int off, final int len) throws IOException {
         int i;
         for (i = 0; i < len; i++) {

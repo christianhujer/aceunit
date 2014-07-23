@@ -136,10 +136,12 @@ public class Fixture extends Suite<TestCase> {
         testMethods.removeAll(ignoreMethods);
     }
 
+    @Override
     public boolean containsTests() {
         return testMethods.size() > 0;
     }
 
+    @Override
     @NotNull
     public String getCode(@NotNull final String baseName) {
         final Formatter out = new Formatter();
