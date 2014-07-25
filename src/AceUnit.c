@@ -201,6 +201,7 @@ void runFixture(const TestFixture_t *const fixture, const AceTestId_t *const tes
                 ACEUNIT_POST_BEFORE
                 runnerData->recentError = NULL;
                 ACEUNIT_PRE_TEST
+                runnerData->testCaseFailureCount++;
 #ifdef ACEUNIT_LOOP
                 for (currentLoop = 0; (currentLoop < *loopMax) && (NULL == runnerData->recentError); currentLoop++) {
 #endif
@@ -218,7 +219,8 @@ void runFixture(const TestFixture_t *const fixture, const AceTestId_t *const tes
                 runnerData->testCaseCount++;
                 if (NULL != runnerData->recentError) {
                     globalLog(testCaseFailed, runnerData->recentError);
-                    runnerData->testCaseFailureCount++;
+                } else {
+                    runnerData->testCaseFailureCount--;
                 }
                 ACEUNIT_PRE_AFTER
                 invokeAll(after);
