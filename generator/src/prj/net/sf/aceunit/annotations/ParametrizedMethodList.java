@@ -73,7 +73,7 @@ public class ParametrizedMethodList extends MethodList {
      */
     public ParametrizedMethodList(@NotNull final String annotation, @NotNull final String symName, @NotNull final String title, @Nullable final String defaultValue) {
         super(annotation, symName, title);
-        pattern = compile("\\b" + annotation + "\\b\\s*\\((.*?)\\).*?(\\b\\S+?\\b)\\s*?\\(", MULTILINE | DOTALL);
+        pattern = compile("\\b" + annotation + "\\b\\s*\\((.*?)\\)[^)]*?(\\b\\S+?\\b)\\s*?\\(", MULTILINE | DOTALL);
         this.defaultValue = defaultValue;
     }
 
@@ -102,20 +102,23 @@ public class ParametrizedMethodList extends MethodList {
         args.put(methodName, normalizeArg(arg));
     }
 
-    private static String normalizeArg(String arg) {
-        if (arg == null)
-            arg = "";
-        arg = arg.trim();
-        if (arg.isEmpty())
-            arg = "1";
-        return arg;
+    private static String normalizeArg(final String arg) {
+        return oneIfEmpty(trimmedNonNull(arg));
+    }
+
+    private static String oneIfEmpty(final String arg) {
+        return arg.isEmpty() ? "1" : arg; // TODO Is this a bug? Should "1" instead be defaultValue?
+    }
+
+    private static String trimmedNonNull(final String arg) {
+        return arg == null ? "" : arg.trim();
     }
 
     /**
-     * Returns the loop annotation argument of the specified method.
+     * Returns the annotation argument of the specified method.
      *
-     * @param methodName Method for which to get the loop argument.
-     * @return Loop argument of the specified method.
+     * @param methodName Method for which to get the annotation argument.
+     * @return Annotation argument of the specified method.
      */
     @Nullable
     public String getArg(@NotNull final String methodName) {

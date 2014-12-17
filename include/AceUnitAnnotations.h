@@ -118,4 +118,9 @@
 #define A_FixtureGroup(group)
 #endif
 
+/** Adds parameters to a test method.
+ * Currently, this annotation is only allowed for test cases.
+ */
+#define A_WithArray(parameters)
+
 #endif /* ACEUNITANNOTATIONS_H */

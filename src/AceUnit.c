@@ -158,6 +158,10 @@ void runFixture(const TestFixture_t *const fixture, const AceTestId_t *const tes
 #ifdef ACEUNIT_GROUP
     const AceGroupId_t *volatile groups;
 #endif
+#ifdef ACEUNIT_PARAMETRIZED
+    const void **parameters;
+    const void **currentParameter;
+#endif
     volatile bool ranBeforeClass = false;
 
 #ifdef ACEUNIT_LOG_FIXTURE
@@ -171,6 +175,9 @@ void runFixture(const TestFixture_t *const fixture, const AceTestId_t *const tes
 #ifdef ACEUNIT_GROUP
         groups = fixture->groups,
 #endif
+#ifdef ACEUNIT_PARAMETRIZED
+        parameters = fixture->parameters,
+#endif
         testId = fixture->testIds;
         NULL != *testCase;
         testCase++,
@@ -179,6 +186,9 @@ void runFixture(const TestFixture_t *const fixture, const AceTestId_t *const tes
 #endif
 #ifdef ACEUNIT_GROUP
         groups++,
+#endif
+#ifdef ACEUNIT_PARAMETRIZED
+        parameters++,
 #endif
         testId++
     ) {
@@ -196,38 +206,52 @@ void runFixture(const TestFixture_t *const fixture, const AceTestId_t *const tes
 #ifdef ACEUNIT_LOG_TESTCASE
                 globalLog(testCaseStarted, runnerData->currentTestId);
 #endif
-                ACEUNIT_PRE_BEFORE
-                invokeAll(before);
-                ACEUNIT_POST_BEFORE
-                runnerData->recentError = NULL;
-                ACEUNIT_PRE_TEST
-                runnerData->testCaseFailureCount++;
+
+#ifdef ACEUNIT_PARAMETRIZED
+                for (currentParameter = *parameters; *parameters != NULL && *currentParameter != NULL; currentParameter++) {
+#endif
+
+                    ACEUNIT_PRE_BEFORE
+                    invokeAll(before);
+                    ACEUNIT_POST_BEFORE
+                    runnerData->recentError = NULL;
+                    ACEUNIT_PRE_TEST
+                    runnerData->testCaseFailureCount++;
 #ifdef ACEUNIT_LOOP
-                for (currentLoop = 0; (currentLoop < *loopMax) && (NULL == runnerData->recentError); currentLoop++) {
+                    for (currentLoop = 0; (currentLoop < *loopMax) && (NULL == runnerData->recentError); currentLoop++) {
 #endif
 #if ACEUNIT_ASSERTION_STYLE == ACEUNIT_ASSERTION_STYLE_LONGJMP
-                    if (0 == setjmp(runnerData->jmpBuf)) {
+                        if (0 == setjmp(runnerData->jmpBuf)) {
 #endif
-                        (*testCase)();
+#ifdef ACEUNIT_PARAMETRIZED
+                            (*testCase)(*currentParameter);
+#else
+                            (*testCase)();
+#endif
 #if ACEUNIT_ASSERTION_STYLE == ACEUNIT_ASSERTION_STYLE_LONGJMP
+                        }
+#endif
+#ifdef ACEUNIT_LOOP
                     }
 #endif
-#ifdef ACEUNIT_LOOP
-                }
-#endif
-                ACEUNIT_POST_TEST
-                runnerData->testCaseCount++;
-                if (NULL != runnerData->recentError) {
-                    globalLog(testCaseFailed, runnerData->recentError);
-                } else {
-                    runnerData->testCaseFailureCount--;
-                }
-                ACEUNIT_PRE_AFTER
-                invokeAll(after);
-                ACEUNIT_POST_AFTER
+                    ACEUNIT_POST_TEST
+                    runnerData->testCaseCount++;
+                    if (NULL != runnerData->recentError) {
+                        globalLog(testCaseFailed, runnerData->recentError);
+                    } else {
+                        runnerData->testCaseFailureCount--;
+                    }
+                    ACEUNIT_PRE_AFTER
+                    invokeAll(after);
+                    ACEUNIT_POST_AFTER
 #ifdef ACEUNIT_LOG_TESTCASE
-                globalLog(testCaseEnded, runnerData->currentTestId);
+                    globalLog(testCaseEnded, runnerData->currentTestId);
 #endif
+
+#ifdef ACEUNIT_PARAMETRIZED
+                }
+#endif
+
                 runnerData->currentTestId = TestCaseId_NULL;
 #ifdef ACEUNIT_GROUP
             }

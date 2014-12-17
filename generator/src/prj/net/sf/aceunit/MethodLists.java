@@ -75,4 +75,14 @@ public class MethodLists {
     public static ParametrizedMethodList createGroupMethodList() {
         return new ParametrizedMethodList("A_Group", "group", "groups of methods.", "0");
     }
+
+    /**
+     * Creates a MethodList for A_WithArray.
+     *
+     * @return MethodList for A_WithArray.
+     */
+    public static ParametrizedMethodList createParametrizedMethodList() {
+        return new ParametrizedMethodList("A_WithArray", "parameters", "parametrized methods.", null);
+    }
+
 }

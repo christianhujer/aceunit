@@ -27,6 +27,7 @@
 
 package test.net.sf.aceunit.annotations;
 
+import net.sf.aceunit.Fixture;
 import net.sf.aceunit.annotations.ParametrizedMethodList;
 import org.junit.Test;
 
@@ -52,4 +53,26 @@ public class ParametrizedMethodListTest extends AbstractMethodListTest<Parametri
         assertContainsOnly("callMeWithArgs");
         assertEquals("\"foo\", \"bar\", \"qux\"", methodList.getArg("callMeWithArgs"));
     }
+
+    /** Tests that double-braced annotations work.
+     * Double-braced annotations are required for backwards-compatibility with C89 and compilers which do not support variadic macros.
+     */
+    @Test
+    public void testDoubleBracedAnnotation() {
+        methodList = new ParametrizedMethodList("A_WithParams", "params", "Parameters", null);
+        final String cSource = "A_Test A_WithParams((int, { 5, 10 })) void callMeWithArgs(const int arg)\n{\n}\n";
+        methodList.findMethods(cSource);
+        assertContainsOnly("callMeWithArgs");
+        assertEquals("(int, { 5, 10 })", methodList.getArg("callMeWithArgs"));
+    }
+
+    /** Tests that parameter arguments can be parsed correctly. */
+    @Test
+    public void testParameterArguments() {
+        final String arg = "(int, { 5, 10 })";
+        assertEquals("int", Fixture.getType(arg));
+        assertEquals("{ 5, 10 }", Fixture.getValue(arg));
+        assertEquals("static const int method_params[] = { 5, 10 };", Fixture.format(arg, "method"));
+    }
+
 }

@@ -535,6 +535,7 @@ typedef struct {
 #include "AceUnitAssert.h"
 
 /** Method signature for annotated test methods.
+ * The methods do not take parameters unless annotated with A_Parametrized.
  * @see #A_Test
  * @see #A_Before
  * @see #A_After
@@ -542,7 +543,7 @@ typedef struct {
  * @see #A_AfterClass
  * @see #A_Ignore
  */
-typedef void(*testMethod_t)(void);
+typedef void(*testMethod_t)();
 
 /** A Suite is a loose collection of test cases.
  * It consists of other suites and fixtures.
@@ -569,6 +570,25 @@ typedef struct TestSuite_tt {
 #ifdef ACEUNIT_LOOP
 /** Type for a loop in AceUnit. */
 typedef uint16_t aceunit_loop_t;
+#endif
+
+#ifdef ACEUNIT_PARAMETRIZED
+/** The info about the parameters of a method. */
+struct AceUnit_Parametrized {
+
+    /** The pointer to the parameters.
+     * Cannot be `NULL`, otherwise the pointer to this struct would've been `NULL` already.
+     */
+    const void *parameters;
+
+    /** The size of one of the parameters. */
+    size_t parameterSize;
+
+    /** The number of parameters.
+     * A value of -1 means the parameters are `NULL`-terminated.
+     */
+    size_t numberOfParameters;
+};
 #endif
 
 /** A Fixture is a collection of test cases sharing the same before, after, beforeClass and afterClass methods.
@@ -609,6 +629,11 @@ typedef struct {
 #ifdef ACEUNIT_GROUP
     /** The test groups to which each test case belongs. */
     const AceGroupId_t *const groups;
+#endif
+
+#ifdef ACEUNIT_PARAMETRIZED
+    /** The pointers to the parameters for each test case. */
+    const struct AceUnit_Parametrized * const * const parameters;
 #endif
 
     /** The test cases of this test fixture. */

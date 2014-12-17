@@ -37,6 +37,8 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Formatter;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * The Fixture represents a single test fixture along with all its methods.
@@ -48,23 +50,23 @@ import java.util.List;
 public class Fixture extends Suite<TestCase> {
 
     /**
-     * The list of {@code @Test} methods.
+     * The list of {@code A_Test} methods.
      */
     private final MethodList testMethods = MethodLists.createTestMethodList();
     /**
-     * The list of {@code @Before} methods.
+     * The list of {@code A_Before} methods.
      */
     private final MethodList beforeMethods = MethodLists.createBeforeMethodList();
     /**
-     * The list of {@code @After} methods.
+     * The list of {@code A_After} methods.
      */
     private final MethodList afterMethods = MethodLists.createAfterMethodList();
     /**
-     * The list of {@code @BeforeClass} methods.
+     * The list of {@code A_BeforeClass} methods.
      */
     private final MethodList beforeClassMethods = MethodLists.createBeforeClassMethodList();
     /**
-     * The list of {@code @AfterClass} methods.
+     * The list of {@code A_AfterClass} methods.
      */
     private final MethodList afterClassMethods = MethodLists.createAfterClassMethodList();
     /**
@@ -72,21 +74,25 @@ public class Fixture extends Suite<TestCase> {
      */
     private final List<MethodList> usedMethodLists = Arrays.asList(testMethods, beforeMethods, afterMethods, beforeClassMethods, afterClassMethods);
     /**
-     * The list of {@code @Ignore} methods.
+     * The list of {@code A_Ignore} methods.
      */
     private final MethodList ignoreMethods = MethodLists.createIgnoreMethodList();
     /**
-     * The list of {@code @Loop} methods.
+     * The list of {@code A_Loop} methods.
      */
     private final ParametrizedMethodList loopMethods = MethodLists.createLoopMethodList();
     /**
-     * The list of {@code @Group} methods.
+     * The list of {@code A_Group} methods.
      */
     private final ParametrizedMethodList groupMethods = MethodLists.createGroupMethodList();
     /**
+     * The list of {@code A_Parametrized} methods.
+     */
+    private final ParametrizedMethodList parametrizedMethods = MethodLists.createParametrizedMethodList();
+    /**
      * All method lists for easy iteration.
      */
-    private final List<MethodList> methodLists = Arrays.asList(testMethods, beforeMethods, afterMethods, beforeClassMethods, afterClassMethods, ignoreMethods, loopMethods, groupMethods);
+    private final List<MethodList> methodLists = Arrays.asList(testMethods, beforeMethods, afterMethods, beforeClassMethods, afterClassMethods, ignoreMethods, loopMethods, groupMethods, parametrizedMethods);
 
     /**
      * Creates a Fixture with the specified id.
@@ -125,6 +131,26 @@ public class Fixture extends Suite<TestCase> {
         return out.toString();
     }
 
+    public static String getType(final CharSequence arg) {
+        final Pattern obtainType = Pattern.compile("^\\(([^,]*),.*\\)");
+        final Matcher matcher = obtainType.matcher(arg);
+        if (matcher.matches())
+            return matcher.group(1);
+        throw new IllegalArgumentException();
+    }
+
+    public static String getValue(final CharSequence arg) {
+        final Pattern obtainValue = Pattern.compile("^\\((?:[^,]*),\\s*(.*)\\)");
+        final Matcher matcher = obtainValue.matcher(arg);
+        if (matcher.matches())
+            return matcher.group(1);
+        throw new IllegalArgumentException();
+    }
+
+    public static String format(final CharSequence arg, final String name) {
+        return String.format("static const %s %s_params[] = %s;", getType(arg), name, getValue(arg));
+    }
+
     /**
      * Finds all methods of all method lists in the specified source.
      *
@@ -160,13 +186,29 @@ public class Fixture extends Suite<TestCase> {
         out.format("#include \"AceUnit.h\"%n");
         out.format("%n");
 
+        formatPrototypes(out);
+        formatTestIds(out);
+        formatTestNames(out);
+        formatLoopMethods(out);
+        formatGroupMethods(out);
+        formatParametrizedMethods(out);
+        formatUsedMethodLists(out);
+        formatFixture(out, baseName);
+
+        out.format("#endif /* _%s_H */%n", uppercaseFixture);
+        return out.toString();
+    }
+
+    private void formatPrototypes(final Formatter out) {
         out.format("/* The prototypes are here to be able to include this header file at the beginning of the test file instead of at the end. */%n");
         for (final MethodList methods1 : usedMethodLists)
             for (final String method : methods1)
                 if (!method.contains("::"))
-                    out.format("%s void %s(void);%n", methods1.getAnnotation(), method);
+                    out.format("%s void %s();%n", methods1.getAnnotation(), method);
         out.format("%n");
+    }
 
+    private void formatTestIds(final Formatter out) {
         out.format("/** The test case ids of this fixture. */%n");
         out.format("static const TestCaseId_t testIds[] = {%n");
         final String formatString = String.format("    %%%dd, /* %%s */%%n", (int) (Math.log10(testMethods.size()) + 1));
@@ -174,7 +216,9 @@ public class Fixture extends Suite<TestCase> {
             out.format(formatString, testCase.getId(), testCase.getName());
         out.format("};%n");
         out.format("%n");
+    }
 
+    private void formatTestNames(final Formatter out) {
         out.format("#ifndef ACEUNIT_EMBEDDED%n");
         out.format("/** The test names of this fixture. */%n");
         out.format("static const char *const testNames[] = {%n");
@@ -183,34 +227,9 @@ public class Fixture extends Suite<TestCase> {
         out.format("};%n");
         out.format("#endif%n");
         out.format("%n");
+    }
 
-        out.format("#ifdef ACEUNIT_LOOP%n");
-        out.format("/** The loops of this fixture. */%n");
-        out.format("static const aceunit_loop_t loops[] = {%n");
-        for (final String method : testMethods)
-            out.format("    %s,%n", loopMethods.getArg(method));
-        out.format("};%n");
-        out.format("#endif%n");
-        out.format("%n");
-        out.format("#ifdef ACEUNIT_GROUP%n");
-        out.format("/** The groups of this fixture. */%n");
-        out.format("static const AceGroupId_t groups[] = {%n");
-        for (final String method : testMethods)
-            out.format("    %s,%n", groupMethods.getArg(method));
-        out.format("};%n");
-        out.format("#endif%n");
-        out.format("%n");
-
-        for (final MethodList methods : usedMethodLists) {
-            out.format("/** The %s of this fixture. */%n", methods.getTitle());
-            out.format("static const testMethod_t %s[] = {%n", methods.getSymName());
-            for (final String method : methods)
-                out.format("    %s,%n", method);
-            out.format("    NULL%n");
-            out.format("};%n");
-            out.format("%n");
-        }
-
+    private void formatFixture(final Formatter out, final String baseName) {
         out.format("/** This fixture. */%n");
         out.format("#if defined __cplusplus%n");
         out.format("extern%n");
@@ -233,6 +252,9 @@ public class Fixture extends Suite<TestCase> {
         out.format("#ifdef ACEUNIT_GROUP%n");
         out.format("    groups,%n");
         out.format("#endif%n");
+        out.format("#ifdef ACEUNIT_PARAMETRIZED%n");
+        out.format("    parameters,%n");
+        out.format("#endif%n");
         out.format("    testCases,%n");
         out.format("    before,%n");
         out.format("    after,%n");
@@ -240,9 +262,64 @@ public class Fixture extends Suite<TestCase> {
         out.format("    afterClass%n");
         out.format("};%n");
         out.format("%n");
+    }
 
-        out.format("#endif /* _%s_H */%n", uppercaseFixture);
-        return out.toString();
+    private void formatUsedMethodLists(final Formatter out) {
+        for (final MethodList methods : usedMethodLists) {
+            out.format("/** The %s of this fixture. */%n", methods.getTitle());
+            out.format("static const testMethod_t %s[] = {%n", methods.getSymName());
+            for (final String method : methods)
+                out.format("    %s,%n", method);
+            out.format("    NULL%n");
+            out.format("};%n");
+            out.format("%n");
+        }
+    }
+
+    private void formatParametrizedMethods(final Formatter out) {
+        out.format("#ifdef ACEUNIT_PARAMETRIZED%n");
+
+        out.format("/* Parameter data for parametrized methods follows. */%n");
+        for (final String method : testMethods)
+            if (parametrizedMethods.contains(method))
+                out.format("%s%n", format(parametrizedMethods.getArg(method), method));
+
+        out.format("/** The parameter pointers of this fixture. */%n");
+        out.format("static const void * const * parameters[] = {%n");
+        for (final String method : testMethods)
+            out.format("    %s,%n", parametrizedMethods.getArg(method));
+        out.format("};%n");
+
+        out.format("/** The parameter sizes of this fixture. */%n");
+        out.format("static const size_t parameterSizes[] = {%n");
+        for (final String method : testMethods)
+            out.format("    %s,%n", parametrizedMethods.getArg(method));
+        out.format("};%n");
+
+        out.format("#endif%n");
+        out.format("%n");
+    }
+
+    private void formatGroupMethods(final Formatter out) {
+        out.format("#ifdef ACEUNIT_GROUP%n");
+        out.format("/** The groups of this fixture. */%n");
+        out.format("static const AceGroupId_t groups[] = {%n");
+        for (final String method : testMethods)
+            out.format("    %s,%n", groupMethods.getArg(method));
+        out.format("};%n");
+        out.format("#endif%n");
+        out.format("%n");
+    }
+
+    private void formatLoopMethods(final Formatter out) {
+        out.format("#ifdef ACEUNIT_LOOP%n");
+        out.format("/** The loops of this fixture. */%n");
+        out.format("static const aceunit_loop_t loops[] = {%n");
+        for (final String method : testMethods)
+            out.format("    %s,%n", loopMethods.getArg(method));
+        out.format("};%n");
+        out.format("#endif%n");
+        out.format("%n");
     }
 
     @Override
