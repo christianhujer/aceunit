@@ -41,7 +41,7 @@ Execution Environment:
 
 ## Compilers / CPUs
 
-### Supported Copmilers / CPUs
+### Supported Compilers / CPUs
 
 AceUnit has been tested and used on the following compilers, CPUs and environments:
 - GCC (various versions, various flavors of Linux and Cygwin) on i686, x86-64 and APS3s
