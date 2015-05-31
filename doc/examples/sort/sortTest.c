@@ -70,26 +70,28 @@ bool isSorted(const void *vector, const size_t nmemb, const size_t size, const c
     return true;
 }
 
-/** Tests that #compareInt() works. */
-A_Test void testCompareInt() {
-    int n1;
-    int n2;
-
-    n1 = 0;
-    n2 = 0;
+A_Test void whenComparingZeroAndZero_thenReturnsZero(void)
+{
+    int n1 = 0;
+    int n2 = 0;
     assertEquals("Comparing two equal numbers must return 0.", 0, compareInt(&n1, &n2));
+}
 
-    n1 = 1;
-    n2 = 2;
+A_Test void whenComparingOneAndTwo_thenReturnsNegativeNumber(void)
+{
+    int n1 = 1;
+    int n2 = 2;
     assertTrue("Comparing 1 with 2 must return a value <0.", compareInt(&n1, &n2) < 0);
+}
 
-    n1 = 2;
-    n2 = 1;
+A_Test void whenComparingTwoAndOne_thenReturnsPositiveNumber(void)
+{
+    int n1 = 2;
+    int n2 = 1;
     assertTrue("Comparing 2 with 1 must return a value >0.", compareInt(&n1, &n2) > 0);
 }
 
-/** Tests that #qsort() works. */
-A_Test void testSort() {
+A_Test void givenAnUnsortedVector_whenSorting_thenVectorIsSorted(void) {
     int testling[] = { 5, 4, 3, 2, 1 };
     assertFalse("This vector is not yet sorted.", isSorted(testling, 5, sizeof(int), &compareInt));
     qsort(testling, 5, sizeof(int), &compareInt);
