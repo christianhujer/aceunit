@@ -22,7 +22,7 @@ AceUnit versions are named after [Semantic Versioning 2.0.0](http://semver.org/)
 
 - Use `__STDC_HOSTED__` as a default for `ACEUNIT_EMBEDDED`, rename `ACEUNIT_EMBEDDED` to `ACEUNIT_TINY`, and make the normal AceUnit an extension, not alteration, of `ACEUNIT_TINY`.
 - Provide the option to use AceUnit as a static link library.
-- Remove mandatory message, instead add a second set of macros that takes a formatted message, like void `fail(void)` vs. `void failm(const char *format, ...);`, `void assertTrue(bool)` vs. void `assertTrueM(bool, const char *format, ...)`.
+- Remove mandatory message, instead add a second set of macros that takes a formatted message, like void `fail(void)` vs. `void failm(const char *format, ...);`, `void assertTrue(bool)` vs. void `assertTrueM(bool, const char *format, ...)`. (done)
 
 - Add a main() function that takes parameters. (done)
 - Simplify directory structure. (done)
@@ -32,6 +32,8 @@ AceUnit versions are named after [Semantic Versioning 2.0.0](http://semver.org/)
 ## AceUnit 1.1.0
 
 - Add support for `fork()` in the runner, just like [check](http://check.sourceforge.net/).
+- Make AceUnit reentrant, i.e. allow AceUnit to be called from running tests in AceUnit.
+  That's useful for self-tests.
 
 
 ## AceUnit 2.0.0
@@ -83,6 +85,8 @@ AceUnit versions are named after [Semantic Versioning 2.0.0](http://semver.org/)
 - Change documentation generation from Saxon to `xsltproc` (it is simple enough, XSLT 2.0 should not be required).
 - The DTDs, if required, should be downloaded automatically instead of having them checked-in.
 - The output format for help messages should be nicened by ArgParser, not the properties file itself.
+- Add Support for CMake
+- Add Support for JetBrains CLion IDE, i.e. develop a plugin
 
 
 ## Items from the original TODO list which are dropped
