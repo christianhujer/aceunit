@@ -74,26 +74,26 @@ A_Test void whenComparingZeroAndZero_thenReturnsZero(void)
 {
     int n1 = 0;
     int n2 = 0;
-    assertEquals("Comparing two equal numbers must return 0.", 0, compareInt(&n1, &n2));
+    assertEqualsM("Comparing two equal numbers must return 0.", 0, compareInt(&n1, &n2));
 }
 
 A_Test void whenComparingOneAndTwo_thenReturnsNegativeNumber(void)
 {
     int n1 = 1;
     int n2 = 2;
-    assertTrue("Comparing 1 with 2 must return a value <0.", compareInt(&n1, &n2) < 0);
+    assertTrueM("Comparing 1 with 2 must return a value <0.", compareInt(&n1, &n2) < 0);
 }
 
 A_Test void whenComparingTwoAndOne_thenReturnsPositiveNumber(void)
 {
     int n1 = 2;
     int n2 = 1;
-    assertTrue("Comparing 2 with 1 must return a value >0.", compareInt(&n1, &n2) > 0);
+    assertTrueM("Comparing 2 with 1 must return a value >0.", compareInt(&n1, &n2) > 0);
 }
 
 A_Test void givenAnUnsortedVector_whenSorting_thenVectorIsSorted(void) {
     int testling[] = { 5, 4, 3, 2, 1 };
-    assertFalse("This vector is not yet sorted.", isSorted(testling, 5, sizeof(int), &compareInt));
+    assertFalseM("This vector is not yet sorted.", isSorted(testling, 5, sizeof(int), &compareInt));
     qsort(testling, 5, sizeof(int), &compareInt);
-    assertTrue("This vector now is sorted.", isSorted(testling, 5, sizeof(int), &compareInt));
+    assertTrueM("This vector now is sorted.", isSorted(testling, 5, sizeof(int), &compareInt));
 }

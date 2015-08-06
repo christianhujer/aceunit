@@ -44,7 +44,7 @@ A_Test void test1() {
 
 /** An empty test that is commented out via annotation. */
 /* A_Test */ void test2() {
-    fail("this is not a test.");
+    failM("this is not a test.");
 }
 
 /* An empty test that is commented out completely via multiline comment. */

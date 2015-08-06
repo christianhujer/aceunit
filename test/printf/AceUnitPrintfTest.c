@@ -37,7 +37,7 @@
 #include "AceUnitPrintfTest.h"
 
 /** Clears the current recent error. */
-void clearRecentError()
+void clearRecentError(void)
 {
     if (runnerData->recentError != NULL) {
         runnerData->recentError = NULL;
@@ -45,14 +45,15 @@ void clearRecentError()
 }
 
 /** Tests that #assertEquals() with equal values does not set recentError. */
-A_Test void testPrintfSimple() {
+A_Test void testPrintfSimple(void)
+{
     char *format = "foo";
     char *expected = "foo";
 
 
-    assertEquals("assertEquals(msg, val1, val2) MUST NOT set recentError.", expected, format);
+    assertEqualsM("assertEquals(msg, val1, val2) MUST NOT set recentError.", expected, format);
     if (runnerData->recentError != NULL) {
         clearRecentError();
-        fail("Expected recentError to be NULL.");
+        failM("Expected recentError to be NULL.");
     }
 }

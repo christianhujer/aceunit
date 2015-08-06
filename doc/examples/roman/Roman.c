@@ -59,7 +59,17 @@ int fromRoman(const char *roman)
 
 void toRoman(char *buffer, size_t bufferLength, int number)
 {
-    size_t index = 0;
+    unsigned int i;
 
-    buffer[index] = '\0';
+    if (bufferLength > 0) {
+        buffer[0] = '\0';
+        bufferLength--;
+
+        for (i = 0; i < sizeof(numerals) / sizeof(numerals[0]); i++) {
+            while (number >= numerals[i].arabic) {
+                strncat(buffer, numerals[i].roman, bufferLength);
+                number -= numerals[i].arabic;
+            }
+        }
+    }
 }

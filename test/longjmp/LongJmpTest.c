@@ -39,13 +39,13 @@
 
 /** Helper function. Fails intentionally. */
 void helper() {
-    assertTrue("Test assertion, expected to fail.", false);
+    assertTrueM("Test assertion, expected to fail.", false);
 }
 
 /** Tests that #assertTrue() does a longjmp. */
 A_Test void testAssertDoesLongjmp() {
     helper();
-    fail("This statement should not be reached.");
+    failM("This statement should not be reached.");
 }
 
 /** Tests that #assertEquals() with unequal values sets recentError. */

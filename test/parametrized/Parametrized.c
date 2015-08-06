@@ -18,7 +18,7 @@ A_Test
 void myTest(const int *expected)
 {
     accumulator += 5;
-    assertEquals("", accumulator, *expected);
+    assertEquals(accumulator, *expected);
 }
 
 A_Parameterized((int *, data))
@@ -26,5 +26,5 @@ A_Test
 void myTest2(const int *expected)
 {
     accumulator += 10;
-    assertEquals("", accumulator, *expected);
+    assertEquals(accumulator, *expected);
 }

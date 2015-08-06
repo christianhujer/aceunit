@@ -41,23 +41,61 @@
 #endif
 
 /** Let a test case fail.
+ */
+#define fail() failM(NULL)
+
+/** Let a test case fail.
  * @param message Message, usually with the reason why the test case failed.
  */
-#define fail(message) newAssertionError(message)
+#define failM(message) newAssertionError(message)
+
+/** Asserts that the specified condition is true.
+ * If the condition is not true, the test case fails and raises an Assertion Error that will be logged.
+ * @param condition Condition to assert.
+ */
+#define assertTrue(condition) do { if (!(condition)) { fail(); } } while (false)
 
 /** Asserts that the specified condition is true.
  * If the condition is not true, the test case fails and raises an Assertion Error that will be logged.
  * @param message Message, usually with the positive description of why the assertion should not fail.
  * @param condition Condition to assert.
  */
-#define assertTrue(message, condition) do { if (!(condition)) { fail(message); } } while (false)
+#define assertTrueM(message, condition) do { if (!(condition)) { failM(message); } } while (false)
+
+/** Asserts that the specified condition is false.
+ * If the condition is not false, the test case fails and raises an Assertion Error that will be logged.
+ * @param condition Condition to assert for false.
+ */
+#define assertFalse(condition) do { if (condition) { fail(); } } while (false)
 
 /** Asserts that the specified condition is false.
  * If the condition is not false, the test case fails and raises an Assertion Error that will be logged.
  * @param message Message, usually with the positive description of why the assertion should not fail.
  * @param condition Condition to assert for false.
  */
-#define assertFalse(message, condition) do { if (condition) { fail(message); } } while (false)
+#define assertFalseM(message, condition) do { if (condition) { failM(message); } } while (false)
+
+/** Asserts that two values are equal.
+ * If the values are not equal, the test case fails and raises an Assertion Error that will be logged.
+ * @note If ACEUNIT_EXPLICIT_MESSAGES is set, expected and actual are converted to int32_t.
+ * @warning The underlying implementation simply compares expected and actual using !=.
+ *          It is the responsibility of the user to care about the types of \p expected and \p actual.
+ * @param expected Expected value.
+ * @param actual Actual value.
+ */
+#ifdef ACEUNIT_EXPLICIT_MESSAGES
+#define assertEquals(expected, actual) \
+    do { \
+        int32_t lexpected = (expected); \
+        int32_t lactual = (actual); \
+        if (lexpected != lactual) { \
+            snprintf(runnerData->explicitMsgBuf, ACEUNIT_EXPLICIT_MSG_BUF_SIZE, "Comparison failed (expected: %d, actual: %d)", lexpected, lactual); \
+            failM(runnerData->explicitMsgBuf); \
+        } \
+    } while (false)
+#else
+#define assertEquals(expected, actual) do { if (!((expected) == (actual))) { fail(); } } while (false)
+#endif
 
 /** Asserts that two values are equal.
  * If the values are not equal, the test case fails and raises an Assertion Error that will be logged.
@@ -69,17 +107,39 @@
  * @param actual Actual value.
  */
 #ifdef ACEUNIT_EXPLICIT_MESSAGES
-#define assertEquals(message, expected, actual) \
+#define assertEqualsM(message, expected, actual) \
     do { \
         int32_t lexpected = (expected); \
         int32_t lactual = (actual); \
         if (lexpected != lactual) { \
             snprintf(runnerData->explicitMsgBuf, ACEUNIT_EXPLICIT_MSG_BUF_SIZE, "%s (expected: %d, actual: %d)", message, lexpected, lactual); \
-            fail(runnerData->explicitMsgBuf); \
+            failM(runnerData->explicitMsgBuf); \
         } \
     } while (false)
 #else
-#define assertEquals(message, expected, actual) do { if (!((expected) == (actual))) { fail(message); } } while (false)
+#define assertEqualsM(message, expected, actual) do { if (!((expected) == (actual))) { failM(message); } } while (false)
+#endif
+
+/** Asserts that two values are not equal.
+ * If the values are equal, the test case fails and raises an #AssertionError_t that will be logged.
+ * @note If ACEUNIT_EXPLICIT_MESSAGES is set, expected and actual are converted to int32_t.
+ * @warning The underlying implementation simply compares expected and actual using ==.
+ *          It is the responsibility of the user to care about the types of \p expected and \p actual.
+ * @param unexpected Not expected value.
+ * @param actual Actual value.
+ */
+#ifdef ACEUNIT_EXPLICIT_MESSAGES
+#define assertNotEquals(unexpected, actual) \
+    do { \
+        int32_t lunexpected = unexpected; \
+        int32_t lactual = actual; \
+        if (lunexpected == lactual) { \
+            snprintf(runnerData->explicitMsgBuf, ACEUNIT_EXPLICIT_MSG_BUF_SIZE, "Comparison failed (unexpected: %d, actual: %d)", lunexpected, lactual); \
+            failM(runnerData->explicitMsgBuf); \
+        } \
+    } while (false)
+#else
+#define assertNotEquals(unexpected, actual) do { if ((unexpected) == (actual)) { fail(); } } while (false)
 #endif
 
 /** Asserts that two values are not equal.
@@ -92,31 +152,44 @@
  * @param actual Actual value.
  */
 #ifdef ACEUNIT_EXPLICIT_MESSAGES
-#define assertNotEquals(message, unexpected, actual) \
+#define assertNotEqualsM(message, unexpected, actual) \
     do { \
         int32_t lunexpected = unexpected; \
         int32_t lactual = actual; \
         if (lunexpected == lactual) { \
             snprintf(runnerData->explicitMsgBuf, ACEUNIT_EXPLICIT_MSG_BUF_SIZE, "%s (unexpected: %d, actual: %d)", message, lunexpected, lactual); \
-            fail(runnerData->explicitMsgBuf); \
+            failM(runnerData->explicitMsgBuf); \
         } \
     } while (false)
 #else
-#define assertNotEquals(message, unexpected, actual) do { if ((unexpected) == (actual)) { fail(message); } } while (false)
+#define assertNotEqualsM(message, unexpected, actual) do { if ((unexpected) == (actual)) { failM(message); } } while (false)
 #endif
+
+/** Asserts that a pointer is not NULL.
+ * If the pointer is NULL, the test case fails and raises an #AssertionError_t that will be logged.
+ * @param ptr Pointer expected to be not NULL.
+ */
+#define assertNotNull(ptr) do { if (NULL == (ptr)) { fail(); } } while (false)
 
 /** Asserts that a pointer is not NULL.
  * If the pointer is NULL, the test case fails and raises an #AssertionError_t that will be logged.
  * @param message Message, usually with the positive description of why the assertion should not fail.
  * @param ptr Pointer expected to be not NULL.
  */
-#define assertNotNull(message, ptr) do { if (NULL == (ptr)) { fail(message); } } while (false)
+#define assertNotNullM(message, ptr) do { if (NULL == (ptr)) { failM(message); } } while (false)
 
 /** Asserts that a pointer is NULL.
  * If the pointer is not NULL, the test case fails and raises an #AssertionError_t that will be logged.
  * @param message Message, usually with the positive description of why the assertion should not fail.
  * @param ptr Pointer expected to be NULL.
  */
-#define assertNull(message, ptr) do { if (NULL != (ptr)) { fail(message); } } while (false)
+#define assertNull(ptr) do { if (NULL != (ptr)) { fail(); } } while (false)
+
+/** Asserts that a pointer is NULL.
+ * If the pointer is not NULL, the test case fails and raises an #AssertionError_t that will be logged.
+ * @param message Message, usually with the positive description of why the assertion should not fail.
+ * @param ptr Pointer expected to be NULL.
+ */
+#define assertNullM(message, ptr) do { if (NULL != (ptr)) { failM(message); } } while (false)
 
 #endif /* ACEUNITASSERT_H */

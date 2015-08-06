@@ -44,7 +44,8 @@
 int myTestCaseCount = 0;
 
 /** Clears the current recent error. */
-void clearRecentError() {
+static void clearRecentError(void)
+{
     if (runnerData->recentError != NULL) {
         runnerData->recentError = NULL;
     }
@@ -56,85 +57,90 @@ static bool assertionContinued = false;
 /** Helper method that asserts something that's then verified by a test case.
  * @param c Assertion case.
  */
-void helper(int c) {
+static void helper(int c)
+{
     assertionContinued = false;
     switch (c) {
     case 0:
-        assertTrue("assertTrue(msg, true) MUST NOT set recentError.", true);
+        assertTrueM("assertTrueM(msg, true) MUST NOT set recentError.", true);
         break;
     case 1:
-        assertTrue("Test assertion, expected to fail.", false);
+        assertTrueM("Test assertion, expected to fail.", false);
         break;
     case 2:
-        assertTrue("Test assertion, expected to fail.", false);
+        assertTrueM("Test assertion, expected to fail.", false);
         break;
     case 3:
-        assertFalse("assertFalse(msg, false) MUST continue the test case.", false);
+        assertFalseM("assertFalseM(msg, false) MUST continue the test case.", false);
         break;
     case 4:
-        assertFalse("Test assertion, expected to fail.", true);
+        assertFalseM("Test assertion, expected to fail.", true);
         break;
     case 5:
-        assertFalse("Test assertion, expected to fail.", true);
+        assertFalseM("Test assertion, expected to fail.", true);
         break;
     case 6:
         {
             int val1 = 10;
             int val2 = val1;
-            assertEquals("assertEquals(msg, val, val) MUST continue the test case.", val1, val2);
+            assertEqualsM("assertEquals(msg, val, val) MUST continue the test case.", val1, val2);
         }
         break;
     case 7:
         {
             int val1 = 10;
             int val2 = 20;
-            assertEquals("assertEquals(msg, val1, val2) MUST NOT continue the test case.", val1, val2);
+            assertEqualsM("assertEquals(msg, val1, val2) MUST NOT continue the test case.", val1, val2);
         }
         break;
     case 8:
         {
             int val1 = 10;
             int val2 = 20;
-            assertEquals("Test assertion, expected to fail.", val1, val2);
+            assertEqualsM("Test assertion, expected to fail.", val1, val2);
         }
         break;
     }
     assertionContinued = true;
 }
 
-/** Tests that #assertTrue() with a true condition continues a test case. */
-A_Test void testAssertTrueWithTrueContinues() {
+/** Tests that #assertTrueM() with a true condition continues a test case. */
+A_Test void testAssertTrueWithTrueContinues(void)
+{
     myTestCaseCount++;
     helper(0);
     clearRecentError();
     if (!assertionContinued) {
-        fail("Expected assertTrue(msg, true) to continue.");
+        failM("Expected assertTrueM(msg, true) to continue.");
     }
 }
 
-/** Tests that #assertTrue() with a false condition does not continue a test case. */
-A_Test void testAssertTrueWithFalseReturns() {
+/** Tests that #assertTrueM() with a false condition does not continue a test case. */
+A_Test void testAssertTrueWithFalseReturns(void)
+{
     myTestCaseCount++;
     helper(1);
     clearRecentError();
     if (assertionContinued) {
-        fail("Expected assertTrue(msg, false) to not continue.");
+        failM("Expected assertTrueM(msg, false) to not continue.");
     }
 }
 
-/** Tests that #assertTrue() with a true condition does not set recentError. */
-A_Test void testAssertTrueWithTrueNoRecentError() {
+/** Tests that #assertTrueM() with a true condition does not set recentError. */
+A_Test void testAssertTrueWithTrueNoRecentError(void)
+{
     myTestCaseCount++;
     clearRecentError();
-    assertTrue("assertTrue(msg, true) MUST NOT set recentError.", true);
+    assertTrueM("assertTrueM(msg, true) MUST NOT set recentError.", true);
     if (runnerData->recentError != NULL) {
         clearRecentError();
-        fail("Expected assertTrue(msg, true) to not set recentError.");
+        failM("Expected assertTrueM(msg, true) to not set recentError.");
     }
 }
 
-/** Tests that #assertTrue() with a false condition sets recentError. */
-A_Test void testAssertTrueWithFalseSetsRecentError() {
+/** Tests that #assertTrueM() with a false condition sets recentError. */
+A_Test void testAssertTrueWithFalseSetsRecentError(void)
+{
     bool recentErrorSet = false;
 
     myTestCaseCount++;
@@ -145,43 +151,47 @@ A_Test void testAssertTrueWithFalseSetsRecentError() {
     }
     clearRecentError();
     if (!recentErrorSet) {
-        fail("Expected assertTrue(msg, false) to set recentError.");
+        failM("Expected assertTrueM(msg, false) to set recentError.");
     }
 }
 
-/** Tests that #assertFalse() with a true condition continues a test case. */
-A_Test void testAssertFalseWithFalseContinues() {
+/** Tests that #assertFalseM() with a true condition continues a test case. */
+A_Test void testAssertFalseWithFalseContinues(void)
+{
     myTestCaseCount++;
     helper(3);
     clearRecentError();
     if (!assertionContinued) {
-        fail("Expected assertion to continue.");
+        failM("Expected assertion to continue.");
     }
 }
 
-/** Tests that #assertFalse() with a false condition does not continue a test case. */
-A_Test void testAssertFalseWithTrueReturns() {
+/** Tests that #assertFalseM() with a false condition does not continue a test case. */
+A_Test void testAssertFalseWithTrueReturns(void)
+{
     myTestCaseCount++;
     helper(4);
     clearRecentError();
     if (assertionContinued) {
-        fail("Expected assertion to not continue.");
+        failM("Expected assertion to not continue.");
     }
 }
 
-/** Tests that #assertFalse() with a true condition does not set recentError. */
-A_Test void testAssertFalseWithFalseNoRecentError() {
+/** Tests that #assertFalseM() with a true condition does not set recentError. */
+A_Test void testAssertFalseWithFalseNoRecentError(void)
+{
     myTestCaseCount++;
     clearRecentError();
-    assertFalse("assertFalse(msg, false) MUST NOT set recentError.", false);
+    assertFalseM("assertFalseM(msg, false) MUST NOT set recentError.", false);
     if (runnerData->recentError != NULL) {
         clearRecentError();
-        fail("Expected recentError to be NULL.");
+        failM("Expected recentError to be NULL.");
     }
 }
 
-/** Tests that #assertFalse() with a false condition sets recentError. */
-A_Test void testAssertFalseWithTrueSetsRecentError() {
+/** Tests that #assertFalseM() with a false condition sets recentError. */
+A_Test void testAssertFalseWithTrueSetsRecentError(void)
+{
     bool recentErrorSet = false;
 
     myTestCaseCount++;
@@ -192,41 +202,44 @@ A_Test void testAssertFalseWithTrueSetsRecentError() {
     }
     clearRecentError();
     if (!recentErrorSet) {
-        fail("Expected recentError to be set.");
+        failM("Expected recentError to be set.");
     }
 }
 
-/** Tests that #assertEquals() with equal values continues a test case. */
-A_Test void testAssertEqualsWithEqualContinues() {
+/** Tests that #assertEqualsM() with equal values continues a test case. */
+A_Test void testAssertEqualsWithEqualContinues(void)
+{
     myTestCaseCount++;
     helper(6);
     clearRecentError();
     if (!assertionContinued) {
-        fail("Expected assertion to continue.");
+        failM("Expected assertion to continue.");
     }
 }
 
-/** Tests that #assertEquals() with unequal values does not continue a test case. */
-A_Test void testAssertEqualsWithUnequalReturns() {
+/** Tests that #assertEqualsM() with unequal values does not continue a test case. */
+A_Test void testAssertEqualsWithUnequalReturns(void)
+{
     myTestCaseCount++;
     helper(7);
     clearRecentError();
     if (assertionContinued) {
-        fail("Expected assertion to not continue.");
+        failM("Expected assertion to not continue.");
     }
 }
 
-/** Tests that #assertEquals() with equal values does not set recentError. */
-A_Test void testAssertEqualsWithEqualNoRecentError() {
+/** Tests that #assertEqualsM() with equal values does not set recentError. */
+A_Test void testAssertEqualsWithEqualNoRecentError(void)
+{
     int val1 = 10;
     int val2 = val1;
 
     myTestCaseCount++;
     clearRecentError();
-    assertEquals("assertEquals(msg, val1, val2) MUST NOT set recentError.", val1, val2);
+    assertEqualsM("assertEqualsM(msg, val1, val2) MUST NOT set recentError.", val1, val2);
     if (runnerData->recentError != NULL) {
         clearRecentError();
-        fail("Expected recentError to be NULL.");
+        failM("Expected recentError to be NULL.");
     }
 }
 
@@ -238,7 +251,8 @@ void
 testAssertEqualsWithUnequalSetsRecentError
 
 
-() {
+(void)
+{
     bool recentErrorSet = false;
 
     myTestCaseCount++;
@@ -249,6 +263,6 @@ testAssertEqualsWithUnequalSetsRecentError
     }
     clearRecentError();
     if (!recentErrorSet) {
-        fail("Expected recentError to be set.");
+        failM("Expected recentError to be set.");
     }
 }

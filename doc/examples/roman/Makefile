@@ -17,7 +17,7 @@ SOURCES:=AceUnitMain.c AceUnit.c AceUnitData.c FullPlainLogger.c $(wildcard *.c)
 ## Flags for the C compiler.
 # Scope: External
 # Type: Flags passed to the C compiler.
-override CFLAGS+=-W -Wall -pedantic
+override CFLAGS+=-W -Wall -Werror -pedantic
 
 ## Flags for the C preprocessor.
 # Scope: External.

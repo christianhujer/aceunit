@@ -39,5 +39,5 @@
 #include "AceUnitLogging.h"
 
 A_Test void test1() {
-    fail("Intentional failure for testing the XML Logger.");
+    failM("Intentional failure for testing the XML Logger.");
 }

@@ -37,10 +37,12 @@
 #include "AceUnitData.h"
 #include "AceUnitTest.h"
 
-A_Test void testAssertEquals(void) {
-    assertEquals("Expected failure.", 10, 20);
+A_Test void testAssertEquals(void)
+{
+    assertEqualsM("Expected failure.", 10, 20);
 }
 
-A_Test void testAssertNotEquals(void) {
-    assertNotEquals("Expected failure.", 10, 10);
+A_Test void testAssertNotEquals(void)
+{
+    assertNotEqualsM("Expected failure.", 10, 10);
 }
