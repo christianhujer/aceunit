@@ -25,12 +25,11 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-/** Test executor for AceUnit unit test "basic".
+/** Test executor for AceUnit unit test "basicEmbedded".
  * @author <a href="mailto:cher@riedquat.de">Christian Hujer</a>
  * @file
  */
 
-#include <stdbool.h>
 #include <stdio.h>
 
 #include "AceUnitData.h"
