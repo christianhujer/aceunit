@@ -25,7 +25,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-/** Test executor for AceUnit unit test "basicEmbedded".
+/** Test executor for AceUnit unit test "group".
  * @author <a href="mailto:cher@riedquat.de">Christian Hujer</a>
  * @file
  */
