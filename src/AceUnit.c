@@ -111,22 +111,23 @@ extern TestLogger_t *globalLogger;
 #define ACEUNIT_POST_AFTERCLASS
 #endif
 
+#ifndef ACEUNIT_GROUP
+#define runFixtures(p1, p2) runFixtures(p1)
+#define runFixture(p1, p2, p3) runFixture(p1, p2)
+#define runSuite(p1, p2) runSuite(p1)
+#define runSuites(p1, p2) runSuites(p1)
+#define runTestsIfSpecified(p1, p2, p3) runTestsIfSpecified(p1, p2)
+#define runTests(p1, p2) runTests(p1)
+#endif
+
 
 /** Runs all test cases from the supplied fixtures.
  * @param fixtures  Test fixtures to run (NULL terminated).
  */
-void runFixtures(const TestFixture_t *fixtures[]
-#ifdef ACEUNIT_GROUP
-        , AceGroupId_t group
-#endif
-)
+void runFixtures(const TestFixture_t *fixtures[], AceGroupId_t group)
 {
     for (; NULL != *fixtures; fixtures++)
-        runFixture(*fixtures, NULL
-#ifdef ACEUNIT_GROUP
-                , group
-#endif
-        );
+        runFixture(*fixtures, NULL, group);
 }
 
 /** Runs the specified test cases from a test fixture.
@@ -134,11 +135,7 @@ void runFixtures(const TestFixture_t *fixtures[]
  * @param tests    Tests to run.
  * @param group Group to run.
  */
-void runFixture(const TestFixture_t *const fixture, const AceTestId_t *const tests
-#ifdef ACEUNIT_GROUP
-        , AceGroupId_t group
-#endif
-        )
+void runFixture(const TestFixture_t *const fixture, const AceTestId_t *const tests, AceGroupId_t group)
 {
 #define foreach(ptr, init) for (ptr = init; NULL != *ptr; ptr++)
 
@@ -275,11 +272,8 @@ void runFixture(const TestFixture_t *const fixture, const AceTestId_t *const tes
  * @param suite  Test suite to run.
  * @param group Group to run.
  */
-void runSuite(const TestSuite_t *const suite
-#ifdef ACEUNIT_GROUP
-        , AceGroupId_t group
-#endif
-) reentrant {
+void runSuite(const TestSuite_t *const suite, AceGroupId_t group) reentrant
+{
 #define globalLog(X, Y) if ((NULL != globalLogger) && (NULL != globalLogger->X)) {\
     globalLogger->X(Y);\
 }
@@ -291,19 +285,11 @@ void runSuite(const TestSuite_t *const suite
     if (suites != NULL) {
         /* this is a not a Fixture */
         for (; NULL != *suites; suites++) {
-            runSuite(*suites
-#ifdef ACEUNIT_GROUP
-                    , group
-#endif
-            );
+            runSuite(*suites, group);
         }
     } else {
         /* this is a Fixture */
-        runFixture((TestFixture_t *) suite, NULL
-#ifdef ACEUNIT_GROUP
-                , group
-#endif
-        );
+        runFixture((TestFixture_t *) suite, NULL, group);
     }
 #ifdef ACEUNIT_LOG_SUITE
     globalLog(suiteEnded, suite->id);
@@ -316,17 +302,10 @@ void runSuite(const TestSuite_t *const suite
 /** Runs all test cases from the supplied test suites.
  * @param suites Test suites to run (NULL terminated).
  */
-void runSuites(const TestSuite_t *suites[]
-#ifdef ACEUNIT_GROUP
-        , AceGroupId_t group
-#endif
-) {
+void runSuites(const TestSuite_t *suites[], AceGroupId_t group)
+{
     while (NULL != *suites) {
-        runSuite(*suites
-#ifdef ACEUNIT_GROUP
-                , group
-#endif
-        );
+        runSuite(*suites, group);
         suites++;
     }
 }
@@ -337,37 +316,26 @@ void runSuites(const TestSuite_t *suites[]
  * @param tests Tests to run, terminated by #NO_TEST.
  * @param group Group to run.
  */
-void runTestsIfSpecified(const TestSuite_t *const suite, const AceTestId_t *const tests
-#ifdef ACEUNIT_GROUP
-        , AceUnitGroupid_t group
-#endif
-) reentrant {
+void runTestsIfSpecified(const TestSuite_t *const suite, const AceTestId_t *const tests, AceUnitGroupid_t group) reentrant
+{
     if (hasToRunTest(tests, suite->id)) {
-        runSuite(suite);
+        runSuite(suite, group);
     } else {
         const TestSuite_t *const *suites = suite->suites;
         if (suites != NULL) {
             /* this is not a Fixture. */
             for (; NULL != *suites; suites++) {
-                runTestsIfSpecified(*suites, tests
-#ifdef ACEUNIT_GROUP
-                        ,group
-#endif
-                );
+                runTestsIfSpecified(*suites, tests, group);
             }
         } else {
             /** this is a Fixture */
-            runFixture((TestFixture_t *) suite, tests
-#ifdef ACEUNIT_GROUP
-                    , group
-#endif
-            );
+            runFixture((TestFixture_t *) suite, tests, group);
         }
     }
 }
 
-void runTests(const AceTestId_t *const tests) {
-    runTestsIfSpecified(&suite1, tests);
+void runTests(const AceTestId_t *const tests, AceUnitGroupid_t group) {
+    runTestsIfSpecified(&suite1, tests, group);
 }
 #endif
 
