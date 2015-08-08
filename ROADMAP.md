@@ -59,7 +59,7 @@ AceUnit versions are named after [Semantic Versioning 2.0.0](http://semver.org/)
 - Allow a parameter for seeding the id generator.
   The purpose is to have reproducible, unique test ids per component in a system which consists of multiple components.
 - Modularize unit test Makefiles in order to support multiple compilers.
-- Directly support more compilers: gcc, armcc, Keil C51, Keil C251, Keil C166, Samsung UCC for CalmSHINE16 / SecureCALM
+- Directly support more compilers: gcc, armcc, Keil C51, Keil C251, Keil C166, Samsung UCC for CalmSHINE16 / SecureCALM and more
 - Better separation between test case location information (AceUnit-geneated) and assertion location information (`__FILE__`, `__LINE__`, `__func__`).
 - Create global `build.xml` or Makefile for Building releases.
 - Improve website layout (make it similar to that of Japi, Gridarta etc.).
@@ -87,6 +87,7 @@ AceUnit versions are named after [Semantic Versioning 2.0.0](http://semver.org/)
 - The output format for help messages should be nicened by ArgParser, not the properties file itself.
 - Add Support for CMake
 - Add Support for JetBrains CLion IDE, i.e. develop a plugin
+- Use functional programming instead of macros for making the runner extensible.
 
 
 ## Items from the original TODO list which are dropped
