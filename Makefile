@@ -4,7 +4,8 @@ CPPFLAGS+=-Iinclude/ -DACEUNIT_SUITES
 
 .PHONY: all
 ## Performs all self-checks.
-all: prjcheck libaceunit.a(AceUnitMainHosted.o AceUnitData.o AceUnit.o FullPlainLogger.o)
+all: prjcheck libaceunit.a
+libaceunit.a: libaceunit.a(AceUnitMainHosted.o AceUnitData.o AceUnit.o FullPlainLogger.o)
 
 .PHONY: prjcheck
 prjcheck:
