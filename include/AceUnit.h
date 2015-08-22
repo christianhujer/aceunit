@@ -509,11 +509,11 @@ typedef struct {
  * @param message Message to create.
  */
 #ifdef ACEUNIT_EMBEDDED
-#define newAssertionError(message) { AssertionId_t assertion = { __LINE__ }; recordError(A_FIXTURE_ID, assertion); } ACEUNIT_ABORT
+#define newAssertionError(message) { const AssertionId_t assertion = { __LINE__ }; recordError(A_FIXTURE_ID, assertion); } ACEUNIT_ABORT
 #elif defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 199901L)
-#define newAssertionError(message) { AssertionId_t assertion = { __FILE__, __func__, __LINE__, message }; recordError(A_FIXTURE_ID, assertion); } ACEUNIT_ABORT
+#define newAssertionError(message) { const AssertionId_t assertion = { __FILE__, __func__, __LINE__, message }; recordError(A_FIXTURE_ID, assertion); } ACEUNIT_ABORT
 #else
-#define newAssertionError(message) { AssertionId_t assertion = { __FILE__, __LINE__, message }; recordError(A_FIXTURE_ID, assertion); } ACEUNIT_ABORT
+#define newAssertionError(message) { const AssertionId_t assertion = { __FILE__, __LINE__, message }; recordError(A_FIXTURE_ID, assertion); } ACEUNIT_ABORT
 #endif
 
 /** Assertion Error.
