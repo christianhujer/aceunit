@@ -19,7 +19,7 @@ AceUnit (Advanced C and Embedded Unit): a comfortable C code unit test framework
 
 - "User-compatible" with JUnit 4.x - works and behaves like JUnit 4.x annotation based testing.
 - No framework overhead in the test code.
-  That's because of the JUnit compatible design but it's worth noting explicitely,
+  That's because of the JUnit compatible design but it's worth noting explicitly,
   as this is what distinguishes AceUnit from other frameworks for unit testing C code.
 - No dependency on any header file.
 - Runnable in hosted and freestanding environments, on normal OS or even without OS, on PC and on devices.
