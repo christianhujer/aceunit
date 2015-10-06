@@ -53,7 +53,7 @@
  * If the condition is not true, the test case fails and raises an Assertion Error that will be logged.
  * @param condition Condition to assert.
  */
-//lint -emacro(717,assertTrue)
+/*lint -emacro(717,assertTrue)*/
 #define assertTrue(condition) do { if (!(condition)) { fail(); } } while (false)
 
 /** Asserts that the specified condition is true.
@@ -61,14 +61,14 @@
  * @param message Message, usually with the positive description of why the assertion should not fail.
  * @param condition Condition to assert.
  */
-//lint -emacro(717,assertTrueM)
+/*lint -emacro(717,assertTrueM)*/
 #define assertTrueM(message, condition) do { if (!(condition)) { failM(message); } } while (false)
 
 /** Asserts that the specified condition is false.
  * If the condition is not false, the test case fails and raises an Assertion Error that will be logged.
  * @param condition Condition to assert for false.
  */
-//lint -emacro(717,assertFalse)
+/*lint -emacro(717,assertFalse)*/
 #define assertFalse(condition) do { if (condition) { fail(); } } while (false)
 
 /** Asserts that the specified condition is false.
@@ -76,7 +76,7 @@
  * @param message Message, usually with the positive description of why the assertion should not fail.
  * @param condition Condition to assert for false.
  */
-//lint -emacro(717,assertFalseM)
+/*lint -emacro(717,assertFalseM)*/
 #define assertFalseM(message, condition) do { if (condition) { failM(message); } } while (false)
 
 /** Asserts that two values are equal.
@@ -87,7 +87,7 @@
  * @param expected Expected value.
  * @param actual Actual value.
  */
-//lint -emacro(717,assertEquals)
+/*lint -emacro(717,assertEquals)*/
 #ifdef ACEUNIT_EXPLICIT_MESSAGES
 #define assertEquals(expected, actual) \
     do { \
@@ -111,7 +111,7 @@
  * @param expected Expected value.
  * @param actual Actual value.
  */
-//lint -emacro(717,assertEqualsM)
+/*lint -emacro(717,assertEqualsM)*/
 #ifdef ACEUNIT_EXPLICIT_MESSAGES
 #define assertEqualsM(message, expected, actual) \
     do { \
@@ -134,7 +134,7 @@
  * @param unexpected Not expected value.
  * @param actual Actual value.
  */
-//lint -emacro(717,assertNotEquals)
+/*lint -emacro(717,assertNotEquals)*/
 #ifdef ACEUNIT_EXPLICIT_MESSAGES
 #define assertNotEquals(unexpected, actual) \
     do { \
@@ -158,7 +158,7 @@
  * @param unexpected Not expected value.
  * @param actual Actual value.
  */
-//lint -emacro(717,assertNotEqualsM)
+/*lint -emacro(717,assertNotEqualsM)*/
 #ifdef ACEUNIT_EXPLICIT_MESSAGES
 #define assertNotEqualsM(message, unexpected, actual) \
     do { \
@@ -177,7 +177,7 @@
  * If the pointer is NULL, the test case fails and raises an #AssertionError_t that will be logged.
  * @param ptr Pointer expected to be not NULL.
  */
-//lint -emacro(717,assertNotNull)
+/*lint -emacro(717,assertNotNull)*/
 #define assertNotNull(ptr) do { if (NULL == (ptr)) { fail(); } } while (false)
 
 /** Asserts that a pointer is not NULL.
@@ -185,7 +185,7 @@
  * @param message Message, usually with the positive description of why the assertion should not fail.
  * @param ptr Pointer expected to be not NULL.
  */
-//lint -emacro(717,assertNotNullM)
+/*lint -emacro(717,assertNotNullM)*/
 #define assertNotNullM(message, ptr) do { if (NULL == (ptr)) { failM(message); } } while (false)
 
 /** Asserts that a pointer is NULL.
@@ -193,7 +193,7 @@
  * @param message Message, usually with the positive description of why the assertion should not fail.
  * @param ptr Pointer expected to be NULL.
  */
-//lint -emacro(717,assertNull)
+/*lint -emacro(717,assertNull)*/
 #define assertNull(ptr) do { if (NULL != (ptr)) { fail(); } } while (false)
 
 /** Asserts that a pointer is NULL.
@@ -201,7 +201,7 @@
  * @param message Message, usually with the positive description of why the assertion should not fail.
  * @param ptr Pointer expected to be NULL.
  */
-//lint -emacro(717,assertNullM)
+/*lint -emacro(717,assertNullM)*/
 #define assertNullM(message, ptr) do { if (NULL != (ptr)) { failM(message); } } while (false)
 
 #endif /* ACEUNITASSERT_H */
