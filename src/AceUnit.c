@@ -35,6 +35,11 @@
 #include "AceUnitLogging.h"
 #include "AceUnitData.h"
 
+#if defined(__STDC_HOSTED__) && ACEUNIT_ASSERTION_STYLE == ACEUNIT_ASSERTION_STYLE_LONGJMP
+#include <signal.h>
+#include <stdlib.h>
+#endif
+
 #ifdef ACEUNIT_CODE_INCLUDE
 #include ACEUNIT_CODE_INCLUDE
 #endif
@@ -50,6 +55,18 @@ void recordError(const FixtureId_t fixtureId, const AssertionId_t assertionId)
     runnerData->recentError->assertionId = assertionId;
     runnerData->recentError->testId      = runnerData->currentTestId;
 }
+
+#if defined(__STDC_HOSTED__) && (ACEUNIT_ASSERTION_STYLE == ACEUNIT_ASSERTION_STYLE_LONGJMP)
+static void abortHandler(int v)
+{
+    v = v;
+    runnerData->recentError = &runnerData->recentErrorData;
+    runnerData->recentError->fixtureId = 0;
+    runnerData->recentError->testId = runnerData->currentTestId;
+    signal(SIGABRT, abortHandler);
+    longjmp(runnerData->jmpBuf, 1);
+}
+#endif
 
 /** Returns if the specified test id is contained in a list of test ids.
  *
@@ -161,6 +178,10 @@ void runFixture(const TestFixture_t *const fixture, const AceTestId_t *const tes
 #endif
     volatile bool ranBeforeClass = false;
 
+#if defined(__STDC_HOSTED__) && ACEUNIT_ASSERTION_STYLE == ACEUNIT_ASSERTION_STYLE_LONGJMP
+    void(*oldSigHandler)(int) = signal(SIGABRT, abortHandler);
+#endif
+
 #ifdef ACEUNIT_LOG_FIXTURE
     globalLog(fixtureStarted, fixture->id);
 #endif
@@ -263,6 +284,11 @@ void runFixture(const TestFixture_t *const fixture, const AceTestId_t *const tes
 #ifdef ACEUNIT_LOG_FIXTURE
     globalLog(fixtureEnded, fixture->id);
 #endif
+
+#if defined(__STDC_HOSTED__) && ACEUNIT_ASSERTION_STYLE == ACEUNIT_ASSERTION_STYLE_LONGJMP
+    signal(SIGABRT, oldSigHandler);
+#endif
+
 #undef invokeAll
 #undef globalLog
 }

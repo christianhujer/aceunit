@@ -31,11 +31,13 @@
  * @file LongJumpTest.c
  */
 
-#include <stdbool.h>
-#include <stdio.h>
-
 #include "LongJmpTest.h"
 #include "AceUnitData.h"
+
+#include <assert.h>
+#include <stdbool.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 /** Helper function. Fails intentionally. */
 void helper() {
@@ -43,12 +45,24 @@ void helper() {
 }
 
 /** Tests that #assertTrue() does a longjmp. */
-A_Test void testAssertDoesLongjmp() {
+A_Test void testAssertTrueDoesLongjmp() {
     helper();
     failM("This statement should not be reached.");
 }
 
 /** Tests that #assertEquals() with unequal values sets recentError. */
-A_Test void testAssertDoesLongjmp2() {
+A_Test void testAssertEqualsDoesLongjmp() {
     helper();
+}
+
+/** Tests that #abort() does a longjmp. */
+A_Test void testAbortDoesLongjmp() {
+    abort();
+    failM("This statement should not be reached.");
+}
+
+/** Tests that #assert() does a longjmp. */
+A_Test void testAssertDoesLongjmp() {
+    assert(false);
+    failM("This statement should not be reached.");
 }
