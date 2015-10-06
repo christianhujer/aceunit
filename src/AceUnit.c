@@ -66,7 +66,7 @@ static void abortHandler(int v)
     runnerData->recentError->fixtureId = 0;
     runnerData->recentError->testId = runnerData->currentTestId;
     signal(SIGABRT, abortHandler);
-    longjmp(runnerData->jmpBuf, 1);
+    longjmp(*runnerData->jmpBuf, 1);
 }
 #endif
 
@@ -184,6 +184,11 @@ void runFixture(const TestFixture_t *const fixture, const AceTestId_t *const tes
     void(*oldSigHandler)(int) = signal(SIGABRT, abortHandler);
 #endif
 
+#if ACEUNIT_ASSERTION_STYLE == ACEUNIT_ASSERTION_STYLE_LONGJMP
+    jmp_buf jmpBuf;
+    runnerData->jmpBuf = &jmpBuf;
+#endif
+
 #ifdef ACEUNIT_LOG_FIXTURE
     globalLog(fixtureStarted, fixture->id);
 #endif
@@ -241,7 +246,7 @@ void runFixture(const TestFixture_t *const fixture, const AceTestId_t *const tes
                     for (currentLoop = 0; (currentLoop < *loopMax) && (NULL == runnerData->recentError); currentLoop++) {
 #endif
 #if ACEUNIT_ASSERTION_STYLE == ACEUNIT_ASSERTION_STYLE_LONGJMP
-                        if (0 == setjmp(runnerData->jmpBuf)) {
+                        if (0 == setjmp(*runnerData->jmpBuf)) {
 #endif
 #ifdef ACEUNIT_PARAMETRIZED
                             (*testCase)(*currentParameter);

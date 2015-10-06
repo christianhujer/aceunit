@@ -41,7 +41,7 @@
 typedef struct {
 
     /** The most recent error will be remembered here.
-     * This variable will be set by #recordError()} and read by {@link #runFixture().
+     * This variable will be set by #recordError() and read by #runFixture().
      * It is set to NULL before each test case.
      * If it is not NULL after a test case, the test case failed.
      */
@@ -51,7 +51,7 @@ typedef struct {
     AssertionError_t recentErrorData;
 
     /** The id of the currently executed test case.
-     * This variable will be set by #runFixture()} and read by {@link #recordError().
+     * This variable will be set by #runFixture() and read by #recordError().
      */
     TestCaseId_t currentTestId;
 
@@ -62,8 +62,8 @@ typedef struct {
     uint16_t testCaseFailureCount;
 
 #if ACEUNIT_ASSERTION_STYLE == ACEUNIT_ASSERTION_STYLE_LONGJMP
-    /** Jump Buffer for AceUnit to abort a test case and jump back to the runner. */
-    jmp_buf jmpBuf;
+    /** Pointer to the Jump Buffer for AceUnit to abort a test case and jump back to the runner. */
+    jmp_buf *jmpBuf;
 #endif
 
 #ifdef ACEUNIT_EXPLICIT_MESSAGES
