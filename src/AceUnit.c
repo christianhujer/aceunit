@@ -35,7 +35,9 @@
 #include "AceUnitLogging.h"
 #include "AceUnitData.h"
 
-#if defined(__STDC_HOSTED__) && ACEUNIT_ASSERTION_STYLE == ACEUNIT_ASSERTION_STYLE_LONGJMP
+#define USE_SIGNAL defined(__STDC_HOSTED__) && (__STDC_HOSTED__ == 1) && ACEUNIT_ASSERTION_STYLE == ACEUNIT_ASSERTION_STYLE_LONGJMP
+
+#if USE_SIGNAL
 #include <signal.h>
 #include <stdlib.h>
 #endif
@@ -56,7 +58,7 @@ void recordError(const FixtureId_t fixtureId, const AssertionId_t assertionId)
     runnerData->recentError->testId      = runnerData->currentTestId;
 }
 
-#if defined(__STDC_HOSTED__) && (ACEUNIT_ASSERTION_STYLE == ACEUNIT_ASSERTION_STYLE_LONGJMP)
+#if USE_SIGNAL
 static void abortHandler(int v)
 {
     v = v;
@@ -178,7 +180,7 @@ void runFixture(const TestFixture_t *const fixture, const AceTestId_t *const tes
 #endif
     volatile bool ranBeforeClass = false;
 
-#if defined(__STDC_HOSTED__) && ACEUNIT_ASSERTION_STYLE == ACEUNIT_ASSERTION_STYLE_LONGJMP
+#if USE_SIGNAL
     void(*oldSigHandler)(int) = signal(SIGABRT, abortHandler);
 #endif
 
@@ -285,7 +287,7 @@ void runFixture(const TestFixture_t *const fixture, const AceTestId_t *const tes
     globalLog(fixtureEnded, fixture->id);
 #endif
 
-#if defined(__STDC_HOSTED__) && ACEUNIT_ASSERTION_STYLE == ACEUNIT_ASSERTION_STYLE_LONGJMP
+#if USE_SIGNAL
     signal(SIGABRT, oldSigHandler);
 #endif
 
