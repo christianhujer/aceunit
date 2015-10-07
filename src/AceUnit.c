@@ -62,9 +62,11 @@ void recordError(const FixtureId_t fixtureId, const AssertionId_t assertionId)
 static void abortHandler(int v)
 {
     v = v;
-    runnerData->recentError = &runnerData->recentErrorData;
-    runnerData->recentError->fixtureId = 0;
-    runnerData->recentError->testId = runnerData->currentTestId;
+    if (runnerData->jmpBuf == runnerData->originalJmpBuf) {
+        runnerData->recentError = &runnerData->recentErrorData;
+        runnerData->recentError->fixtureId = 0;
+        runnerData->recentError->testId = runnerData->currentTestId;
+    }
     signal(SIGABRT, abortHandler);
     longjmp(*runnerData->jmpBuf, 1);
 }
@@ -187,6 +189,7 @@ void runFixture(const TestFixture_t *const fixture, const AceTestId_t *const tes
 #if ACEUNIT_ASSERTION_STYLE == ACEUNIT_ASSERTION_STYLE_LONGJMP
     jmp_buf jmpBuf;
     runnerData->jmpBuf = &jmpBuf;
+    runnerData->originalJmpBuf = &jmpBuf;
 #endif
 
 #ifdef ACEUNIT_LOG_FIXTURE

@@ -64,6 +64,9 @@ typedef struct {
 #if ACEUNIT_ASSERTION_STYLE == ACEUNIT_ASSERTION_STYLE_LONGJMP
     /** Pointer to the Jump Buffer for AceUnit to abort a test case and jump back to the runner. */
     jmp_buf *jmpBuf;
+
+    /** Duplicate pointer to the Jump Buffer for AceUnit so AceUnit can tell whether jmpBuf was modified. */
+    jmp_buf *originalJmpBuf;
 #endif
 
 #ifdef ACEUNIT_EXPLICIT_MESSAGES
