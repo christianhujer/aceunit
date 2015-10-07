@@ -57,7 +57,6 @@
 /*lint -emacro(717,A_catch)*/
 #define A_catch \
             while (false); \
-            runnerData->jmpBuf = oldJmpBuf; \
         } else { \
             runnerData->jmpBuf = oldJmpBuf; \
             do \
@@ -67,6 +66,7 @@
 #define A_endtry \
             while (false); \
         } \
+        runnerData->jmpBuf = oldJmpBuf; \
     } while (0)
 
 #endif
