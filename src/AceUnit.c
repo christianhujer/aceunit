@@ -59,9 +59,13 @@ void recordError(const FixtureId_t fixtureId, const AssertionId_t assertionId)
 }
 
 #if USE_SIGNAL
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunknown-pragmas"
+#pragma GCC diagnostic ignored "-Wunused-parameter"
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunused-parameter"
 static void abortHandler(int v)
 {
-    v = v;
     if (runnerData->jmpBuf == runnerData->originalJmpBuf) {
         runnerData->recentError = &runnerData->recentErrorData;
         runnerData->recentError->fixtureId = 0;
@@ -70,6 +74,8 @@ static void abortHandler(int v)
     signal(SIGABRT, abortHandler);
     longjmp(*runnerData->jmpBuf, 1);
 }
+#pragma clang diagnostic pop
+#pragma GCC diagnostic pop
 #endif
 
 /** Returns if the specified test id is contained in a list of test ids.

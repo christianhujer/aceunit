@@ -1,5 +1,5 @@
 vpath %.c src/loggers/ src/
-CFLAGS+=-g -std=gnu99
+CFLAGS+=-g -std=c11 -W -Wall -pedantic -Werror -Wno-unused-label
 CPPFLAGS+=-Iinclude/ -DACEUNIT_SUITES
 
 .PHONY: all
