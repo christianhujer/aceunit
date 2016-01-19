@@ -1,7 +1,8 @@
+[![Code Climate](https://codeclimate.com/github/christianhujer/aceunit/badges/gpa.svg)](https://codeclimate.com/github/christianhujer/aceunit)
+
 # AceUnit
 
 AceUnit (Advanced C and Embedded Unit): a comfortable C code unit test framework in the tradition of xUnit frameworks suitable even for extremely resource-constraint environments.
-
 
 ## Attributes
 
