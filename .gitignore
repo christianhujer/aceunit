@@ -1,5 +1,5 @@
 *.[adious]
-*.gcad
+*.gcda
 *.gcno
 *.gcov
 generator/classes/
