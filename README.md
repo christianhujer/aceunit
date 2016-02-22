@@ -64,21 +64,21 @@ Besides, it's planned to add support for the following compilers:
 
 ## Directory Structure
 
-doc/
+`doc/`
     The source code of the documentation.
 
-generator/
+`generator/`
     The source code of GenTest, which is the code generator for the AceUnit
     test framework.
 
-include/
+`include/`
     The header files needed to integrate with AceUnit.
 
-src/
+`src/`
     The source code that you need for building programs with AceUnit.
     This also contains tests which can be used to test AceUnit with itself.
     Also, these tests are examples of how to use AceUnit.
 
-test/
+`test/`
     Several unit tests where AceUnit is tested with itself.
     This is excellent examples of how to use AceUnit.
