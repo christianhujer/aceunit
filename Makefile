@@ -1,5 +1,6 @@
 vpath %.c src/loggers/ src/
-CFLAGS+=-g -std=c11 -W -Wall -pedantic -Werror -Wno-unused-label -pg --coverage
+#CFLAGS+=-g -std=c11 -W -Wall -pedantic -Werror -Wno-unused-label -pg --coverage
+CFLAGS+=-g -std=c11 -W -Wall -pedantic -Werror -Wno-unused-label
 CPPFLAGS+=-Iinclude/ -DACEUNIT_SUITES
 
 .PHONY: all
@@ -14,3 +15,13 @@ prjcheck:
 .PHONY: clean
 clean::
 	$(RM) libaceunit.a
+
+
+PREFIX:=/usr/local/
+LIBDIR:=$(PREFIX)/lib/
+INCDIR:=$(PREFIX)/include/
+
+install: libaceunit.a
+	install -m 644 libaceunit.a $(LIBDIR)
+	install -d $(INCDIR)/aceunit/
+	install -m 644 include/*.h $(INCDIR)/aceunit/
