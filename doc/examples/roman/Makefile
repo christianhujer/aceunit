@@ -12,7 +12,7 @@ GENERATED_FILES:=$(shell java -jar $(ACE_UNIT_PATH)/generator/AceUnit.jar --prin
 # List of source files.
 # Scope: local.
 # Type: List of scource files.
-SOURCES:=AceUnitMain.c AceUnit.c AceUnitData.c FullPlainLogger.c $(wildcard *.c) $(filter %.c, $(GENERATED_FILES))
+SOURCES:=$(wildcard *.c) $(filter %.c, $(GENERATED_FILES))
 
 ## Flags for the C compiler.
 # Scope: External
@@ -24,14 +24,17 @@ override CFLAGS+=-W -Wall -Werror -pedantic
 # Type: Flags passed to all programs that do C preprocessing.
 override CPPFLAGS+=-DACEUNIT_SUITES -I $(ACE_UNIT_PATH)/include
 
-# Sets the path where to find C source files.
-vpath %.c . $(ACE_UNIT_PATH)/src $(ACE_UNIT_PATH)/src/loggers
-
+.PHONY: all
 all: AceUnitMain
 	./AceUnitMain
 
-AceUnitMain: $(patsubst %.c,%.o,$(SOURCES))
+AceUnitMain: $(patsubst %.c,%.o,$(SOURCES)) ../../../libaceunit.a
+	$(CC) $^ -o $@
 
+../../../libaceunit.a:
+	$(MAKE) -C $(dir $@) $(notdir $@)
+
+.PHONY: clean
 clean:
 	rm -f $(FIXTURE_NAME).h AceUnitMain *.o $(GENERATED_FILES)
 
