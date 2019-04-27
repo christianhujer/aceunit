@@ -35,7 +35,11 @@
 #include "AceUnitLogging.h"
 #include "AceUnitData.h"
 
-#define USE_SIGNAL defined(__STDC_HOSTED__) && (__STDC_HOSTED__ == 1) && ACEUNIT_ASSERTION_STYLE == ACEUNIT_ASSERTION_STYLE_LONGJMP
+#if  defined(__STDC_HOSTED__) && (__STDC_HOSTED__ == 1) && ACEUNIT_ASSERTION_STYLE == ACEUNIT_ASSERTION_STYLE_LONGJMP
+#define USE_SIGNAL 1
+#else
+#define USE_SIGNAL 0
+#endif
 
 #if USE_SIGNAL
 #include <signal.h>
