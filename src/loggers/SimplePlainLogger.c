@@ -41,8 +41,6 @@
 #include "AceUnit.h"
 #include "AceUnitLogging.h"
 
-extern char *__progname;
-
 /** Logs a message using this logger.
  * @param recentError Error to log.
  */
@@ -54,50 +52,18 @@ void FullPlainLoggerLog(const AssertionError_t *const recentError) {
 #endif
 }
 
-void FullPlainLoggerRunnerStarted(void) {
-    fprintf(stderr, "%s: info: Testing Started.\n", __progname);
-}
-
-void FullPlainLoggerSuiteStarted(SuiteId_t const suiteId) {
-    fprintf(stderr, "%s: info: Suite %d started.\n", __progname, suiteId);
-}
-
-void FullPlainLoggerFixtureStarted(const FixtureId_t fixtureId) {
-    fprintf(stderr, "%s: info: Fixture %d started.\n", __progname, fixtureId);
-}
-
-void FullPlainLoggerTestCaseStarted(TestCaseId_t testCaseId) {
-    fprintf(stderr, "%s: info: Test Case %d started.\n", __progname, testCaseId);
-}
-
-void FullPlainLoggerTestCaseEnded(TestCaseId_t testCaseId) {
-    fprintf(stderr, "%s: info: Test Case %d ended.\n", __progname, testCaseId);
-}
-
-void FullPlainLoggerFixtureEnded(FixtureId_t fixtureId) {
-    fprintf(stderr, "%s: info: Fixture %d ended.\n", __progname, fixtureId);
-}
-
-void FullPlainLoggerSuiteEnded(SuiteId_t const suiteId) {
-    fprintf(stderr, "%s: info: Suite %s ended.\n", __progname, suiteId);
-}
-
-void FullPlainLoggerRunnerEnded(void) {
-    fprintf(stderr, "%s: info: Runner ended.\n", __progname);
-}
-
 /** This Logger. */
 AceUnitNewLogger(
     FullPlainLogger,
-    FullPlainLoggerRunnerStarted,
-    FullPlainLoggerSuiteStarted,
-    FullPlainLoggerFixtureStarted,
-    FullPlainLoggerTestCaseStarted,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
     FullPlainLoggerLog,
-    FullPlainLoggerTestCaseEnded,
-    FullPlainLoggerFixtureEnded,
-    FullPlainLoggerSuiteEnded,
-    FullPlainLoggerRunnerEnded
+    NULL,
+    NULL,
+    NULL,
+    NULL
 );
 
 TestLogger_t *globalLogger = &FullPlainLogger; /* XXX Hack. Remove. */
