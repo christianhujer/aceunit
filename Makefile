@@ -16,6 +16,10 @@ prjcheck:
 clean::
 	$(RM) libaceunit.a
 
+.PHONY: doc
+doc:
+	doxygen
+
 
 PREFIX:=/usr/local/
 LIBDIR:=$(PREFIX)/lib/

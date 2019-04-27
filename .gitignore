@@ -3,3 +3,5 @@
 *.gcno
 *.gcov
 generator/classes/
+doc/html/
+doc/latex/
