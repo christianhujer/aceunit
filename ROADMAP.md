@@ -28,6 +28,7 @@ AceUnit versions are named after [Semantic Versioning 2.0.0](http://semver.org/)
 - Simplify directory structure. (done)
 - Change the include file macros to be unstringified strings instead of stringified strings in order to work with compilers who cannot pass stringified strings on command line, such as Keil C251. (done)
 
+A release of AceUnit 1.0.0 is planned for fall 2019.
 
 ## AceUnit 1.1.0
 
