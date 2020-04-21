@@ -28,10 +28,10 @@ override CPPFLAGS+=-DACEUNIT_SUITES -I $(ACE_UNIT_PATH)/include
 all: AceUnitMain
 	./AceUnitMain
 
-AceUnitMain: $(patsubst %.c,%.o,$(SOURCES)) ../../../libaceunit.a
+AceUnitMain: $(patsubst %.c,%.o,$(SOURCES)) $(ACE_UNIT_PATH)/libaceunit.a
 	$(CC) $^ -o $@
 
-../../../libaceunit.a:
+$(ACE_UNIT_PATH)/libaceunit.a:
 	$(MAKE) -C $(dir $@) $(notdir $@)
 
 .PHONY: clean
