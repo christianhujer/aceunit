@@ -79,7 +79,7 @@ void FullPlainLoggerFixtureEnded(FixtureId_t fixtureId) {
 }
 
 void FullPlainLoggerSuiteEnded(SuiteId_t const suiteId) {
-    fprintf(stderr, "%s: info: Suite %s ended.\n", __progname, suiteId);
+    fprintf(stderr, "%s: info: Suite %d ended.\n", __progname, suiteId);
 }
 
 void FullPlainLoggerRunnerEnded(void) {
