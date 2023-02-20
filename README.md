@@ -76,7 +76,7 @@ According to the C standard, freestanding environments are not required to provi
 However, most freestanding environments do so.
 
 ### AbortRunner
-The AbortRunner has a signal handler to catch the `abort()` signal.
+The AbortRunner is like the SetJmpRunner and additionally has a signal handler to catch the `abort()` signal.
 If a test case fails by raising `SIGABRT`, the runner will catch it.
 
 ### ForkRunner
@@ -92,11 +92,12 @@ They're simple and should be easy to understand.
 There are multiple ways how you can make a test-case fail.
 
 <table>
-<tr><th>Assertion</th><th>SimpleRunner</th><th>AbortRunner</th><th>ForkRunner</th></tr>
-<tr><td><code>&lt;assert.h&gt; assert()</code></td> <td>yes</td><td>yes</td><td>yes</td></tr>
-<tr><td><code>&lt;stdlib.h&gt; abort()</code></td>  <td>yes</td><td>yes</td><td>yes</td></tr>
-<tr><td><code>&lt;stdlib.h&gt; exit()</code></td>   <td>no</td> <td>no</td> <td>yes</td></tr>
-<tr><td><code>&lt;AceUnit.h&gt; assert()</code></td><td>yes</td><td>yes</td><td>yes</td></tr>
+<tr><th>Assertion</th>                              <th>SimpleRunner</th><th>SetJmpRunner</th><th>AbortRunner</th><th>ForkRunner</th></tr>
+<tr><td><code>&lt;stdlib.h&gt; longjmp()</code></td><td>no</td>          <td>yes</td>         <td>yes</td>        <td>no (not required)</td></tr>
+<tr><td><code>&lt;assert.h&gt; assert()</code></td> <td>stop</td>        <td>no</td>          <td>yes</td>        <td>yes</td></tr>
+<tr><td><code>&lt;stdlib.h&gt; abort()</code></td>  <td>stop</td>        <td>no</td>          <td>yes</td>        <td>yes</td></tr>
+<tr><td><code>&lt;stdlib.h&gt; exit()</code></td>   <td>stop</td>        <td>no</td>          <td>no</td>         <td>yes</td></tr>
+<tr><td><code>&lt;AceUnit.h&gt; assert()</code></td><td>yes</td>         <td>yes</td>         <td>yes</td>        <td>yes</td></tr>
 </table>
 
 ## Test Fixtures
