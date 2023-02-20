@@ -38,6 +38,8 @@ void testNonLeapYears() {
 * Configurable.
 * Can be run with pure C89/C90 and thus can be used in environments for which C++ is not available or used (i.e. 80x51).
 * Minimal framework noise in the test code.
+* Make use of existing C features from the hosted environment and POSIX, but _without requiring_ a hosted environment or POSIX.
+  It will also work just fine on the freestanding environment of an embedded controller.
 
 ## Compilers
 
