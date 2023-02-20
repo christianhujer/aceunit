@@ -14,7 +14,7 @@ The purpose of AceUnit is to be portable, small, and usable in resource-constrai
 This is the third version of AceUnit, and a complete rewrite from scratch.
 The "template" for this version of AceUnit is no longer JUnit 4 but JUnit 5.
 
-```
+```C
 #include "leapyear.h"
 #include <assert.h>
 
