@@ -14,6 +14,22 @@ The purpose of AceUnit is to be portable, small, and usable in resource-constrai
 This is the third version of AceUnit, and a complete rewrite from scratch.
 The "template" for this version of AceUnit is no longer JUnit 4 but JUnit 5.
 
+```
+#include "leapyear.h"
+#include <assert.h>
+
+void testLeapYears() {
+    assert(isLeapY(0));
+    assert(isLeapY(4));
+    assert(isLeapY(400));
+}
+
+void testNonLeapYears() {
+    assert(!isLeapYear(1));
+    assert(!isLeapYear(100));
+}
+```
+
 ## Attributes and Design Goals
 * JUnit 5.x-style naming.
 * Consumes only very little resources.
