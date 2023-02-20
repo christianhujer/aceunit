@@ -1,0 +1,44 @@
+.TH ACEUNIT "1" "March 2023" "AceUnit 3.0" "User Commands"
+.SH NAME
+aceunit \- generate test fixtures from object files
+.SH SYNOPSIS
+.B aceunit
+[\fI\,OPTION\/\fR]... [\fI\,OBJECT_FILE\/\fR]...
+.SH DESCRIPTION
+.\" Add any additional description here
+.PP
+Scans object files for test cases and generates the fixtures code on stdout.
+.SH OPTIONS
+.TP
+\fB\-h\fR
+Display help text.
+.TP
+\fB\-p\fR \fI\,PATTERN\/\fR
+Use PATTERN as prefix for finding test functions.
+.SH DEPENDENCIES
+\fBaceunit\fR requires \fBobjdump\fR, \fBreadelf\fR, or \fBnm\fR to work.
+.SH EXAMPLES
+.TP
+\fBaceunit \-p '[^_]\+_' *_test.o >aceunit.c\fR
+will scan all object files matching the pattern \fB*_test.o\fR and write the found fixtures to \fBaceunit.c\fR.
+.SH AUTHOR
+Written by Christian Hujer.
+.SH "REPORTING BUGS"
+AceUnit online help: <https://nelkinda.com/products/aceunit/>
+.SH COPYRIGHT
+Copyright \(co 2007, 2023 Christian Hujer
+License BSD
+.br
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+.SH "SEE ALSO"
+\&\fBobjdump\fR\|(1),
+\&\fBreadelf\fR\|(1),
+\&\fBnm\fR\|(1),
+\&\fBabort\fR\|(3),
+\&\fBassert\fR\|(3),
+\&\fBlongjmp\fR\|(3),
+\&\fBsetjmp\fR\|(3),
+\&\fBfork\fR\|(2),
+\&\fBsignal\fR\|(2),
+Full documentation: <https://nelkinda.com/products/aceunit/>

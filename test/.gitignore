@@ -1,9 +1,0 @@
-*/alltests.txt
-*.d
-*.gcda
-*.gcno
-makehelp.pl
-*/RunTests
-**/Suite*.c
-*/test
-*/TESTS-*

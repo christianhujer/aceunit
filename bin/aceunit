@@ -1,0 +1,95 @@
+#!/bin/bash
+
+usage() {
+    echo "Usage: $0 [-h] [-p PATTERN] OBJECT_FILE..." 1>&2
+}
+
+version() {
+    echo "$0 version 1.0"
+}
+
+help() {
+    usage
+    cat <<END
+Generate AceUnit fixture list from compiled testcase object files.
+The generated test suite is written to STDOUT.
+
+Options:
+  -h          Display this help text and stop.
+  -p PATTERN  Prefix test functions with the specified pattern;
+              PATTERN needs to be a regular expression understood by grep.
+              Example: '[^_]\+_' to allow any pattern prefix with an underscore.
+  -v          Print version information and stop.
+
+Examples:
+  $0 leapyear_test.o >testcases.c
+    Scans leapyear_test.o for test functions and generates the test fixtures in testcases.c.
+END
+    exit 0
+}
+
+prefix=
+
+while getopts "hp:v" o; do
+    case "${o}" in
+    h) help ;;
+    p) prefix=$OPTARG ;;
+    v) version; exit 0 ;;
+    *) usage; exit 1 ;;
+    esac
+done
+
+shift $((OPTIND - 1))
+fixtures=$@
+declare -A beforeAll afterAll beforeEach afterEach testcases
+
+for file in $fixtures; do
+    basename=${file%.o}
+     beforeAll[$basename]=$(objdump -t $file | grep -E ' g     F .text	'          | sed -e 's/.* //' | grep '^\('$prefix'beforeAll\)')
+      afterAll[$basename]=$(objdump -t $file | grep -E ' g     F .text	'          | sed -e 's/.* //' | grep '^\('$prefix'afterAll\)')
+    beforeEach[$basename]=$(objdump -t $file | grep -E ' g     F .text	'          | sed -e 's/.* //' | grep '^\('$prefix'beforeEach\)')
+     afterEach[$basename]=$(objdump -t $file | grep -E ' g     F .text	'          | sed -e 's/.* //' | grep '^\('$prefix'afterEach\)')
+     testcases[$basename]=$(objdump -t $file | grep -E ' g     F .text	'          | sed -e 's/.* //' | grep '^\('$prefix'test\)')
+    #testcases[$basename]=$(nm         $file | grep -E ' T '                      | sed -e 's/.* //' | grep '^\(test\)')
+    #testcases[$basename]=$(readelf -s $file | grep -E ' FUNC    GLOBAL DEFAULT ' | sed -e 's/.* //' | grep '^\(test\)')
+done
+
+cat << END
+#include <aceunit.h>
+
+END
+for file in $fixtures; do
+    basename=${file%.o}
+    if [ -z "${testcases[$basename]}" ]; then echo "$@: warning: No test cases found." 1>&2; fi
+    for extern in ${beforeAll[$basename]} ${afterAll[$basename]} ${beforeEach[$basename]} ${afterEach[$basename]} ${testcases[$basename]}; do echo "extern void $extern();"; done
+done
+for file in $fixtures; do
+    basename=${file%.o}
+    echo
+    echo "void (*const testcases_$basename[])() = {"
+    for testcase in ${testcases[$basename]}; do echo "    $testcase,"; done
+    cat << END
+    NULL,
+};
+
+const AceUnit_Fixture_t fixture_$basename = {
+    ${beforeAll[$basename]:-NULL},
+    ${afterAll[$basename]:-NULL},
+    ${beforeEach[$basename]:-NULL},
+    ${afterEach[$basename]:-NULL},
+    testcases_$basename,
+};
+
+END
+done
+cat <<END
+const AceUnit_Fixture_t *fixtures[] = {
+END
+for file in $fixtures; do
+    basename=${file%.o}
+    echo "    &fixture_$basename,"
+done
+cat <<END
+    NULL,
+};
+END

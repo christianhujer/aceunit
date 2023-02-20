@@ -1,0 +1,5 @@
+setjmp_test.c:8: test1
+setjmp_test.c:12: test2
+setjmp_test.c:13: test2: Assertion `false' failed.
+setjmp_test.c:17: test3
+AceUnit: 3 test cases, 2 successful, 1 failed.

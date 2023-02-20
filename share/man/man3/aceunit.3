@@ -1,0 +1,103 @@
+.TH ACEUNIT "3" "March 2023" "AceUnit 3.0" "Libraries"
+.SH NAME
+aceunit, assert, AceUnit_runFixtures, AceUnit_fail \- run unit tests with AceUnit
+.SH SYNOPSIS
+.nf
+.B #include <aceunit.h>
+.PP
+.BI "void AceUnit_fail();
+.BI "void assert(scalar " expression ");
+.PP
+.BI "void AceUnit_run(const AceUnit_Fixture *" fixtures[] ", AceUnit_Result_t *" result ");
+.BI "bool runCatching(void(*" code ")());
+.BI "int main(int " argc ", const char *" argv[] ");
+.fi
+.SH DESCRIPTION
+The functions described on this page are used to execute unit tests.
+The
+.BR AceUnit_fail()
+function can be called from a unit test to abort the current test case and mark it failed.
+The
+.BR assert():
+macro effectively does the same if its scalar expression evaluates to zero.
+.PP
+The
+.BR AceUnit_run()
+function can be called to run fixtures.
+See the aceunit(1) program for how to generate fixtures.
+The
+.BR runCatching()
+function is called by
+.BR AceUnit_run()
+to wrap a test function, possibly catching signals.
+The
+.BR main()
+function is provided for convenience to execute the test cases.
+.SH EXAMPLES
+Consider the following module, which provides a function to see whether a year is a leap year:
+.PP
+.EX
+// File: leapyear.h
+#ifndef LEAPYEAR_H
+#define LEAPYEAR_H
+
+#include <stdbool.h>
+
+extern bool isLeap(int year);
+
+#endif
+
+// File: leapyear.c
+#include "leapyear.h"
+
+bool isLeap(int year)
+{
+    return year % 4 == 0 && year % 100 != 0 || year % 400 == 0;
+}
+.EE
+.PP
+Then a unit test module could look like this:
+.EX
+// File: leapyear_test.o
+#include <aceunit.h>
+
+void testLeapYears() {
+    assert(isLeap(0));
+    assert(isLeap(4));
+    assert(isLeap(400));
+}
+
+void testNonLeapYears() {
+    assert(!isLeap(1));
+    assert(!isLeap(100));
+}
+.EE
+.PP
+AceUnit could be used with the following command sequence:
+.EX
+cc -c -o leapyear.o leapyear.c
+cc -c -o leapyear_test.o leapyear_test.c
+aceunit leapyear_test.o >unit_test.c
+cc -c -o unit_test.o unit_test.c
+cc -o unit_test unit_test.o leapyear_test.o leapyear.o -laceunit
+\./aceunit
+.EE
+.SH AUTHOR
+Written by Christian Hujer.
+.SH "REPORTING BUGS"
+AceUnit online help: <https://nelkinda.com/products/aceunit/>
+.SH COPYRIGHT
+Copyright \(co 2007, 2023 Christian Hujer
+License BSD
+.br
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+.SH "SEE ALSO"
+\&\fBaceunit\fR\|(1),
+\&\fBabort\fR\|(3),
+\&\fBassert\fR\|(3),
+\&\fBlongjmp\fR\|(3),
+\&\fBsetjmp\fR\|(3),
+\&\fBfork\fR\|(2),
+\&\fBsignal\fR\|(2),
+Full documentation: <https://nelkinda.com/products/aceunit/>

@@ -1,7 +1,2 @@
-*.[adious]
-*.gcda
-*.gcno
-*.gcov
-generator/classes/
-doc/html/
-doc/latex/
+*.[adios]
+*.bc

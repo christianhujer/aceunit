@@ -1,0 +1,4 @@
+simple_test.c:7: test1
+simple_test.c:11: test2
+simple_test.c:15: test3
+AceUnit: 3 test cases, 3 successful, 0 failed.

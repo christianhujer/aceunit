@@ -1,84 +1,123 @@
-[![Code Climate](https://codeclimate.com/github/christianhujer/aceunit/badges/gpa.svg)](https://codeclimate.com/github/christianhujer/aceunit)
+# AceUnit-3
 
-# AceUnit
+Welcome to AceUnit, the Advanced C and Embedded Unit test framework.
+AceUnit is a comfortable (test discovery!) unit test framework for C, in the best tradition of xUnit frameworks (like JUnit).
+Its target audience are developers using the C programming language to develop firmware, drivers, operating systems, and other C programs, like command line programs.
+It is tiny and thus suitable even for extremely resource-constraint environments.
 
-AceUnit (Advanced C and Embedded Unit): a comfortable C code unit test framework in the tradition of xUnit frameworks suitable even for extremely resource-constraint environments.
+AceUnit can also be used to study or teach Test-Driven Development.
+Although, you don't really need a framework for that in C, did you know that?
+A framework just helps making your life more comfortable.
 
-## Attributes
+The purpose of AceUnit is to be portable, small, and usable in resource-constraint environments as well as on PCs.
 
-- JUnit 4.x-style using Pseudo-annotations (empty macros) and compile-time reflection (separate parser).
-- Consumes only very little resources.
-  Minimum possible configuration requires 4 bytes RAM and a few bytes stack.
-- Works for hosted, freestanding and even exotic freestanding environments.
-- Supports C89/C90 and C99, with basic support for C++ and C11.
-- Highly configurable.
-- Most configuration features are decoupled from the test code, i.e. test code can stay configuration-independent.
-- Can be run with pure C89/C90 and thus can be used in environments for which C++ is not available or not used (i.e. 80x51).
+This is the third version of AceUnit, and a complete rewrite from scratch.
+The "template" for this version of AceUnit is no longer JUnit 4 but JUnit 5.
 
+## Attributes and Design Goals
+* JUnit 5.x-style naming.
+* Consumes only very little resources.
+* Works for hosted, freestanding,  and even exotic freestanding environments.
+* Supports C89/C90, C999, C11, C17, and C23.
+* Configurable.
+* Can be run with pure C89/C90 and thus can be used in environments for which C++ is not available or used (i.e. 80x51).
+* Minimal framework noise in the test code.
 
-## Design Goals
+## Compilers
 
-- "User-compatible" with JUnit 4.x - works and behaves like JUnit 4.x annotation based testing.
-- No framework overhead in the test code.
-  That's because of the JUnit compatible design but it's worth noting explicitly,
-  as this is what distinguishes AceUnit from other frameworks for unit testing C code.
-- No dependency on any header file.
-- Runnable in hosted and freestanding environments, on normal OS or even without OS, on PC and on devices.
-- Consume as few resources as possible.
+This new version of AceUnit has been tested extensively using the following compilers:
+* GCC 11 w/ the following settings on `x86_64`: c90 c99 c11 c17 c2x gnu90 gnu99 gnu11 gnu17 gnu2x
+* clang 14.0.6
 
+The following compilers are planned to be tested soon:
+* GCC for aarch64, alpha, arm, hppa, hppa64, i686, m68k, mips, mips64, powerpc, powerpc64, powerpc64le, riscv64, s390x, sh4, sparc64
+* Clang for aarch64, arm, avr, hexagon, mips, mips64, thumb, wasm32, wasm64
+* Keil / ARM ARMCC on ARM7, Cortex-M0, Cortex-M3, SC000, SC100, SC300
+* Keil C51 and C251 for 8051 and 80251
+* Keil C166 for Infineon C16x and STMicroelectronics ST10
+* Samsung ucc on Calm16 and SecuCalm
+* Open64
 
-## Requirements
+## How to Build
+To build AceUnit, you need a GNU `bash` shell, GNU `make`, and a C compiler with `objdump`, `readelf`, or `nm`.
+To build it, simply run `make`.
+This builds and tests AceUnit.
 
-Build-Environment:
-- Java 8 is required to build and run the code generator.
-- C89 or newer is required to compile and run the tests.
-- If C99 is available, AceUnit can make use of it.
+## How to Install
+If you want to use AceUnit for testing on your POSIX system, simply run `make && sudo make install`.
+This will install AceUnit into `/usr/local/`.
 
-Execution Environment:
-- AceUnit runs in both, hosted and freestanding environments!
-- 4 bytes of free RAM on the device on which the tests shall run.
-- ~50-200 bytes of stack, depending on the size of a `jmp_buf`.
+### How to build with a different compiler.
+By default, AceUnit will be built with/for the C compiler that your `make` tool uses, usually whatever `cc` is found on the `PATH`.
+If you want to build and test with a different compiler, you can use `make CC=compilername`, for example, `make CC=clang`.
 
+## Runners
+AceUnit provides different runners for different needs.
+Out of the box, AceUnit comes with 4 runners: Simple, SetJmp, Abort, and Fork.
+AceUnit is well-documented, it should be easy to create your own runner if necessary.
 
-## Compilers / CPUs
+### SimpleRunner
+The SimpleRunner just executes the tests without any special handling.
+If a test case fails, the runner stops.
 
-### Supported Compilers / CPUs
+The SimpleRunner is good to get started and for learning and practicing TDD.
 
-AceUnit has been tested and used on the following compilers, CPUs and environments:
-- GCC (various versions, various flavors of Linux and Cygwin) on i686, x86-64 and APS3s
-- Keil / ARM ARMCC on ARM7, Cortex-M0, Cortex-M3, SC000, SC100, SC300
-- Keil C251 for 80251 (currently known issue: gives a linker warning about a type mismatch, which can safely be ignored)
-- Microsoft Visual Studio 2005
+For real-life projects, the SimpleRunner is less suited.
+As it will stop at the first error, there will be no information about the total number of test cases and errors.
+But do not fret, there are other runners.
 
+### SetJmpRunner
+The SetJmpRunner uses `setjmp()` / `longjmp()` to intercept failed assertion.
+The `assert()` macro is defined to call `AceUnit_fail()` when the condition fails.
+And `AceUnit_fail()` performs a `longjmp()` back.
 
-### Other Compilers
+This runner works in freestanding environments _as long as `setjmp()`/`longjmp()` are available_.
+According to the C standard, freestanding environments are not required to provide `<setjmp.h>`.
+However, most freestanding environments do so.
 
-Although not tested, AceUnit is expected to work with the following compilers out-of-the-box, without any modification:
-- Keil Cx51 8051
-- Keil C166 C166
+### AbortRunner
+The AbortRunner has a signal handler to catch the `abort()` signal.
+If a test case fails by raising `SIGABRT`, the runner will catch it.
 
-Besides, it's planned to add support for the following compilers:
-- ucc on Calm16 and SecuCalm
-- Open64
+### ForkRunner
+The ForkRunner uses `fork()` to execute test cases in child processes.
+A test case is marked failed if the child ended due to a signal, or if it exited with an exit value other than `EXIT_SUCCESS` (0).
 
+### Writing your own Runner
+If the runners provided out of the box do not suit you, you can simply write your own.
+Just look at the source code of the existing runners to get inspired.
+They're simple and should be easy to understand.
 
-## Directory Structure
+## Assertion/Failure Features
+There are multiple ways how you can make a test-case fail.
 
-`doc/`
-    The source code of the documentation.
+<table>
+<tr><th>Assertion</th><th>SimpleRunner</th><th>AbortRunner</th><th>ForkRunner</th></tr>
+<tr><td><code>&lt;assert.h&gt; assert()</code></td> <td>yes</td><td>yes</td><td>yes</td></tr>
+<tr><td><code>&lt;stdlib.h&gt; abort()</code></td>  <td>yes</td><td>yes</td><td>yes</td></tr>
+<tr><td><code>&lt;stdlib.h&gt; exit()</code></td>   <td>no</td> <td>no</td> <td>yes</td></tr>
+<tr><td><code>&lt;AceUnit.h&gt; assert()</code></td><td>yes</td><td>yes</td><td>yes</td></tr>
+</table>
 
-`generator/`
-    The source code of GenTest, which is the code generator for the AceUnit
-    test framework.
+## Test Fixtures
 
-`include/`
-    The header files needed to integrate with AceUnit.
+## What is different from previous versions?
+The whole code has been rewritten from scratch, test-driven and with ease-of-use on mind.
+The nomenclature has been updated to match that of JUnit5.
+The generator has been changed from a Java program to a shell script.
+Also, the generator no loner works on the source file, which is fragile.
+Instead, the generator uses tools like `objdump`, `nm`, or `readelf` to extract the symbol table and thus introspect the code to discover fixtures and test cases.
 
-`src/`
-    The source code that you need for building programs with AceUnit.
-    This also contains tests which can be used to test AceUnit with itself.
-    Also, these tests are examples of how to use AceUnit.
+## Glossary
 
-`test/`
-    Several unit tests where AceUnit is tested with itself.
-    This is excellent examples of how to use AceUnit.
+<dl>
+<dt>AfterAll</dt><dd>A function that AceUnit shall run once after it runs any of the test cases of a fixture.</dd>
+<dt>AfterEach<dt><dd>A function that AceUnit shall run after each of the test cases of a fixture.</dd>
+<dt>Assertion</dt><dd>A piece of code that verifies expectations inside a test function, and if the expectation isn't met, aborts the test case and reports back to the runner.</dd>
+<dt>BeforeAll</dt><dd>A function that AceUnit shall run once before it runs any of the test cases of a fixture.</dd>
+<dt>BeforeEach<dt><dd>A function that AceUnit shall run before each of the test cases of a fixture.</dd>
+<dt>Fixture</dt><dd>An object file with test cases.</dd>
+<dt>Runner</dt><dd>The part of AceUnit that executes test functions by calling them.</dd>
+<dt>Test Case</dt><dd>A function that AceUnit should execute as a test case.</dd>
+<dt>Test Function<dt><dd>Any of these: AfterAll, AfterEach, BeforeAll, BeforeEach, Test Case.</dd>
+</dl>

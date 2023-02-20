@@ -1,3 +1,0 @@
-The current makefile does not properly work incrementally.
-The files in subdirectories are not remade.
-There probably is a problem with the dependency generation.

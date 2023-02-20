@@ -1,0 +1,23 @@
+simple_test1.c:7: beforeAll_1
+simple_test1.c:15: beforeEach_1
+simple_test1.c:23: test1_1
+simple_test1.c:19: afterEach_1
+simple_test1.c:15: beforeEach_1
+simple_test1.c:27: test2_1
+simple_test1.c:19: afterEach_1
+simple_test1.c:15: beforeEach_1
+simple_test1.c:31: test3_1
+simple_test1.c:19: afterEach_1
+simple_test1.c:11: afterAll_1
+simple_test2.c:7: beforeAll_2
+simple_test2.c:15: beforeEach_2
+simple_test2.c:23: test1_2
+simple_test2.c:19: afterEach_2
+simple_test2.c:15: beforeEach_2
+simple_test2.c:27: test2_2
+simple_test2.c:19: afterEach_2
+simple_test2.c:15: beforeEach_2
+simple_test2.c:31: test3_2
+simple_test2.c:19: afterEach_2
+simple_test2.c:11: afterAll_2
+AceUnit: 6 test cases, 6 successful, 0 failed.

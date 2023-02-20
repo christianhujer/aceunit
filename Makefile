@@ -1,31 +1,34 @@
-vpath %.c src/loggers/ src/
-#CFLAGS+=-g -std=c11 -W -Wall -pedantic -Werror -Wno-unused-label -pg --coverage
-CFLAGS+=-g -std=c11 -W -Wall -pedantic -Werror -Wno-unused-label
-CPPFLAGS+=-Iinclude/ -DACEUNIT_SUITES
+#subs:=lib test examples #$(patsubst %/Makefile,%,$(wildcard */Makefile))
 
-.PHONY: all
-## Performs all self-checks.
-all: prjcheck libaceunit.a
-libaceunit.a: libaceunit.a(AceUnitMainHosted.o AceUnitData.o AceUnit.o FullPlainLogger.o)
+include recurse.mk
 
-.PHONY: prjcheck
-prjcheck:
-	! grep -Rn ' $$' src include generator --include="*.[ch]" --include="*.java" --include="Makefile" --include="*.mak"
+test-all examples-all install: lib-all
 
-.PHONY: clean
-clean::
-	$(RM) libaceunit.a
+versions:=c90 c99 c11 c17 c2x gnu90 gnu99 gnu11 gnu17 gnu2x
+compiler-test: $(versions:%=compiler-test-%)
 
-.PHONY: doc
-doc:
-	doxygen
+compiler-test-%:
+	$(MAKE) clean
+	$(MAKE) CFLAGS+=-std=$*
 
+PREFIX?=/usr/local/
 
-PREFIX:=/usr/local/
-LIBDIR:=$(PREFIX)/lib/
-INCDIR:=$(PREFIX)/include/
+FILES_TO_INSTALL:=\
+    $(PREFIX)/share/man/man1/aceunit.1 \
+    $(PREFIX)/share/man/man3/aceunit.3 \
+    $(PREFIX)/bin/aceunit \
+    $(PREFIX)/lib/libaceunit-simple.a \
+    $(PREFIX)/lib/libaceunit-abort.a \
+    $(PREFIX)/lib/libaceunit-setjmp.a \
+    $(PREFIX)/lib/libaceunit-fork.a \
+    $(PREFIX)/include/aceunit.h
 
-install: libaceunit.a
-	install -m 644 libaceunit.a $(LIBDIR)
-	install -d $(INCDIR)/aceunit/
-	install -m 644 include/*.h $(INCDIR)/aceunit/
+.PHONY: install
+install: $(FILES_TO_INSTALL)
+
+$(PREFIX)/%: %
+	install $^ $@
+
+.PHONY: install
+uninstall:
+	$(RM) $(FILES_TO_INSTALL)
