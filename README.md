@@ -34,7 +34,7 @@ void testNonLeapYears() {
 * JUnit 5.x-style naming.
 * Consumes only very little resources.
 * Works for hosted, freestanding,  and even exotic freestanding environments.
-* Supports C89/C90, C999, C11, C17, and C23.
+* Supports C89/C90, C99, C11, C17, and C23.
 * Configurable.
 * Can be run with pure C89/C90 and thus can be used in environments for which C++ is not available or used (i.e. 80x51).
 * Minimal framework noise in the test code.
@@ -140,4 +140,11 @@ Instead, the generator uses tools like `objdump`, `nm`, or `readelf` to extract 
 <dt>Runner</dt><dd>The part of AceUnit that executes test functions by calling them.</dd>
 <dt>Test Case</dt><dd>A function that AceUnit should execute as a test case.</dd>
 <dt>Test Function<dt><dd>Any of these: AfterAll, AfterEach, BeforeAll, BeforeEach, Test Case.</dd>
+</dl>
+
+## Dropped Features
+The previous versions of AceUnit had a number of features that have been deliberately dropped to keep things simple:
+<dl>
+<dt>Annotation-style processing</dt><dd>Previous versions of AceUnit used annootation-style processing like `A_Test`, `A_BeforeClass`, and so on. This was a bit fragile and required an extra parser. Annotations will come back once C has annotations. They're on the way, give it a few more years. This also made it possible to get rid of _Java_ for the generator and replace it with a simple shell script.</dd>
+<dt>Multiple fixture methods</dt><dd>Previous versions of AceUnit allowed for multiple setup and teardown functions per fixture. I don't think this was really used. This has been dropped to save a bit of memory.</dd>
 </dl>
