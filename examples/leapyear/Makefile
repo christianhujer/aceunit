@@ -1,17 +1,19 @@
+ACEUNIT_HOME=../../
 CPPFLAGS:=-W -Wall -pedantic -I../../include
-LOADLIBES:=../../lib/libaceunit-fork.a
+ACEUNIT_LIBRARY:=$(ACEUNIT_HOME)/lib/libaceunit-fork.a
+#LOADLIBES:=
 
 .PHONY: all
 all: test
 
-leapyear_test: leapyear_test.o leapyear.o testcases.o
+leapyear_test: leapyear_test.o leapyear.o testcases.o $(ACEUNIT_LIBRARY)
 
 .PHONY: test
 test: leapyear_test
-	./leapyear_test
+	./$^
 
 testcases.c: leapyear_test.o
-	../../bin/aceunit $^ >$@
+	$(ACEUNIT_HOME)/bin/aceunit $^ >$@
 
 .PHONY: clean
 clean::
