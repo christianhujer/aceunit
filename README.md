@@ -72,7 +72,7 @@ The same way, you can remove a previous installation by running `sudo make unins
 
 ### How to build with a different compiler.
 By default, AceUnit will be built with/for the C compiler that your `make` tool uses, usually whatever `cc` is found on the `PATH`.
-If you want to build and test with a different compiler, you can use `make CC=compilername`, for example, `make CC=clang`.
+If you want to build and test with a different compiler, you can use `make CC=compilername`, for example, `make CC=clang` or `make CC=armcc`.
 
 ## Runners
 AceUnit provides different runners for different needs.
