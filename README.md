@@ -107,6 +107,60 @@ If the runners provided out of the box do not suit you, you can simply write you
 Just look at the source code of the existing runners to get inspired.
 They're simple and should be easy to understand.
 
+## Workflow
+1. Build AceUnit. Skip this step if you've installed AceUnit in your system and you're testing for the same system.
+2. Build your object files as usual.
+3. Build your test object files (can be included in the previous step).
+4. Run `aceunit` on the test object files to generate the fixtures source code.
+5. Build your fixtures object file.
+6. Build a test executable linking the object files together with the aceunit library of your choice.
+7. Run the tests.
+
+Here's an example of how such a Workflow could look like on the command-line:
+```bash
+# Build AceUnit
+$ cd aceunit
+$ make
+# Build your object files and test object files
+$ cd ../myproject
+$ cc -I ../aceunit/include/ -c *.c
+# Run aceunit on the test object files to generate the fixtures source code.
+$ ../aceunit/bin/aceunit *_test.o >testcases.c
+# Build your fixtures object file.
+$ cc -I ../aceunit/include/ -c testcases.c
+# Build a test executable linking the object files together with the aceunit library of your choice.
+$ cc *.o ../aceunit/lib/libaceunit-abort.a
+# Run the tests
+$ ./a.out
+AceUnit: 2 test cases, 2 successful, 0 failed.
+```
+
+Here's an example of a `Makefile` that implements such a workflow:
+```Makefile
+ACEUNIT_HOME=../aceunit
+ACEUNIT_LIBRARY=$(ACEUNIT_HOME)/lib/libaceunit-abort.a
+CPPFLAGS+=-I $(ACEUNIT_HOME)/include
+
+.PHONY: all
+all: test
+
+.PHONY: test
+test: leapyear_test
+	./$^
+
+leapyear_test: leapyear_test.o leapyear.o testcases.o $(ACEUNIT_LIBRARY)
+
+$(ACEUNIT_LIBRARY):
+	$(MAKE) -C $(dir $(ACEUNIT_LIBRARY))
+
+testcases.c: leapyear_test.o
+	$(ACEUNIT_HOME)/bin/aceunit $^ >$@
+
+.PHONY: clean
+clean::
+	$(RM) *.[adios] *.bc leapyear_test testcases.c
+```
+
 ## Assertion/Failure Features
 There are multiple ways how you can make a test-case fail.
 
