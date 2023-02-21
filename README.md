@@ -65,6 +65,10 @@ This builds and tests AceUnit.
 ## How to Install
 If you want to use AceUnit for testing on your POSIX system, simply run `make && sudo make install`.
 This will install AceUnit into `/usr/local/`.
+You can override the installation location using the `PREFIX` variable, like this: `sudo make install PREFIX=/opt/aceunit/`.
+The `PREFIX` variable only has an effect during installation, you do not need to rebuild.
+
+The same way, you can remove a previous installation by running `sudo make uninstall`.
 
 ### How to build with a different compiler.
 By default, AceUnit will be built with/for the C compiler that your `make` tool uses, usually whatever `cc` is found on the `PATH`.
