@@ -1,4 +1,5 @@
-CPPFLAGS+=-I../include/ -W -Wall -pedantic
+ACEUNIT_HOME?=../
+CPPFLAGS+=-I$(ACEUNIT_HOME)/include/ -W -Wall -pedantic
 
 .PHONY: all
 all: test
