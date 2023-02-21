@@ -46,10 +46,11 @@ void testNonLeapYears() {
 
 This new version of AceUnit has been tested extensively using the following compilers:
 * GCC 11 w/ the following settings on `x86_64`: c90 c99 c11 c17 c2x gnu90 gnu99 gnu11 gnu17 gnu2x
+* GCC 12 as cross-compiler w/ the following target platforms: aarch64, alpha, arm, hppa, mips64, powerpc64le, powerpc64, powerpc, riscv64, s390x
 * clang 14.0.6
 
 The following compilers are planned to be tested soon:
-* GCC for aarch64, alpha, arm, hppa, hppa64, i686, m68k, mips, mips64, powerpc, powerpc64, powerpc64le, riscv64, s390x, sh4, sparc64
+* GCC for hppa64, i686, m68k, mips, sh4, sparc64
 * Clang for aarch64, arm, avr, hexagon, mips, mips64, thumb, wasm32, wasm64
 * Keil / ARM ARMCC on ARM7, Cortex-M0, Cortex-M3, SC000, SC100, SC300
 * Keil C51 and C251 for 8051 and 80251
@@ -73,6 +74,10 @@ The same way, you can remove a previous installation by running `sudo make unins
 ### How to build with a different compiler.
 By default, AceUnit will be built with/for the C compiler that your `make` tool uses, usually whatever `cc` is found on the `PATH`.
 If you want to build and test with a different compiler, you can use `make CC=compilername`, for example, `make CC=clang` or `make CC=armcc`.
+
+You can also easily cross-compile for multiple targets in parallel.
+The `Makefile` in `aceunit/lib` can be used from other directories.
+See `test/cross/` for examples of how that works.
 
 ## Runners
 AceUnit provides different runners for different needs.
