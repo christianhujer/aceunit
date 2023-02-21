@@ -170,7 +170,7 @@ There are multiple ways how you can make a test-case fail.
 <tr><td><code>&lt;assert.h&gt; assert()</code></td> <td>stop</td>        <td>no</td>          <td>yes</td>        <td>yes</td></tr>
 <tr><td><code>&lt;stdlib.h&gt; abort()</code></td>  <td>stop</td>        <td>no</td>          <td>yes</td>        <td>yes</td></tr>
 <tr><td><code>&lt;stdlib.h&gt; exit()</code></td>   <td>stop</td>        <td>no</td>          <td>no</td>         <td>yes</td></tr>
-<tr><td><code>&lt;AceUnit.h&gt; assert()</code></td><td>yes</td>         <td>yes</td>         <td>yes</td>        <td>yes</td></tr>
+<tr><td><code>&lt;AceUnit.h&gt; assert()</code></td><td>stop</td>        <td>yes</td>         <td>yes</td>        <td>yes</td></tr>
 </table>
 
 ## Test Fixtures
