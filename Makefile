@@ -9,7 +9,7 @@ compiler-test: $(versions:%=compiler-test-%)
 
 compiler-test-%:
 	$(MAKE) clean
-	$(MAKE) CFLAGS+=-std=$*
+	$(MAKE) CFLAGS+="-std=$* -Werror" CVERSION:=$*
 
 PREFIX?=/usr/local/
 

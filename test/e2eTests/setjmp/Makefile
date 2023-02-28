@@ -9,7 +9,7 @@ setjmp_test: setjmp_test.o testcases.o
 .PHONY: test
 test: SHELL:=bash
 test: setjmp_test
-	diff setjmp_test_expected.txt <(./setjmp_test 2>&1)
+	diff $(firstword $(wildcard setjmp_test_expected-$(CVERSION).txt) setjmp_test_expected.txt) <(./setjmp_test 2>&1)
 
 testcases.c: setjmp_test.o
 	../../../bin/aceunit $^ >$@

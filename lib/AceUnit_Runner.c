@@ -1,6 +1,5 @@
 #include <aceunit.h>
 #include <assert.h>
-#include <stdbool.h>
 
 void AceUnit_run(const AceUnit_Fixture_t **fixtures, AceUnit_Result_t *result) {
     const AceUnit_Fixture_t **fixture;

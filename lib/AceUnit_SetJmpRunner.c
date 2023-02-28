@@ -2,7 +2,6 @@
 #include <assert.h>
 #include <setjmp.h>
 #include <signal.h>
-#include <stdbool.h>
 #include <stdlib.h>
 
 
@@ -17,8 +16,8 @@ static void nop() {}
 bool success = false;
 
 bool runCatching(void(*code)()) {
-    success = false;
     jmp_buf env; AceUnit_env = &env;
+    success = false;
     if (!setjmp(env)) {
         (code ? code : nop)();
         success = true;

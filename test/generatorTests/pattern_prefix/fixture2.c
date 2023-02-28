@@ -1,32 +1,26 @@
 #include <stdio.h>
 
 
-#define printme() \
-    do { \
-        puts(__func__); \
-    } while (0)
-
-
 void Fixture2_beforeAll() {
-    printme();
+    puts("Fixture2_beforeAll");
 }
 
 void Fixture2_afterAll() {
-    printme();
+    puts("Fixture2_afterAll");
 }
 
 void Fixture2_beforeEach() {
-    printme();
+    puts("Fixture2_beforeEach");
 }
 
 void Fixture2_afterEach() {
-    printme();
+    puts("Fixture2_afterEach");
 }
 
 void Fixture2_test1() {
-    printme();
+    puts("Fixture2_test1");
 }
 
 void Fixture2_test2() {
-    printme();
+    puts("Fixture2_test2");
 }

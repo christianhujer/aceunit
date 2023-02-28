@@ -1,32 +1,26 @@
 #include <stdio.h>
 
 
-#define printme() \
-    do { \
-        puts(__func__); \
-    } while (0)
-
-
 void Prefix_beforeAll() {
-    printme();
+    puts("Prefix_beforeAll");
 }
 
 void Prefix_afterAll() {
-    printme();
+    puts("Prefix_afterAll");
 }
 
 void Prefix_beforeEach() {
-    printme();
+    puts("Prefix_beforeEach");
 }
 
 void Prefix_afterEach() {
-    printme();
+    puts("Prefix_afterEach");
 }
 
 void Prefix_test1() {
-    printme();
+    puts("Prefix_test1");
 }
 
 void Prefix_test2() {
-    printme();
+    puts("Prefix_test2");
 }

@@ -1,32 +1,32 @@
 #include <assert.h>
 #include <stdio.h>
 
-#define printme() do { fprintf(stderr, "%s:%d: %s\n", __FILE__, __LINE__, __func__); } while (0)
+#define printme(func) do { fprintf(stderr, "%s:%d: %s\n", __FILE__, __LINE__, func); } while (0)
 
 void beforeAll_1() {
-    printme();
+    printme("beforeAll_1");
 }
 
 void afterAll_1() {
-    printme();
+    printme("afterAll_1");
 }
 
 void beforeEach_1() {
-    printme();
+    printme("beforeEach_1");
 }
 
 void afterEach_1() {
-    printme();
+    printme("afterEach_1");
 }
 
 void test1_1() {
-    printme();
+    printme("test1_1");
 }
 
 void test2_1() {
-    printme();
+    printme("test2_1");
 }
 
 void test3_1() {
-    printme();
+    printme("test3_1");
 }

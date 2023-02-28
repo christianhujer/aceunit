@@ -2,7 +2,6 @@
 #include <assert.h>
 #include <setjmp.h>
 #include <signal.h>
-#include <stdbool.h>
 #include <stdlib.h>
 
 

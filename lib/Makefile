@@ -1,5 +1,5 @@
 ACEUNIT_HOME?=../
-CPPFLAGS+=-I$(ACEUNIT_HOME)/include/ -W -Wall -pedantic
+CPPFLAGS+=-I$(ACEUNIT_HOME)/include/ -W -Wall -pedantic -Werror
 
 .PHONY: all
 all: test

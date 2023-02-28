@@ -1,16 +1,16 @@
 #include <assert.h>
 #include <stdio.h>
 
-#define printme() do { fprintf(stderr, "%s:%d: %s\n", __FILE__, __LINE__, __func__); } while (0)
+#define printme(func) do { fprintf(stderr, "%s:%d: %s\n", __FILE__, __LINE__, func); } while (0)
 
 void test1() {
-    printme();
+    printme("test1");
 }
 
 void test2() {
-    printme();
+    printme("test2");
 }
 
 void test3() {
-    printme();
+    printme("test3");
 }
