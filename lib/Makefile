@@ -13,6 +13,13 @@ all: test
 #	libaceunit-fork.a(AceUnit_Main.o AceUnit_Runner.o AceUnit_ForkRunner.o) \
 #	libaceunit-setjmp.a(AceUnit_Main.o AceUnit_Runner.o AceUnit_SetJmpRunner.o) \
 
+.PHONY: libs
+libs: \
+    libaceunit-simple.a \
+    libaceunit-abort.a \
+    libaceunit-fork.a \
+    libaceunit-setjmp.a \
+
 libaceunit-simple.a: AceUnit_Main.o AceUnit_Runner.o AceUnit_SimpleRunner.o
 libaceunit-abort.a: AceUnit_Main.o AceUnit_Runner.o AceUnit_AbortRunner.o
 libaceunit-fork.a: AceUnit_Main.o AceUnit_Runner.o AceUnit_ForkRunner.o
