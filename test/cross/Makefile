@@ -3,9 +3,9 @@
 # hppa64, m68k, sh4, and sparc64 are excluded because either gcc or qemu or both do not work properly.
 subs:=$(filter-out \
     avr \
-    hppa64 \
-    m68k \
-    sh4 \
-    sparc64 \
+    hppa64-linux-gnu \
+    m68k-linux-gnu \
+    sh4-linux-gnu \
+    sparc64-linux-gnu \
     ,$(patsubst %/Makefile,%,$(wildcard */Makefile)))
 include ../../recurse.mk
