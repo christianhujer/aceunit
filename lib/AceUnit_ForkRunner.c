@@ -11,20 +11,22 @@ void AceUnit_fail() {
 
 static void nop() {}
 
-// TODO:2023-02-28:christian.hujer:3:Change the fork runner to fork like this:
-// fork()
-//   beforeAll()
-//   loop over test cases
-//     fork()
-//       beforeEach()
-//       fork()
-//         tesCase
-//       join()
-//       afterEach()
-//     join()
-//   end loop
-//   afterAll()
-// join()
+/*
+ * TODO:2023-02-28:christian.hujer:3:Change the fork runner to fork like this:
+ * fork()
+ *   beforeAll()
+ *   loop over test cases
+ *     fork()
+ *       beforeEach()
+ *       fork()
+ *         testCase
+ *       join()
+ *       afterEach()
+ *     join()
+ *   end loop
+ *   afterAll()
+ * join()
+ */
 
 bool runCatching(void(*code)()) {
     pid_t childPid = fork();
