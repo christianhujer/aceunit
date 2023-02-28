@@ -31,10 +31,11 @@ test_empty: zero.o
 # Then it prints a usage message on stderr,
 # But it prints nothing to stdout,
 # And it exits with status 1 (EXIT_FAILURE).
+# Important: set LC_ALL to prevent locale to get in the way of test expectations.
 test: test_unknown_option
 .PHONY: test_unknown_option
 test_unknown_option:
-	diff <<<"$(TESTGEN): illegal option -- x${NL}Usage: $(TESTGEN) [-h] [-p PATTERN] OBJECT_FILE..." - <($(TESTGEN) -x 2>&1 >/dev/null)
+	diff <<<"$(TESTGEN): illegal option -- x${NL}Usage: $(TESTGEN) [-h] [-p PATTERN] OBJECT_FILE..." - <(LC_ALL=C $(TESTGEN) -x 2>&1 >/dev/null)
 	diff /dev/null <($(TESTGEN) -x 2>/dev/null)
 	! $(TESTGEN) -x $^ 2>/dev/null
 
