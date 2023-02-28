@@ -46,7 +46,7 @@ void testNonLeapYears() {
 
 This new version of AceUnit has been tested extensively using the following compilers:
 * GCC 11 w/ the following settings on `x86_64`: c90 c99 c11 c17 c2x gnu90 gnu99 gnu11 gnu17 gnu2x
-* GCC 12 as cross-compiler w/ the following target platforms: aarch64, alpha, arm, hppa, mips64, powerpc64le, powerpc64, powerpc, riscv64, s390x
+* GCC 12 as cross-compiler w/ the following target platforms: aarch64-linux-gnu, alpha-linux-gnu, arm-linux-gnueabi, hppa-linux-gnu, mips64-linux-gnuabi64, mips-linux-gnu, powerpc64le-linux-gnu, powerpc64-linux-gnu, powerpc-linux-gnu, riscv64-linux-gnu, s390x-linux-gnu (hppa64-linux-gnu, m68k-linux-gnu, sh4-linux-gnu, sparc64-linux-gnu exist as targets but are currently broken due to bugs in gcc, qemu, or both)
 * clang 14.0.6
 
 The following compilers are planned to be tested soon:
