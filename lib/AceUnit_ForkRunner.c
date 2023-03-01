@@ -5,11 +5,11 @@
 #include <unistd.h>
 
 
-void AceUnit_fail() {
+void AceUnit_fail(void) {
     exit(EXIT_FAILURE);
 }
 
-static void nop() {}
+static void nop(void) {}
 
 /*
  * TODO:2023-02-28:christian.hujer:3:Change the fork runner to fork like this:
@@ -28,7 +28,7 @@ static void nop() {}
  * join()
  */
 
-bool runCatching(void(*code)()) {
+bool runCatching(void(*code)(void)) {
     pid_t childPid = fork();
     if (childPid) {
         int status;

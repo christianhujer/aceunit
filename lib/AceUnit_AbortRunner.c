@@ -7,7 +7,7 @@
 
 jmp_buf *AceUnit_env;
 
-void AceUnit_fail() {
+void AceUnit_fail(void) {
     abort();
 }
 
@@ -15,9 +15,9 @@ void AceUnit_abortHandler(int signum) {
     longjmp(*AceUnit_env, signum);
 }
 
-static void nop() {}
+static void nop(void) {}
 
-bool runCatching(void(*code)()) {
+bool runCatching(void(*code)(void)) {
     bool success = false;
     void (*oldHandler)(int) = signal(SIGABRT, AceUnit_abortHandler);
     jmp_buf env; AceUnit_env = &env;

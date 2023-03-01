@@ -3,24 +3,24 @@
 #include <aceunit.h>
 
 bool ran_tc1 = false;
-void tc1() { ran_tc1 = true; }
+void tc1(void) { ran_tc1 = true; }
 
 bool ran_tc2 = false;
-void tc2() { ran_tc2 = true; }
+void tc2(void) { ran_tc2 = true; }
 
 bool ran_tc3 = false;
-void tc3() { ran_tc3 = true; }
+void tc3(void) { ran_tc3 = true; }
 
-static void (*const zero_tests[])() = {
+static void (*const zero_tests[])(void) = {
     NULL,
 };
 
-static void (*const one_test[])() = {
+static void (*const one_test[])(void) = {
     tc1,
     NULL,
 };
 
-static void (*const many_tests[])() = {
+static void (*const many_tests[])(void) = {
     tc2,
     tc3,
     NULL,

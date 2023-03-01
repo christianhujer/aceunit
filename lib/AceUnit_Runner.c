@@ -7,7 +7,7 @@ void AceUnit_run(const AceUnit_Fixture_t **fixtures, AceUnit_Result_t *result) {
     assert(result);
     for (fixture = &fixtures[0]; *fixture != NULL; fixture++) {
         bool beforeAll = runCatching((*fixture)->beforeAll);
-        void (*const *testcase)();
+        void (*const *testcase)(void);
         for (testcase = &(*fixture)->testcases[0]; *testcase != NULL; testcase++) {
             result->testCaseCount++;
             /* execute testcase only if beforeEach was successful, but execute afterEach in any case. */
