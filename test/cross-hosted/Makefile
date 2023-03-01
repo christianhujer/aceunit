@@ -14,6 +14,8 @@ ifeq "$(CC)" "clang"
 subs:=$(filter-out \
     alpha-linux-gnu \
     hppa-linux-gnu \
+    hppa64-linux-gnu \
+    sh4-linux-gnu \
     ,$(subs))
 endif
 
