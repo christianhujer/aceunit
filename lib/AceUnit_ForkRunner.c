@@ -11,23 +11,6 @@ void AceUnit_fail(void) {
 
 static void nop(void) {}
 
-/*
- * TODO:2023-02-28:christian.hujer:3:Change the fork runner to fork like this:
- * fork()
- *   beforeAll()
- *   loop over test cases
- *     fork()
- *       beforeEach()
- *       fork()
- *         testCase
- *       join()
- *       afterEach()
- *     join()
- *   end loop
- *   afterAll()
- * join()
- */
-
 bool runCatching(void(*code)(void)) {
     pid_t childPid = fork();
     if (childPid) {
