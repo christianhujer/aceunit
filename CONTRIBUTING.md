@@ -3,7 +3,7 @@
 ## General
 - Follow the [Code of Conduct](CODE_OF_CONDUCT.md).
 - Make sure that you are allowed to contribute.
-  If you're employed, an in doubt, check with your employer or a lawyer.
+  If you're employed, and in doubt, check with your employer or a lawyer.
 - Make sure you understand and accept the [License](LICENSE).
 
 ## Quality
