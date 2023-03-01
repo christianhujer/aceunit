@@ -1,3 +1,6 @@
+ACEUNIT:=../../../bin/aceunit
+ACEUNIT_FLAGS+=-p '[^_]\+_'
+
 .PHONY: all
 all: test
 
@@ -6,7 +9,7 @@ test:: testcases.c
 	diff testcases.c expected.c
 
 testcases.c: fixture1.o fixture2.o
-	../../../bin/aceunit -p '[^_]\+_' $^ >$@
+	$(ACEUNIT) $(ACEUNIT_FLAGS) $^ >$@
 
 .PHONY: clean
 clean::

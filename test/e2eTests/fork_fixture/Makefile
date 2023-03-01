@@ -1,6 +1,8 @@
 CPPFLAGS:=-W -Wall -pedantic -I../../../include/
 LOADLIBES:=../../../lib/libaceunit-fork.a
 
+ACEUNIT:=../../../bin/aceunit
+
 .PHONY: all
 all: test
 
@@ -12,7 +14,7 @@ test: fork_test
 	diff $(firstword $(wildcard fork_test_expected_$(CC).txt) fork_test_expected.txt) <(./fork_test 2>&1)
 
 testcases.c: fork_test.o
-	../../../bin/aceunit $^ >$@
+	$(ACEUNIT) $(ACEUNIT_FLAGS) $^ >$@
 
 .PHONY: clean
 clean::

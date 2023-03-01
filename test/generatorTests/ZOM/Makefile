@@ -1,4 +1,4 @@
-TESTGEN:=../../../bin/aceunit
+ACEUNIT:=../../../bin/aceunit
 
 define NL
 
@@ -22,7 +22,7 @@ characterize/%: actual/%.c | characterize/
 test: test_empty
 .PHONY: test_empty
 test_empty: zero.o
-	diff <<<"zero.o: warning: No test cases found." - <($(TESTGEN) zero.o 2>&1 >/dev/null)
+	diff <<<"zero.o: warning: No test cases found." - <($(ACEUNIT) $(ACEUNIT_FLAGS) zero.o 2>&1 >/dev/null)
 
 # When calling it with an unknown option,
 # Then it prints a usage message on stderr,
@@ -34,12 +34,12 @@ test: test_unknown_option
 test_unknown_option: export SHELLOPTS:=$(if $(SHELLOPTS),$(SHELLOPTS):)pipefail:errexit
 .ONESHELL: test_unknown_option
 test_unknown_option:
-	diff <<<"$(TESTGEN): illegal option -- x${NL}Usage: $(TESTGEN) [-h] [-p PATTERN] OBJECT_FILE..." - <(LC_ALL=C $(TESTGEN) -x 2>&1 >/dev/null)
-	diff /dev/null <($(TESTGEN) -x 2>/dev/null)
-	! $(TESTGEN) -x $^ 2>/dev/null
+	diff <<<"$(ACEUNIT): illegal option -- x${NL}Usage: $(ACEUNIT) [-h] [-p PATTERN] [-t TOOL] OBJECT_FILE..." - <(LC_ALL=C $(ACEUNIT) -x 2>&1 >/dev/null)
+	diff /dev/null <($(ACEUNIT) -x 2>/dev/null)
+	! $(ACEUNIT) -x $^ 2>/dev/null
 
 actual/%.c: %.o | actual/
-	$(TESTGEN) $^ >$@
+	$(ACEUNIT) $(ACEUNIT_FLAGS) $^ >$@
 
 .PRECIOUS: %/
 %/:

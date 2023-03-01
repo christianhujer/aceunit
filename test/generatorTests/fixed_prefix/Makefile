@@ -1,3 +1,6 @@
+ACEUNIT:=../../../bin/aceunit
+ACEUNIT_FLAGS+=-p Prefix_
+
 .PHONY: all
 all: test
 
@@ -6,7 +9,7 @@ test:: testcases.c
 	diff testcases.c expected.c
 
 testcases.c: prefixed.o
-	../../../bin/aceunit -p Prefix_ prefixed.o >$@
+	$(ACEUNIT) $(ACEUNIT_FLAGS) prefixed.o >$@
 
 .PHONY: clean
 clean::

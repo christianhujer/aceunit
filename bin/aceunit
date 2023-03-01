@@ -1,11 +1,22 @@
 #!/bin/bash
 
+tool=objdump
+
 usage() {
-    echo "Usage: $0 [-h] [-p PATTERN] OBJECT_FILE..." 1>&2
+    echo "Usage: $0 [-h] [-p PATTERN] [-t TOOL] OBJECT_FILE..." 1>&2
 }
 
 version() {
     echo "$0 version 1.0"
+}
+
+setType() {
+    case "$1" in
+    objdump) tool=objdump ;;
+    nm) tool=nm ;;
+    readelf) tool=readelf ;;
+    *) echo "$0: error: unsupported symbol table tool '$1'" >&2 ; exit 1 ;;
+    esac
 }
 
 help() {
@@ -19,6 +30,9 @@ Options:
   -p PATTERN  Prefix test functions with the specified pattern;
               PATTERN needs to be a regular expression understood by grep.
               Example: '[^_]\+_' to allow any pattern prefix with an underscore.
+  -t TOOL     Use TOOL for displaying the symbol table.
+              Defaults to objdump.
+              Built-in alternatives: nm, readelf
   -v          Print version information and stop.
 
 Examples:
@@ -28,12 +42,22 @@ END
     exit 0
 }
 
+function getSymbols() {
+    case "${tool}" in
+    objdump) $tool -t $1 | grep -E ' g     F .text	'     | sed -e 's/.* //' | grep '^\('$2$3'\)' ;;
+    nm)      $tool    $1 | grep -E ' T '                      | sed -e 's/.* //' | grep '^\('$2$3'\)' ;;
+    readelf) $tool -s $1 | grep -E ' FUNC    GLOBAL DEFAULT ' | sed -e 's/.* //' | grep '^\('$2$3'\)' ;;
+    *) echo "$0: internal error: Unsupported tool ${tool}" 1>&2 ; exit 2 ;;
+    esac
+}
+
 prefix=
 
-while getopts "hp:v" o; do
+while getopts "hp:t:v" o; do
     case "${o}" in
     h) help ;;
     p) prefix=$OPTARG ;;
+    t) setType $OPTARG ;;
     v) version; exit 0 ;;
     *) usage; exit 1 ;;
     esac
@@ -45,13 +69,11 @@ declare -A beforeAll afterAll beforeEach afterEach testcases
 
 for file in $fixtures; do
     basename=${file%.o}
-     beforeAll[$basename]=$(objdump -t $file | grep -E ' g     F .text	'          | sed -e 's/.* //' | grep '^\('$prefix'beforeAll\)')
-      afterAll[$basename]=$(objdump -t $file | grep -E ' g     F .text	'          | sed -e 's/.* //' | grep '^\('$prefix'afterAll\)')
-    beforeEach[$basename]=$(objdump -t $file | grep -E ' g     F .text	'          | sed -e 's/.* //' | grep '^\('$prefix'beforeEach\)')
-     afterEach[$basename]=$(objdump -t $file | grep -E ' g     F .text	'          | sed -e 's/.* //' | grep '^\('$prefix'afterEach\)')
-     testcases[$basename]=$(objdump -t $file | grep -E ' g     F .text	'          | sed -e 's/.* //' | grep '^\('$prefix'test\)')
-    #testcases[$basename]=$(nm         $file | grep -E ' T '                      | sed -e 's/.* //' | grep '^\(test\)')
-    #testcases[$basename]=$(readelf -s $file | grep -E ' FUNC    GLOBAL DEFAULT ' | sed -e 's/.* //' | grep '^\(test\)')
+     beforeAll[$basename]=$(getSymbols $file $prefix beforeAll)
+      afterAll[$basename]=$(getSymbols $file $prefix afterAll)
+    beforeEach[$basename]=$(getSymbols $file $prefix beforeEach)
+     afterEach[$basename]=$(getSymbols $file $prefix afterEach)
+     testcases[$basename]=$(getSymbols $file $prefix test)
 done
 
 cat << END

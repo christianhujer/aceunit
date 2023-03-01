@@ -1,6 +1,8 @@
 CPPFLAGS:=-W -Wall -pedantic -I../../../include/
 LOADLIBES:=../../../lib/libaceunit-abort.a
 
+ACEUNIT:=../../../bin/aceunit
+
 .PHONY: all
 all: test
 
@@ -12,7 +14,7 @@ test: abort_test
 	diff $(firstword $(wildcard abort_test_expected_$(CC).txt) abort_test_expected.txt) <(./abort_test 2>&1)
 
 testcases.c: abort_test.o
-	../../../bin/aceunit $^ >$@
+	$(ACEUNIT) $(ACEUNIT_FLAGS) $^ >$@
 
 .PHONY: clean
 clean::
