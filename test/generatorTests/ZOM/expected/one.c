@@ -1,8 +1,8 @@
 #include <aceunit.h>
 
-extern void testFunction();
+extern void testFunction(void);
 
-void (*const testcases_one[])() = {
+void (*const testcases_one[])(void) = {
     testFunction,
     NULL,
 };

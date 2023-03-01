@@ -9,15 +9,12 @@ endef
 all: test
 
 SHELL:=bash
-.ONESHELL:
-
 .PHONY: test
 
 # Test that the generated output is as expected.
 test: $(patsubst %.c,characterize/%,$(wildcard *.c))
 characterize/%: actual/%.c | characterize/
-	diff expected/$*.c actual/$*.c
-	touch $@
+	diff expected/$*.c actual/$*.c && touch $@
 
 # Given the file has no test cases,
 # When generating the test source,
@@ -34,6 +31,8 @@ test_empty: zero.o
 # Important: set LC_ALL to prevent locale to get in the way of test expectations.
 test: test_unknown_option
 .PHONY: test_unknown_option
+test_unknown_option: export SHELLOPTS:=$(if $(SHELLOPTS),$(SHELLOPTS):)pipefail:errexit
+.ONESHELL: test_unknown_option
 test_unknown_option:
 	diff <<<"$(TESTGEN): illegal option -- x${NL}Usage: $(TESTGEN) [-h] [-p PATTERN] OBJECT_FILE..." - <(LC_ALL=C $(TESTGEN) -x 2>&1 >/dev/null)
 	diff /dev/null <($(TESTGEN) -x 2>/dev/null)

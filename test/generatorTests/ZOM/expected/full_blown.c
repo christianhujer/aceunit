@@ -1,13 +1,13 @@
 #include <aceunit.h>
 
-extern void beforeAll();
-extern void afterAll();
-extern void beforeEach();
-extern void afterEach();
-extern void testFunction1();
-extern void testFunction2();
+extern void beforeAll(void);
+extern void afterAll(void);
+extern void beforeEach(void);
+extern void afterEach(void);
+extern void testFunction1(void);
+extern void testFunction2(void);
 
-void (*const testcases_full_blown[])() = {
+void (*const testcases_full_blown[])(void) = {
     testFunction1,
     testFunction2,
     NULL,

@@ -1,7 +1,7 @@
 #include <aceunit.h>
 
 
-void (*const testcases_zero[])() = {
+void (*const testcases_zero[])(void) = {
     NULL,
 };
 
