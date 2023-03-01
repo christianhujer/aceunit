@@ -1,13 +1,13 @@
 #include <aceunit.h>
 
-extern void Prefix_beforeAll();
-extern void Prefix_afterAll();
-extern void Prefix_beforeEach();
-extern void Prefix_afterEach();
-extern void Prefix_test1();
-extern void Prefix_test2();
+extern void Prefix_beforeAll(void);
+extern void Prefix_afterAll(void);
+extern void Prefix_beforeEach(void);
+extern void Prefix_afterEach(void);
+extern void Prefix_test1(void);
+extern void Prefix_test2(void);
 
-void (*const testcases_prefixed[])() = {
+void (*const testcases_prefixed[])(void) = {
     Prefix_test1,
     Prefix_test2,
     NULL,
