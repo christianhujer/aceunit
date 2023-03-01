@@ -1,6 +1,12 @@
-export QEMU_LD_PREFIX:=/usr/mips64-linux-gnuabi64/
+arch:=$(notdir $(abspath .))
+export QEMU_LD_PREFIX:=/usr/$(arch)/
 ACEUNIT_HOME:=../../../
 vpath %.c $(ACEUNIT_HOME)lib/
 include $(ACEUNIT_HOME)/lib/Makefile
-CC=mips64-linux-gnuabi64-gcc-10
-AR=mips64-linux-gnuabi64-gcc-ar-10
+CC=$(arch)-gcc-10
+AR=$(arch)-gcc-ar-10
+
+ifeq "$(CC)" "clang"
+CFLAGS+=-target $(arch)
+LDFLAGS+=-target $(arch)
+endif

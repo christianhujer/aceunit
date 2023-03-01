@@ -8,4 +8,13 @@ subs:=$(filter-out \
     sh4-linux-gnu \
     sparc64-linux-gnu \
     ,$(patsubst %/Makefile,%,$(wildcard */Makefile)))
+
+# clang doesn't support Alpha AXP and HPPA.
+ifeq "$(CC)" "clang"
+subs:=$(filter-out \
+    alpha-linux-gnu \
+    hppa-linux-gnu \
+    ,$(subs))
+endif
+
 include ../../recurse.mk
