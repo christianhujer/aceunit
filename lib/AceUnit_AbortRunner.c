@@ -1,5 +1,4 @@
 #include <aceunit.h>
-#include <assert.h>
 #include <setjmp.h>
 #include <signal.h>
 #include <stdlib.h>
