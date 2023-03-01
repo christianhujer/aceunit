@@ -9,4 +9,5 @@ AR=$(arch)-gcc-ar-10
 ifeq "$(CC)" "clang"
 CFLAGS+=-target $(arch)
 LDFLAGS+=-target $(arch)
+AR=llvm-ar
 endif
