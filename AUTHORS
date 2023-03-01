@@ -5,4 +5,4 @@ The first version of AceUnit was published on SourceForge in 2007.
 
 Wink Saville and Christopher Fuhrman have contributed to the previous version of AceUnit.
 
-winspool (https://github.com/winspool) has contributed bug reports to the new version.
+Detlef Riekenberg <wine.dev@web.de> aka winspool (https://github.com/winspool) has contributed bug reports and pull requests to the new version, mostly regarding C89/C90 support.
