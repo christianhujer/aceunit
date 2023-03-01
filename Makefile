@@ -2,9 +2,14 @@
 
 include recurse.mk
 
+## all:		Build and test AceUnit (library, generator, and integration).
+## clean:		Remove all generated files.
+## lib-all:	Build and self-test the AceUnit library.
+
 test-all examples-all install: lib-all
 
 versions:=c90 c99 c11 c17 c2x gnu90 gnu99 gnu11 gnu17 gnu2x
+## compiler-test:	Test AceUnit with different versions of C.
 compiler-test: $(versions:%=compiler-test-%)
 
 compiler-test-%:
@@ -24,11 +29,18 @@ FILES_TO_INSTALL:=\
     $(PREFIX)/include/aceunit.h
 
 .PHONY: install
+## install:	Install AceUnit for the local system (Unix/POSIX/Cygwin/MinGW).
 install: $(FILES_TO_INSTALL)
 
 $(PREFIX)/%: %
 	install $^ $@
 
 .PHONY: install
+## uninstall:	Remove AceUnit from the local system (Unix/POSIX/Cygwin/MinGW).
 uninstall:
 	$(RM) $(FILES_TO_INSTALL)
+
+.PHONY: help
+## help:		Print this help text.
+help:
+	@sed -n 's/^## \?//p' $(MAKEFILE_LIST)

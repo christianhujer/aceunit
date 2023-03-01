@@ -2,6 +2,7 @@ ACEUNIT_HOME?=../
 CPPFLAGS+=-I$(ACEUNIT_HOME)/include/ -W -Wall -pedantic -Werror
 
 .PHONY: all
+## all:	Builds and tests the AceUnit libraries.
 all: test
 
 # Our archives are small, and we don't need individual member update.
@@ -14,6 +15,7 @@ all: test
 #	libaceunit-setjmp.a(AceUnit_Main.o AceUnit_Runner.o AceUnit_SetJmpRunner.o) \
 
 .PHONY: libs
+## libs:	Builds the AceUnit libraries (without testing them).
 libs: \
     libaceunit-simple.a \
     libaceunit-abort.a \
@@ -47,5 +49,11 @@ AceUnit_ForkRunner_Test: AceUnit_ForkRunner_Test.o libaceunit-fork.a
 AceUnit_SetJmpRunner_Test: AceUnit_SetJmpRunner_Test.o libaceunit-setjmp.a
 
 .PHONY: clean
+## clean:	Removes all generated files.
 clean::
 	$(RM) *.[adios] *.bc AceUnit_*Runner_Test
+
+.PHONY: help
+## help:	Print this help text.
+help:
+	@sed -n 's/^## \?//p' $(MAKEFILE_LIST)
