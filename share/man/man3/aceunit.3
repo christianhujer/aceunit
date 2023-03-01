@@ -5,11 +5,11 @@ aceunit, assert, AceUnit_runFixtures, AceUnit_fail \- run unit tests with AceUni
 .nf
 .B #include <aceunit.h>
 .PP
-.BI "void AceUnit_fail();
+.BI "void AceUnit_fail(void);
 .BI "void assert(scalar " expression ");
 .PP
 .BI "void AceUnit_run(const AceUnit_Fixture *" fixtures[] ", AceUnit_Result_t *" result ");
-.BI "bool runCatching(void(*" code ")());
+.BI "bool runCatching(void(*" code ")(void));
 .BI "int main(int " argc ", const char *" argv[] ");
 .fi
 .SH DESCRIPTION
@@ -18,7 +18,7 @@ The
 .BR AceUnit_fail()
 function can be called from a unit test to abort the current test case and mark it failed.
 The
-.BR assert():
+.BR assert()
 macro effectively does the same if its scalar expression evaluates to zero.
 .PP
 The
@@ -33,6 +33,57 @@ to wrap a test function, possibly catching signals.
 The
 .BR main()
 function is provided for convenience to execute the test cases.
+.PP
+AceUnit provides different libraries / implementations that you can link with.
+.PP
+.BR libaceunit-simple.a
+will simply run your test cases with no error handling at all and
+.BR AceUnit_fail()
+calling
+.BR abort().
+This is a great option to simply get started with test-driven development in C.
+.PP
+.BR libaceunit-setjmp.a
+will run your test cases wrapped in
+.BR setjmp()
+/
+.BR longjmp()
+and
+.BR AceUnit_fail()
+calling
+.BR longjmp().
+This option should even work in freestanding environments as long as
+.BR <setjmp.h>
+is available as wel, which usually is the case.
+For embedded development, this is the default choice.
+.PP
+.BR libaceunit-abort.a
+will run your test cases wrapped in
+.BR setjmp()
+/
+.BR longjmp()
+plus a signal handler for
+.BR SIGABRT
+with
+.BR AceUnit_fail()
+calling
+.BR abort().
+The signal handler catches
+.BR SIGABRT
+and performs a
+.BR longjmp()
+back to the runner.
+This is a good choice for hosted environments that do not support POSIX and thus have
+.BR signal()
+but not
+.BR fork()
+available, like native Amiga OS, Windows, or MS-DOS.
+.PP
+.BR libaceunit-fork.a
+will run test functions wrapped in
+.BR fork()
+catching eventual failures by detecting a non-zero exit code from the child process.
+This is the best choice for POSIX environments.
 .SH EXAMPLES
 Consider the following module, which provides a function to see whether a year is a leap year:
 .PP
@@ -61,13 +112,13 @@ Then a unit test module could look like this:
 // File: leapyear_test.o
 #include <aceunit.h>
 
-void testLeapYears() {
+void testLeapYears(void) {
     assert(isLeap(0));
     assert(isLeap(4));
     assert(isLeap(400));
 }
 
-void testNonLeapYears() {
+void testNonLeapYears(void) {
     assert(!isLeap(1));
     assert(!isLeap(100));
 }
@@ -79,7 +130,7 @@ cc -c -o leapyear.o leapyear.c
 cc -c -o leapyear_test.o leapyear_test.c
 aceunit leapyear_test.o >unit_test.c
 cc -c -o unit_test.o unit_test.c
-cc -o unit_test unit_test.o leapyear_test.o leapyear.o -laceunit
+cc -o unit_test unit_test.o leapyear_test.o leapyear.o -laceunit-abort
 \./aceunit
 .EE
 .SH AUTHOR
