@@ -1,0 +1,13 @@
+abort_test.c:8: beforeAll
+abort_test.c:16: beforeEach
+abort_test.c:24: test1
+abort_test.c:20: afterEach
+abort_test.c:16: beforeEach
+abort_test.c:28: test2
+abort_test: abort_test.c:29: void test2(): Assertion `false' failed.
+abort_test.c:20: afterEach
+abort_test.c:16: beforeEach
+abort_test.c:33: test3
+abort_test.c:20: afterEach
+abort_test.c:12: afterAll
+AceUnit: 3 test cases, 2 successful, 1 failed.

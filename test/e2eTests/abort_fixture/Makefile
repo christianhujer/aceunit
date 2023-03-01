@@ -9,7 +9,7 @@ abort_test: abort_test.o testcases.o
 .PHONY: test
 test: SHELL:=bash
 test: abort_test
-	diff abort_test_expected.txt <(./abort_test 2>&1)
+	diff $(firstword $(wildcard abort_test_expected_$(CC).txt) abort_test_expected.txt) <(./abort_test 2>&1)
 
 testcases.c: abort_test.o
 	../../../bin/aceunit $^ >$@

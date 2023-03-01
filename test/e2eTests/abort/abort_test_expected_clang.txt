@@ -1,0 +1,5 @@
+abort_test.c:8: test1
+abort_test.c:12: test2
+abort_test: abort_test.c:13: void test2(): Assertion `false' failed.
+abort_test.c:17: test3
+AceUnit: 3 test cases, 2 successful, 1 failed.

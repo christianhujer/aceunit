@@ -1,0 +1,16 @@
+fork_test.c:9: beforeAll
+fork_test.c:17: beforeEach
+fork_test.c:25: test1
+fork_test.c:21: afterEach
+fork_test.c:17: beforeEach
+fork_test.c:29: test2
+fork_test: fork_test.c:30: void test2(): Assertion `false' failed.
+fork_test.c:21: afterEach
+fork_test.c:17: beforeEach
+fork_test.c:34: test3
+fork_test.c:21: afterEach
+fork_test.c:17: beforeEach
+fork_test.c:39: test4
+fork_test.c:21: afterEach
+fork_test.c:13: afterAll
+AceUnit: 4 test cases, 2 successful, 2 failed.
