@@ -11,7 +11,7 @@ void AceUnit_run(const AceUnit_Fixture_t **fixtures, AceUnit_Result_t *result) {
         for (testcase = &(*fixture)->testcases[0]; *testcase != NULL; testcase++) {
             result->testCaseCount++;
             /* execute testcase only if beforeEach was successful, but execute afterEach in any case. */
-#if defined(__clang__) && (__clang_major >= 14)
+#if defined(__clang__) && (__clang_major__ >= 14)
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wbitwise-instead-of-logical"
 #endif
@@ -19,7 +19,7 @@ void AceUnit_run(const AceUnit_Fixture_t **fixtures, AceUnit_Result_t *result) {
                 result->successCount++;
             else
                 result->failureCount++;
-#if defined(__clang__) && (__clang_major >= 14)
+#if defined(__clang__) && (__clang_major__ >= 14)
 #pragma clang diagnostic pop
 #endif
         }
