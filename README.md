@@ -77,7 +77,7 @@ If you want to build and test with a different compiler, you can use `make CC=co
 
 You can also easily cross-compile for multiple targets in parallel.
 The `Makefile` in `aceunit/lib` can be used from other directories.
-See `test/cross/` for examples of how that works.
+See `test/cross-hosted/` for examples of how that works.
 
 ## Runners
 AceUnit provides different runners for different needs.
@@ -106,6 +106,7 @@ However, most freestanding environments do so.
 ### AbortRunner
 The AbortRunner is like the SetJmpRunner and additionally has a signal handler to catch the `abort()` signal.
 If a test case fails by raising `SIGABRT`, the runner will catch it.
+If you use `<assert.h>` provided by the system/compiler, it will usually call `abort()`, and that will usually raise `SIGABRT`.
 
 ### ForkRunner
 The ForkRunner uses `fork()` to execute test cases in child processes.
