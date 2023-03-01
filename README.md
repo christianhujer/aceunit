@@ -18,13 +18,13 @@ The "template" for this version of AceUnit is no longer JUnit 4 but JUnit 5.
 #include "leapyear.h"
 #include <assert.h>
 
-void testLeapYears() {
+void testLeapYears(void) {
     assert(isLeapYear(0));
     assert(isLeapYear(4));
     assert(isLeapYear(400));
 }
 
-void testNonLeapYears() {
+void testNonLeapYears(void) {
     assert(!isLeapYear(1));
     assert(!isLeapYear(100));
 }

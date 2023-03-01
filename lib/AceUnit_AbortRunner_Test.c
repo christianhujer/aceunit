@@ -4,15 +4,15 @@
 
 bool ran_tc_ok = false;
 
-void tc_failing() {
+void tc_failing(void) {
     assert(false);
 }
 
-void tc_ok() {
+void tc_ok(void) {
     ran_tc_ok = true;
 }
 
-static void (*const failing_test[])() = {
+static void (*const failing_test[])(void) = {
     tc_failing,
     tc_ok,
     NULL,

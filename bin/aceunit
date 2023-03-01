@@ -61,12 +61,12 @@ END
 for file in $fixtures; do
     basename=${file%.o}
     if [ -z "${testcases[$basename]}" ]; then echo "$@: warning: No test cases found." 1>&2; fi
-    for extern in ${beforeAll[$basename]} ${afterAll[$basename]} ${beforeEach[$basename]} ${afterEach[$basename]} ${testcases[$basename]}; do echo "extern void $extern();"; done
+    for extern in ${beforeAll[$basename]} ${afterAll[$basename]} ${beforeEach[$basename]} ${afterEach[$basename]} ${testcases[$basename]}; do echo "extern void $extern(void);"; done
 done
 for file in $fixtures; do
     basename=${file%.o}
     echo
-    echo "void (*const testcases_$basename[])() = {"
+    echo "void (*const testcases_$basename[])(void) = {"
     for testcase in ${testcases[$basename]}; do echo "    $testcase,"; done
     cat << END
     NULL,

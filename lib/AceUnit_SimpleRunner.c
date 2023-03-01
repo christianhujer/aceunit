@@ -3,13 +3,13 @@
 #include <stdlib.h>
 
 
-void AceUnit_fail() {
+void AceUnit_fail(void) {
     abort();
 }
 
-static void nop() {}
+static void nop(void) {}
 
-bool runCatching(void(*code)()) {
+bool runCatching(void(*code)(void)) {
     (code ? code : nop)();
     return true;
 }
