@@ -33,7 +33,7 @@
 
   > Everything should be made as simple as possible, but not simpler.
 
-  <figcaption><cite>Albert Einstein</cite></figcaption>
+  <figcaption>― <cite>Albert Einstein</cite></figcaption>
 </figure>
 
 - Keep it Simple, Stupid
@@ -47,5 +47,5 @@
   > 1. Less Duplication (aka DRY)
   > 1. Fewer Elements
 
-  <figcaption><cite>Kent Beck</cite>, <cite>Martin Fowler</cite>, 4 Rules of Simple Design</figcaption>
+  <figcaption>― <cite>Kent Beck</cite>, <cite>Martin Fowler</cite>, 4 Rules of Simple Design</figcaption>
 </figure>
