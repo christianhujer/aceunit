@@ -58,6 +58,21 @@ The following compilers are planned to be tested soon:
 * Samsung ucc on Calm16 and SecuCalm
 * Open64
 
+## Tested Targets
+### Hosted environments
+* aarch64-linux-gnu
+* alpha-linux-gnu
+* arm-linux-gnueabi
+* hppa-linux-gnu
+* m68k-amigaos
+* mips64-linux-gnuabi64
+* mips-linux-gnu
+* powerpc64le-linux-gnu
+* powerpc64-linux-gnu
+* powerpc-linux-gnu
+* riscv64-linux-gnu
+* s390x-linux-gnu
+
 ## How to Build
 To build AceUnit, you need a GNU `bash` shell, GNU `make`, and a C compiler with `objdump`, `readelf`, or `nm`.
 To build it, simply run `make`.

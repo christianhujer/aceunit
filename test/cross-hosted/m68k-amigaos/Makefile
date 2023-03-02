@@ -1,17 +1,17 @@
 export PATH:=$(abspath amiga/bin):$(PATH)
 
 CC:=m68k-amigaos-gcc
-LDFLAGS:=-L./amiga/m68k-amigaos/lib/
+AR:=m68k-amigaos-ar
+LDFLAGS:=-L./amiga/m68k-amigaos/lib/ -noixemul
 
-.PHONY: all
-all: test
+#.PHONY: amiga-test
+#amiga-test: AceUnit_SimpleRunner_Test AceUnit_SetJmpRunner_Test libaceunit-abort.a libaceunit-fork.a
+#	./AceUnit_SimpleRunner_Test
+#	./AceUnit_SetJmpRunner_Test
 
-.PHONY: test
-# Note: To run the test, requires that AmiTools are installed https://github.com/cnvogelg/amitools
-# and setup with binfmt https://github.com/cnvogelg/amitools/issues/176
-test: SHELL:=bash
-test: hello
-	diff <<<"Hello, world!" - <(./hello)
+ACEUNIT_HOME:=../../../
+vpath %.c $(ACEUNIT_HOME)/lib/
+include $(ACEUNIT_HOME)/lib/Makefile
 
 .PHONY: download
 download: amiga-gcc.tgz
@@ -23,10 +23,6 @@ extract: amiga/
 amiga/: amiga-gcc.tgz
 	tar xf amiga-gcc.tgz --strip-components=4
 	touch $@
-
-.PHONY: clean
-clean::
-	$(RM) *.[adios] hello
 
 .PHONY: distclean
 distclean::
