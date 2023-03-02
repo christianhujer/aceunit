@@ -9,4 +9,4 @@ simple_test.c:15: beforeEach
 simple_test.c:31: test3
 simple_test.c:19: afterEach
 simple_test.c:11: afterAll
-AceUnit: 3 test cases, 3 successful, 0 failed.
+./simple_test: 3 test cases, 3 successful, 0 failed.

@@ -3,4 +3,4 @@ fork_test.c:13: test2
 fork_test: fork_test.c:14: test2: Assertion `false' failed.
 fork_test.c:18: test3
 fork_test.c:23: test4
-AceUnit: 4 test cases, 2 successful, 2 failed.
+./fork_test: 4 test cases, 2 successful, 2 failed.

@@ -2,4 +2,4 @@ setjmp_test.c:7: test1
 setjmp_test.c:11: test2
 setjmp_test.c:12: test2: Assertion `false' failed.
 setjmp_test.c:16: test3
-AceUnit: 3 test cases, 2 successful, 1 failed.
+./setjmp_test: 3 test cases, 2 successful, 1 failed.

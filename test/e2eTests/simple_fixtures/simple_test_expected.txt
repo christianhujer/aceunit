@@ -20,4 +20,4 @@ simple_test2.c:15: beforeEach_2
 simple_test2.c:31: test3_2
 simple_test2.c:19: afterEach_2
 simple_test2.c:11: afterAll_2
-AceUnit: 6 test cases, 6 successful, 0 failed.
+./testcases: 6 test cases, 6 successful, 0 failed.
