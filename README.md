@@ -74,8 +74,8 @@ The following compilers are planned to be tested soon:
 * s390x-linux-gnu
 
 ## How to Build
-To build AceUnit, you need a GNU `bash` shell, GNU `make`, and a C compiler with `objdump`, `readelf`, or `nm`.
-To build it, simply run `make`.
+To build and run AceUnit, you need a GNU `bash` shell, GNU `make`, and a C compiler with `objdump`, `readelf`, or `nm` to extract symbol tables from object files.
+To build AceUnit, simply run `make`.
 This builds and tests AceUnit.
 
 ## How to Install
