@@ -11,6 +11,8 @@ LDFLAGS:=-L./amiga/m68k-amigaos/lib/ -noixemul
 
 ACEUNIT_HOME:=../../../
 vpath %.c $(ACEUNIT_HOME)/lib/
+ACEUNIT_FLAGS:=-b m68k-amigaos-nm -t nm -s _
+#ACEUNIT_FLAGS:=-b m68k-amigaos-objdump -t objdump -s _
 include $(ACEUNIT_HOME)/lib/Makefile
 
 .PHONY: download
