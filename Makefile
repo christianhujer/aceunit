@@ -33,6 +33,7 @@ FILES_TO_INSTALL:=\
 install: $(FILES_TO_INSTALL)
 
 $(PREFIX)/%: %
+	install -d $(dir $@)
 	install $^ $@
 
 .PHONY: install
