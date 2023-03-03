@@ -1,6 +1,7 @@
 #!/bin/bash
 
 tool=objdump
+name=fixtures
 
 usage() {
     echo "Usage: $0 [-h] [-p PATTERN] [-t TOOL] OBJECT_FILE..." 1>&2
@@ -29,6 +30,7 @@ Options:
   -b BINARY   Use BINARY instead of the default for the selected tool.
               Example: -b m68k-amigaos-objdump
   -h          Display this help text and stop.
+  -n NAME     Use NAME instead of fixtures for the fixture table.
   -p PATTERN  Prefix test functions with the specified regex PATTERN;
               PATTERN needs to be understood by grep.
               Example: -p '[^_]\+_' to allow any pattern prefix followed by an underscore.
@@ -66,10 +68,11 @@ function getSymbols() {
 
 prefix=
 
-while getopts "b:hp:s:t:v" o; do
+while getopts "b:hn:p:s:t:v" o; do
     case "${o}" in
     b) binary="$OPTARG" ;;
     h) help ;;
+    n) name="$OPTARG" ;;
     p) prefix="$OPTARG" ;;
     s) strip="$OPTARG" ;;
     t) setType "$OPTARG" ;;
@@ -124,7 +127,7 @@ const AceUnit_Fixture_t fixture_$basename = {
 END
 done
 cat <<END
-const AceUnit_Fixture_t *fixtures[] = {
+const AceUnit_Fixture_t *$name[] = {
 END
 for file in $fixtures; do
     basename=${file%.o}
