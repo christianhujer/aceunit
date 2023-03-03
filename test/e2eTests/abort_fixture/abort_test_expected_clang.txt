@@ -10,4 +10,4 @@ abort_test.c:16: beforeEach
 abort_test.c:33: test3
 abort_test.c:20: afterEach
 abort_test.c:12: afterAll
-AceUnit: 3 test cases, 2 successful, 1 failed.
+./abort_test: 3 test cases, 2 successful, 1 failed.

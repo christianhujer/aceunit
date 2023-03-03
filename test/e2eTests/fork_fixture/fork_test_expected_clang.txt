@@ -13,4 +13,4 @@ fork_test.c:17: beforeEach
 fork_test.c:39: test4
 fork_test.c:21: afterEach
 fork_test.c:13: afterAll
-AceUnit: 4 test cases, 2 successful, 2 failed.
+./fork_test: 4 test cases, 2 successful, 2 failed.
