@@ -1,5 +1,6 @@
 ACEUNIT_HOME?=../
 CPPFLAGS+=-I$(ACEUNIT_HOME)/include/ -W -Wall -pedantic -Werror
+ACEUNIT:=$(ACEUNIT_HOME)/bin/aceunit
 
 .PHONY: all
 ## all:	Builds and tests the AceUnit libraries.
@@ -46,7 +47,10 @@ test:: AceUnit_SetJmpRunner_Test
 AceUnit_SimpleRunner_Test: AceUnit_SimpleRunner_Test.o libaceunit-simple.a
 AceUnit_AbortRunner_Test: AceUnit_AbortRunner_Test.o libaceunit-abort.a
 AceUnit_ForkRunner_Test: AceUnit_ForkRunner_Test.o libaceunit-fork.a
-AceUnit_SetJmpRunner_Test: AceUnit_SetJmpRunner_Test.o libaceunit-setjmp.a
+AceUnit_SetJmpRunner_Test: AceUnit_SetJmpRunner_Test.o AceUnit_SetJmpRunner_Fixture.o libaceunit-setjmp.a
+
+%_Fixture.c: %_Test.o
+	$(ACEUNIT) $(ACEUNIT_FLAGS) $^ >$@
 
 .PHONY: clean
 ## clean:	Removes all generated files.
