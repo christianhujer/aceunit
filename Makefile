@@ -19,14 +19,14 @@ compiler-test-%:
 PREFIX?=/usr/local/
 
 FILES_TO_INSTALL:=\
+    $(PREFIX)/bin/aceunit \
+    $(PREFIX)/include/aceunit.h \
+    $(PREFIX)/lib/libaceunit-abort.a \
+    $(PREFIX)/lib/libaceunit-fork.a \
+    $(PREFIX)/lib/libaceunit-setjmp.a \
+    $(PREFIX)/lib/libaceunit-simple.a \
     $(PREFIX)/share/man/man1/aceunit.1 \
     $(PREFIX)/share/man/man3/aceunit.3 \
-    $(PREFIX)/bin/aceunit \
-    $(PREFIX)/lib/libaceunit-simple.a \
-    $(PREFIX)/lib/libaceunit-abort.a \
-    $(PREFIX)/lib/libaceunit-setjmp.a \
-    $(PREFIX)/lib/libaceunit-fork.a \
-    $(PREFIX)/include/aceunit.h
 
 .PHONY: install
 ## install:	Install AceUnit for the local system (Unix/POSIX/Cygwin/MinGW).
