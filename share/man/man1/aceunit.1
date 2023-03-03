@@ -10,17 +10,61 @@ aceunit \- generate test fixtures from object files
 Scans object files for test cases and generates the fixtures code on stdout.
 .SH OPTIONS
 .TP
+\fB\-b\fR \fI\,BINARY\/\fR
+Use \fI\,BINARY\/\fR instead of the default for the selected tool.
+Example: \fB-b m68k-amigaos-objdump\fR
+.TP
 \fB\-h\fR
-Display help text.
+Display help text and stop.
 .TP
 \fB\-p\fR \fI\,PATTERN\/\fR
-Use PATTERN as prefix for finding test functions.
+Prefix test functions with the specified \fI\,PATTERN\/\fR;
+\fI\,PATTERN\/\fR needs to be understood by grep.
+Example: \fB-p '[^_\\+_'\fR to allow any pattern prefix followed by an underscore.
+.TP
+\fB\-s\fR \fI\,PATTERN\/\fR
+Strip this prefix \fI\,PATTERN\/\fR from symbols before using them;
+\fI\,PATTERN\/\fR needs to be undestood by grep.
+Example: \fB-s _\fR to strip a leading underscore from the symbols names.
+.TP
+\fB\-t\fR \fI\,TOOL\/\fR
+Use \fI\,TOOL\/\fR for displaying the symbol table.
+Defaults to objdump.
+Built-in alternatives: nm, readelf.
+.TP
+\fB\-v\fR
+Print version information and stop.
 .SH DEPENDENCIES
 \fBaceunit\fR requires \fBobjdump\fR, \fBreadelf\fR, or \fBnm\fR to work.
 .SH EXAMPLES
 .TP
 \fBaceunit \-p '[^_]\+_' *_test.o >aceunit.c\fR
 will scan all object files matching the pattern \fB*_test.o\fR and write the found fixtures to \fBaceunit.c\fR.
+.TP
+\fBaceunit \-t nm \-b m68k-amigaos-nm \-s _ *_test.o >aceunit.c\fR
+will scan all object files matching the pattern \fB*_test.o\fR using \fBnm\fR with \fBm68k-amigaos-nm\fR as the binary, stripping leading \fB_\fR from the symbol names, and write the found fixtures to \fBaceunit.c\fR.
+.SH USAGE IN MAKEFILES
+.TP
+AceUnit can easily be used in a \fBMakefile\fR.  Here are some hints of how to do that.
+.SS Makefile Example
+.EX
+ACEUNIT:=aceunit
+
+\&.PHONY: all
+all: test
+
+testcases:=$(patsubst %.c,%.o,$(wildcard *_test.c))
+
+fixtures.c: $(testcases)
+	$(ACEUNIT) $(ACEUNIT_FLAGS) $^ >$@
+
+unittest: LOADLIBES+=-laceunit-setjmp
+unittest: $(testcases) $(objects) fixtures.o
+
+\&.PHONY: test
+test:
+	./unittest
+.EE
 .SH AUTHOR
 Written by Christian Hujer.
 .SH "REPORTING BUGS"

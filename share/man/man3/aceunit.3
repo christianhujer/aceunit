@@ -8,8 +8,10 @@ aceunit, assert, AceUnit_runFixtures, AceUnit_fail \- run unit tests with AceUni
 .BI "void AceUnit_fail(void);
 .BI "void assert(scalar " expression ");
 .PP
-.BI "void AceUnit_run(const AceUnit_Fixture *" fixtures[] ", AceUnit_Result_t *" result ");
+.BI "void AceUnit_run(const AceUnit_Fixture_t *" fixtures[] ", AceUnit_Result_t *" result ");
 .BI "bool runCatching(void(*" code ")(void));
+.PP
+.BI "extern AceUnit_Fixture_t *" fixtures[] ;
 .BI "int main(int " argc ", const char *" argv[] ");
 .fi
 .SH DESCRIPTION
@@ -24,15 +26,22 @@ macro effectively does the same if its scalar expression evaluates to zero.
 The
 .BR AceUnit_run()
 function can be called to run fixtures.
-See the aceunit(1) program for how to generate fixtures.
+See the
+.BR aceunit(1)
+program for how to generate fixtures.
 The
 .BR runCatching()
 function is called by
 .BR AceUnit_run()
 to wrap a test function, possibly catching signals.
+.PP
 The
 .BR main()
 function is provided for convenience to execute the test cases.
+If you want to use it, you need to make sure that
+.BR fixtures
+is defined, usually by auto-generating them using
+.BR aceunit (1).
 .PP
 AceUnit provides different libraries / implementations that you can link with.
 .PP
@@ -101,8 +110,7 @@ extern bool isLeap(int year);
 // File: leapyear.c
 #include "leapyear.h"
 
-bool isLeap(int year)
-{
+bool isLeap(int year) {
     return year % 4 == 0 && year % 100 != 0 || year % 400 == 0;
 }
 .EE

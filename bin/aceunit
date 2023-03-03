@@ -26,38 +26,53 @@ Generate AceUnit fixture list from compiled testcase object files.
 The generated test suite is written to STDOUT.
 
 Options:
+  -b BINARY   Use BINARY instead of the default for the selected tool.
+              Example: -b m68k-amigaos-objdump
   -h          Display this help text and stop.
-  -p PATTERN  Prefix test functions with the specified pattern;
-              PATTERN needs to be a regular expression understood by grep.
-              Example: '[^_]\+_' to allow any pattern prefix with an underscore.
+  -p PATTERN  Prefix test functions with the specified regex PATTERN;
+              PATTERN needs to be understood by grep.
+              Example: -p '[^_]\+_' to allow any pattern prefix followed by an underscore.
+  -s PATTERN  Strip this prefix PATTERN from symbols before using them;
+              PATTERN needs to be understood by grep.
+              Example: -s _ to strip a leading underscore from the symbol names.
   -t TOOL     Use TOOL for displaying the symbol table.
               Defaults to objdump.
-              Built-in alternatives: nm, readelf
+              Built-in alternatives: nm, readelf.
   -v          Print version information and stop.
 
 Examples:
   $0 leapyear_test.o >testcases.c
     Scans leapyear_test.o for test functions and generates the test fixtures in testcases.c.
+
+  $0 -t nm -b m68k-amigaos-nm -s _ leapyear_test.o >testcases.c
+    Scans leapyear_test.o for test functions and generates the test fixtures in testcase.c.
+    Uses nm to get the symbol table, with m68k-amigaos-nm as the binary of nm, and stripping leading underscores from the symbol names.
 END
     exit 0
 }
 
 function getSymbols() {
+    if ! which "$binary" >/dev/null ; then
+        echo "$binary: File not found." 1>&2
+        exit 2
+    fi
     case "${tool}" in
-    objdump) $tool -t $1 | grep -E ' g     F .text	'     | sed -e 's/.* //' | grep '^\('$2$3'\)' ;;
-    nm)      $tool    $1 | grep -E ' T '                      | sed -e 's/.* //' | grep '^\('$2$3'\)' ;;
-    readelf) $tool -s $1 | grep -E ' FUNC    GLOBAL DEFAULT ' | sed -e 's/.* //' | grep '^\('$2$3'\)' ;;
+    objdump) $binary -t "$1" | grep -E ' g     [F ] .text[	 ]+' | sed -e 's/.* '$strip'//' | grep '^\('$2$3'\)' ;;
+    nm)      $binary    "$1" | grep -E ' T '                       | sed -e 's/.* '$strip'//' | grep '^\('$2$3'\)' ;;
+    readelf) $binary -s "$1" | grep -E ' FUNC    GLOBAL DEFAULT '  | sed -e 's/.* '$strip'//' | grep '^\('$2$3'\)' ;;
     *) echo "$0: internal error: Unsupported tool ${tool}" 1>&2 ; exit 2 ;;
     esac
 }
 
 prefix=
 
-while getopts "hp:t:v" o; do
+while getopts "b:hp:s:t:v" o; do
     case "${o}" in
+    b) binary="$OPTARG" ;;
     h) help ;;
-    p) prefix=$OPTARG ;;
-    t) setType $OPTARG ;;
+    p) prefix="$OPTARG" ;;
+    s) strip="$OPTARG" ;;
+    t) setType "$OPTARG" ;;
     v) version; exit 0 ;;
     *) usage; exit 1 ;;
     esac
@@ -66,6 +81,10 @@ done
 shift $((OPTIND - 1))
 fixtures=$@
 declare -A beforeAll afterAll beforeEach afterEach testcases
+
+if [[ -z "$binary" ]] ; then
+    binary=$tool
+fi
 
 for file in $fixtures; do
     basename=${file%.o}
