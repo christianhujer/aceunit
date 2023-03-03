@@ -1,4 +1,5 @@
 ACEUNIT_HOME=../../
+ACEUNIT:=$(ACEUNIT_HOME)/bin/aceunit
 CPPFLAGS:=-W -Wall -pedantic -I../../include
 ACEUNIT_LIBRARY:=$(ACEUNIT_HOME)/lib/libaceunit-fork.a
 #LOADLIBES:=
@@ -13,7 +14,7 @@ test: leapyear_test
 	./$^
 
 testcases.c: leapyear_test.o
-	$(ACEUNIT_HOME)/bin/aceunit $^ >$@
+	$(ACEUNIT) $(ACEUNIT_FLAGS) $^ >$@
 
 .PHONY: clean
 clean::

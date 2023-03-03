@@ -1,5 +1,7 @@
 CPPFLAGS:=-W -Wall -pedantic
 LOADLIBES:=-laceunit-fork
+ACEUNIT:=aceunit
+ACEUNIT_FLAGS:=
 
 .PHONY: all
 all: test
@@ -11,7 +13,7 @@ test: leapyear_test
 	./leapyear_test
 
 testcases.c: leapyear_test.o
-	aceunit $^ >$@
+	$(ACEUNIT) $(ACEUNIT_FLAGS) $^ >$@
 
 .PHONY: clean
 clean::
