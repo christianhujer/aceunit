@@ -59,9 +59,9 @@ function getSymbols() {
         exit 2
     fi
     case "${tool}" in
-    objdump) $binary -t "$1" | grep -E ' g     [F ] .text[	 ]+' | sed -e 's/.* '$strip'//' | grep '^\('$2$3'\)' ;;
-    nm)      $binary    "$1" | grep -E ' T '                       | sed -e 's/.* '$strip'//' | grep '^\('$2$3'\)' ;;
-    readelf) $binary -s "$1" | grep -E ' FUNC    GLOBAL DEFAULT '  | sed -e 's/.* '$strip'//' | grep '^\('$2$3'\)' ;;
+    objdump) $binary -t "$1" | grep -E ' g     [F ] [^	 ]+[	 ]+' | sed -e 's/.* '$strip'//' | grep '^\('$2$3'\)' ;;
+    nm)      $binary    "$1" | grep -E ' T '                         | sed -e 's/.* '$strip'//' | grep '^\('$2$3'\)' ;;
+    readelf) $binary -s "$1" | grep -E ' FUNC    GLOBAL DEFAULT '    | sed -e 's/.* '$strip'//' | grep '^\('$2$3'\)' ;;
     *) echo "$0: internal error: Unsupported tool ${tool}" 1>&2 ; exit 2 ;;
     esac
 }
