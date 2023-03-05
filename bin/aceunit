@@ -10,7 +10,7 @@ for ac in $(realpath -m $0/../../share/aceunit)/*.ac ; do
 done
 
 usage() {
-    echo "Usage: $0 [-h] [-p PATTERN] [-t TOOL] OBJECT_FILE..." 1>&2
+    echo "Usage: $0 [OPTION]... OBJECT_FILE..." 1>&2
 }
 
 version() {
