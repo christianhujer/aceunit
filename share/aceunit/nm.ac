@@ -1,5 +1,5 @@
 tools[nm]=nm
 
 function getSymbols_nm() {
-    $binary    "$1" | grep -E ' T '                         | sed -e 's/.* '$strip'//' | grep '^\('$2$3'\)'
+    $binary    "$1" | grep -E ' T '                         | sed -e 's/.* '$strip'//' | grep '^\('$2'\)'
 }

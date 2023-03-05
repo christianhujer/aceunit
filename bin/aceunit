@@ -99,11 +99,13 @@ fi
 
 for file in $fixtures; do
     basename=${file%.o}
-     beforeAll[$basename]=$(getSymbols $file $prefix beforeAll)
-      afterAll[$basename]=$(getSymbols $file $prefix afterAll)
-    beforeEach[$basename]=$(getSymbols $file $prefix beforeEach)
-     afterEach[$basename]=$(getSymbols $file $prefix afterEach)
-     testcases[$basename]=$(getSymbols $file $prefix test)
+    declare -a symbols
+    symbols=( $(getSymbols $file $prefix) )
+     beforeAll[$basename]=$( printf '%s\n' "${symbols[@]}" | grep "^${prefix}beforeAll" )
+      afterAll[$basename]=$( printf '%s\n' "${symbols[@]}" | grep "^${prefix}afterAll" )
+    beforeEach[$basename]=$( printf '%s\n' "${symbols[@]}" | grep "^${prefix}beforeEach" )
+     afterEach[$basename]=$( printf '%s\n' "${symbols[@]}" | grep "^${prefix}afterEach" )
+     testcases[$basename]=$( printf '%s\n' "${symbols[@]}" | grep "^${prefix}test" )
 done
 
 cat << END
