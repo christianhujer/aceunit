@@ -26,6 +26,9 @@ FILES_TO_INSTALL:=\
     $(PREFIX)/lib/libaceunit-fork.a \
     $(PREFIX)/lib/libaceunit-setjmp.a \
     $(PREFIX)/lib/libaceunit-simple.a \
+    $(PREFIX)/share/aceunit/nm.ac \
+    $(PREFIX)/share/aceunit/objdump.ac \
+    $(PREFIX)/share/aceunit/readelf.ac \
     $(PREFIX)/share/doc/aceunit/copyright \
     $(PREFIX)/share/man/man1/aceunit.1 \
     $(PREFIX)/share/man/man3/aceunit.3 \

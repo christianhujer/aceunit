@@ -1,0 +1,5 @@
+tools[readelf]=readelf
+
+function getSymbols_readelf() {
+    $binary -s "$1" | grep -E ' FUNC    GLOBAL DEFAULT '    | sed -e 's/.* '$strip'//' | grep '^\('$2$3'\)'
+}
