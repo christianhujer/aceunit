@@ -21,6 +21,7 @@ PREFIX?=/usr/local/
 FILES_TO_INSTALL:=\
     $(PREFIX)/bin/aceunit \
     $(PREFIX)/include/aceunit.h \
+    $(PREFIX)/include/aceunit.mk \
     $(PREFIX)/lib/libaceunit-abort.a \
     $(PREFIX)/lib/libaceunit-fork.a \
     $(PREFIX)/lib/libaceunit-setjmp.a \
@@ -36,6 +37,10 @@ install: $(FILES_TO_INSTALL)
 $(PREFIX)/%: %
 	install -d $(dir $@)
 	install $^ $@
+
+$(PREFIX)/include/aceunit.mk: include/aceunit.mk
+	install -d $(dir $@)
+	sed -e 's#$${PREFIX}#$(PREFIX)#' <$< >$@
 
 .PHONY: install
 ## uninstall:	Remove AceUnit from the local system (Unix/POSIX/Cygwin/MinGW).
