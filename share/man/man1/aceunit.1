@@ -71,6 +71,9 @@ unittest: $(testcases) $(objects) fixtures.o
 test:
 	./unittest
 .EE
+.SH LIMITATIONS
+The \fBaceunit\fR program cannot operate on \fBstdin\fR.
+This is not really a limitation of AceUnit itself but rather a limitation of the downstream tools \fBnm\fR, \fBobjdump\fR, and \fBreadelf\fR.
 .SH AUTHOR
 Written by Christian Hujer.
 .SH "REPORTING BUGS"
