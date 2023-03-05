@@ -1,13 +1,21 @@
 #!/bin/bash
 
+declare -g prefix
+declare -g binary
+declare -g tool
+declare -g name
+declare -g -A beforeAll afterAll beforeEach afterEach testcases
+declare -g fixtures
+declare -g -A tools
+
 tool=objdump
 name=fixtures
 
-declare -A tools
-
-for ac in $(realpath -m $0/../../share/aceunit)/*.ac ; do
-    source $ac
-done
+loadToolPlugins() {
+    for ac in $(realpath -m $0/../../share/aceunit)/*.ac ; do
+        source $ac
+    done
+}
 
 usage() {
     echo "Usage: $0 [OPTION]... OBJECT_FILE..." 1>&2
@@ -17,7 +25,7 @@ version() {
     echo "$0 version 1.0"
 }
 
-setType() {
+setTool() {
     if [[ -n "${tools[$1]}" ]] ; then
         tool=$1
     else
@@ -62,7 +70,7 @@ END
     exit 0
 }
 
-function getSymbols() {
+getSymbols() {
     if ! which "$binary" >/dev/null ; then
         echo "$binary: File not found." 1>&2
         exit 2
@@ -74,55 +82,45 @@ function getSymbols() {
     fi
 }
 
-prefix=
+loadFixtures() {
+    for file in $fixtures ; do loadFixture $file ; done
+}
 
-while getopts "b:hn:p:s:t:v" o; do
-    case "${o}" in
-    b) binary="$OPTARG" ;;
-    h) help ;;
-    n) name="$OPTARG" ;;
-    p) prefix="$OPTARG" ;;
-    s) strip="$OPTARG" ;;
-    t) setType "$OPTARG" ;;
-    v) version; exit 0 ;;
-    *) usage; exit 1 ;;
-    esac
-done
-
-shift $((OPTIND - 1))
-fixtures=$@
-declare -A beforeAll afterAll beforeEach afterEach testcases
-
-if [[ -z "$binary" ]] ; then
-    binary=$tool
-fi
-
-for file in $fixtures; do
+loadFixture() {
+    file=$1
     basename=${file%.o}
-    declare -a symbols
     symbols=( $(getSymbols $file $prefix) )
      beforeAll[$basename]=$( printf '%s\n' "${symbols[@]}" | grep "^${prefix}beforeAll" )
       afterAll[$basename]=$( printf '%s\n' "${symbols[@]}" | grep "^${prefix}afterAll" )
     beforeEach[$basename]=$( printf '%s\n' "${symbols[@]}" | grep "^${prefix}beforeEach" )
      afterEach[$basename]=$( printf '%s\n' "${symbols[@]}" | grep "^${prefix}afterEach" )
      testcases[$basename]=$( printf '%s\n' "${symbols[@]}" | grep "^${prefix}test" )
-done
+}
 
-cat << END
+generateHeader() {
+    cat << END
 #include <aceunit.h>
 
 END
-for file in $fixtures; do
-    basename=${file%.o}
-    if [ -z "${testcases[$basename]}" ]; then echo "$@: warning: No test cases found." 1>&2; fi
-    for extern in ${beforeAll[$basename]} ${afterAll[$basename]} ${beforeEach[$basename]} ${afterEach[$basename]} ${testcases[$basename]}; do echo "extern void $extern(void);"; done
-done
-for file in $fixtures; do
-    basename=${file%.o}
-    echo
-    echo "void (*const testcases_$basename[])(void) = {"
-    for testcase in ${testcases[$basename]}; do echo "    $testcase,"; done
-    cat << END
+}
+
+generateExterns() {
+    for file in $fixtures; do
+        basename=${file%.o}
+        if [ -z "${testcases[$basename]}" ]; then echo "$file: warning: No test cases found." 1>&2; fi
+        for extern in ${beforeAll[$basename]} ${afterAll[$basename]} ${beforeEach[$basename]} ${afterEach[$basename]} ${testcases[$basename]}; do
+            echo "extern void $extern(void);"
+        done
+    done
+}
+
+generateFxitureStructures() {
+    for file in $fixtures; do
+        basename=${file%.o}
+        echo
+        echo "void (*const testcases_$basename[])(void) = {"
+        for testcase in ${testcases[$basename]}; do echo "    $testcase,"; done
+        cat << END
     NULL,
 };
 
@@ -135,15 +133,49 @@ const AceUnit_Fixture_t fixture_$basename = {
 };
 
 END
-done
-cat <<END
+    done
+}
+
+generateFixtureTable() {
+    cat <<END
 const AceUnit_Fixture_t *$name[] = {
 END
-for file in $fixtures; do
-    basename=${file%.o}
-    echo "    &fixture_$basename,"
-done
-cat <<END
+    for file in $fixtures; do
+        basename=${file%.o}
+        echo "    &fixture_$basename,"
+    done
+    cat <<END
     NULL,
 };
 END
+}
+
+generateFixtures() {
+    generateHeader
+    generateExterns
+    generateFxitureStructures
+    generateFixtureTable
+}
+
+loadToolPlugins
+
+while getopts "b:hn:p:s:t:v" o; do
+    case "${o}" in
+    b) binary="$OPTARG" ;;
+    h) help ;;
+    n) name="$OPTARG" ;;
+    p) prefix="$OPTARG" ;;
+    s) strip="$OPTARG" ;;
+    t) setTool "$OPTARG" ;;
+    v) version; exit 0 ;;
+    *) usage; exit 1 ;;
+    esac
+done
+shift $((OPTIND - 1))
+fixtures=$@
+if [[ -z "$binary" ]] ; then
+    binary=$tool
+fi
+
+loadFixtures
+generateFixtures
