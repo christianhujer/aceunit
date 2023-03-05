@@ -42,10 +42,13 @@ Print version information and stop.
 .SH EXAMPLES
 .TP
 \fBaceunit \-p '[^_]\+_' *_test.o >aceunit.c\fR
-will scan all object files matching the pattern \fB*_test.o\fR and write the found fixtures to \fBaceunit.c\fR.
+scans all object files matching the pattern \fB*_test.o\fR and write the found fixtures to \fBaceunit.c\fR.
 .TP
 \fBaceunit \-t nm \-b m68k-amigaos-nm \-s _ *_test.o >aceunit.c\fR
-will scan all object files matching the pattern \fB*_test.o\fR using \fBnm\fR with \fBm68k-amigaos-nm\fR as the binary, stripping leading \fB_\fR from the symbol names, and write the found fixtures to \fBaceunit.c\fR.
+scans all object files matching the pattern \fB*_test.o\fR using \fBnm\fR with \fBm68k-amigaos-nm\fR as the binary, stripping leading \fB_\fR from the symbol names, and write the found fixtures to \fBaceunit.c\fR.
+.TP
+\fBaceunit \-t readelf a.o b.o c.o >aceunit.c\fR
+scans the object files \fBa.o\fR, \fBb.o\fR, and \fBc.o\fR and write the found fixtures to \fBaceunit.c\fR.
 .SH USAGE IN MAKEFILES
 .TP
 AceUnit can easily be used in a \fBMakefile\fR.  Here are some hints of how to do that.

@@ -54,6 +54,10 @@ Examples:
   $0 -t nm -b m68k-amigaos-nm -s _ leapyear_test.o >testcases.c
     Scans leapyear_test.o for test functions and generates the test fixtures in testcase.c.
     Uses nm to get the symbol table, with m68k-amigaos-nm as the binary of nm, and stripping leading underscores from the symbol names.
+
+  $0 -t readelf a.o b.o c.o >testcases.c
+    Scans a.o, b.o, and c.o for test functions and generates the test fixtures in testcases.c.
+    Uses readelf to get the symbol table.
 END
     exit 0
 }
