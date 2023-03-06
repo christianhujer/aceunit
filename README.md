@@ -60,23 +60,34 @@ The following compilers are planned to be tested soon:
 
 ## Tested Targets
 ### Hosted environments
-* aarch64-linux-gnu
-* alpha-linux-gnu
-* arm-linux-gnueabi
-* hppa-linux-gnu
-* m68k-amigaos
-* mips64-linux-gnuabi64
-* mips-linux-gnu
-* powerpc64le-linux-gnu
-* powerpc64-linux-gnu
-* powerpc-linux-gnu
-* riscv64-linux-gnu
-* s390x-linux-gnu
+* `aarch64-linux-gnu`
+* `alpha-linux-gnu`
+* `amd64-unknown-openbsd7.2`
+* `arm-linux-gnueabi`
+* `hppa-linux-gnu`
+* `m68k-amigaos`
+* `mips64-linux-gnuabi64`
+* `mips-linux-gnu`
+* `powerpc64le-linux-gnu`
+* `powerpc64-linux-gnu`
+* `powerpc-linux-gnu`
+* `riscv64-linux-gnu`
+* `s390x-linux-gnu`
+* `x86_64-linux-gnu`
+* `x86_64-unknown-freebsd13.1`
+* `x86_64-unknown-haiku`
+* `x86_64-unknown-netbsd9.0` (NetBSD 9.3)
 
 ## How to Build
+(In these instructions, replace `make` with your actual GNU `make` command. This is typically `make` on GNU/Linux systems, and `gmake` on other systems.)
 To build and run AceUnit, you need a GNU `bash` shell, GNU `make`, and a C compiler with `objdump`, `readelf`, or `nm` to extract symbol tables from object files.
 To build AceUnit, simply run `make`.
 This builds and tests AceUnit.
+
+AceUnit defaults to `objdump`.
+On some BSD, like FreeBSD, `objdump` is not installed by default.
+If you want to stick to the default, install the `binutils` package (which includes `objdump`).
+Alternatively, you can remove the `objdump.ac` module from `share/aceunit`, or use `-t nm` or `-t readelf` when running `aceunit`.
 
 ## How to Install
 If you want to use AceUnit for testing on your POSIX system, simply run `make && sudo make install`.
