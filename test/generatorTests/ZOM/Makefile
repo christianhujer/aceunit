@@ -47,4 +47,4 @@ actual/%.c: %.o | actual/
 
 .PHONY: clean
 clean::
-	$(RM) *.[adios] -r actual/ characterize/
+	$(RM) -r *.[adios] actual/ characterize/

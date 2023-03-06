@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 declare -g prefix
 declare -g binary
@@ -12,7 +12,7 @@ tool=objdump
 name=fixtures
 
 loadToolPlugins() {
-    for ac in $(realpath -m $0/../../share/aceunit)/*.ac ; do
+    for ac in $(readlink -f $(dirname $0)/../share/aceunit)/*.ac ; do
         source $ac
     done
 }
