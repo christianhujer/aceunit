@@ -4,7 +4,7 @@ abort_test.c:24: test1
 abort_test.c:20: afterEach
 abort_test.c:16: beforeEach
 abort_test.c:28: test2
-abort_test.c:29: test2: Assertion `false' failed.
+abort_test.c:29: Assertion `false' failed.
 abort_test.c:20: afterEach
 abort_test.c:16: beforeEach
 abort_test.c:33: test3

@@ -4,7 +4,7 @@ fork_test.c:25: test1
 fork_test.c:21: afterEach
 fork_test.c:17: beforeEach
 fork_test.c:29: test2
-fork_test.c:30: test2: Assertion `false' failed.
+fork_test.c:30: Assertion `false' failed.
 fork_test.c:21: afterEach
 fork_test.c:17: beforeEach
 fork_test.c:34: test3

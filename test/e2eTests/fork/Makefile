@@ -11,7 +11,7 @@ fork_test: fork_test.o testcases.o
 .PHONY: test
 test: SHELL:=bash
 test: fork_test
-	diff $(firstword $(wildcard fork_test_expected_$(CC).txt) fork_test_expected.txt) <(./fork_test 2>&1)
+	diff $(firstword $(wildcard fork_test_expected-$(CVERSION).txt) fork_test_expected.txt) <(./fork_test 2>&1)
 
 testcases.c: fork_test.o
 	$(ACEUNIT) $(ACEUNIT_FLAGS) $^ >$@
