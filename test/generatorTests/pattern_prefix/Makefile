@@ -1,5 +1,5 @@
 ACEUNIT:=../../../bin/aceunit
-ACEUNIT_FLAGS+=-p '[^_]\+_'
+ACEUNIT_FLAGS+=-p '[^_][^_]*_'
 
 .PHONY: all
 all: test
