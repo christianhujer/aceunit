@@ -26,7 +26,14 @@ const AceUnit_Fixture_t *fixtures[] = {
 };
 
 int main(void) {
+#if defined(__BCC__)
+    AceUnit_Result_t result;
+    result.testCaseCount = 0;
+    result.successCount = 0;
+    result.failureCount = 0;
+#else
     AceUnit_Result_t result = { 0, 0, 0 };
+#endif
     AceUnit_run(fixtures, &result);
 #include <assert.h>
     assert(result.testCaseCount == 2);

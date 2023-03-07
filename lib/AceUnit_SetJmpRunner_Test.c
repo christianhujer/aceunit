@@ -14,11 +14,18 @@ void test_ok(void) {
     ran_tc_ok = true;
 }
 
-int main(void) {
-    AceUnit_Result_t result = { 0, 0, 0 };
-    AceUnit_run(fixtures, &result);
 #undef assert
 #include <assert.h>
+int main(void) {
+#if defined(__BCC__)
+    AceUnit_Result_t result;
+    result.testCaseCount = 0;
+    result.successCount = 0;
+    result.failureCount = 0;
+#else
+    AceUnit_Result_t result = { 0, 0, 0 };
+#endif
+    AceUnit_run(fixtures, &result);
     assert(result.testCaseCount == 2);
     assert(result.successCount == 1);
     assert(result.failureCount == 1);
