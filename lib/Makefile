@@ -1,5 +1,6 @@
 ACEUNIT_HOME?=../
-CPPFLAGS+=-I$(ACEUNIT_HOME)/include/ -W -Wall -pedantic -Werror
+CPPFLAGS+=-I$(ACEUNIT_HOME)/include/
+CFLAGS+=-W -Wall -pedantic -Werror
 ACEUNIT:=$(ACEUNIT_HOME)/bin/aceunit
 
 .PHONY: all
