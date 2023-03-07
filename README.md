@@ -73,6 +73,7 @@ The following compilers are planned to be tested soon:
 * `powerpc-linux-gnu`
 * `riscv64-linux-gnu`
 * `s390x-linux-gnu`
+* `x86-dos` (bcc - Bruce's C Compiler, tested using dosbox)
 * `x86_64-linux-gnu`
 * `x86_64-unknown-freebsd13.1`
 * `x86_64-unknown-haiku`
