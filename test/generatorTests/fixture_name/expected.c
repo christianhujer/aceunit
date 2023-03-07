@@ -15,7 +15,7 @@ extern void test2_1(void);
 extern void test2_2(void);
 extern void test2_3(void);
 
-void (*const testcases_fixture1[])(void) = {
+const aceunit_func_t testcases_fixture1[] = {
     test1_1,
     test1_2,
     test1_3,
@@ -31,7 +31,7 @@ const AceUnit_Fixture_t fixture_fixture1 = {
 };
 
 
-void (*const testcases_fixture2[])(void) = {
+const aceunit_func_t testcases_fixture2[] = {
     test2_1,
     test2_2,
     test2_3,

@@ -8,7 +8,7 @@ extern void test1(void);
 extern void test2(void);
 extern void test3(void);
 
-void (*const testcases_fixture[])(void) = {
+const aceunit_func_t testcases_fixture[] = {
     test1,
     test2,
     test3,

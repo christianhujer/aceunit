@@ -2,7 +2,7 @@
 
 extern void testFunction(void);
 
-void (*const testcases_one[])(void) = {
+const aceunit_func_t testcases_one[] = {
     testFunction,
     NULL,
 };

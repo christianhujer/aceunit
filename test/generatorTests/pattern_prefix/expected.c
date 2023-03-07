@@ -13,7 +13,7 @@ extern void Fixture2_afterEach(void);
 extern void Fixture2_test1(void);
 extern void Fixture2_test2(void);
 
-void (*const testcases_fixture1[])(void) = {
+const aceunit_func_t testcases_fixture1[] = {
     Fixture1_test1,
     Fixture1_test2,
     NULL,
@@ -28,7 +28,7 @@ const AceUnit_Fixture_t fixture_fixture1 = {
 };
 
 
-void (*const testcases_fixture2[])(void) = {
+const aceunit_func_t testcases_fixture2[] = {
     Fixture2_test1,
     Fixture2_test2,
     NULL,

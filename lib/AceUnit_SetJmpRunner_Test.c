@@ -17,6 +17,7 @@ void test_ok(void) {
 int main(void) {
     AceUnit_Result_t result = { 0, 0, 0 };
     AceUnit_run(fixtures, &result);
+#undef assert
 #include <assert.h>
     assert(result.testCaseCount == 2);
     assert(result.successCount == 1);

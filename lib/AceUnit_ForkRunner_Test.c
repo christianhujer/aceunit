@@ -12,7 +12,7 @@ void tc_ok(void) {
     ran_tc_ok = true;
 }
 
-static void (*const failing_test[])(void) = {
+static const aceunit_func_t failing_test[] = {
     tc_failing,
     tc_ok,
     NULL,

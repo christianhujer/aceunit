@@ -7,7 +7,7 @@ extern void Prefix_afterEach(void);
 extern void Prefix_test1(void);
 extern void Prefix_test2(void);
 
-void (*const testcases_prefixed[])(void) = {
+const aceunit_func_t testcases_prefixed[] = {
     Prefix_test1,
     Prefix_test2,
     NULL,

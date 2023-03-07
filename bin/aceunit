@@ -118,7 +118,7 @@ generateFxitureStructures() {
     for file in $fixtures; do
         basename=${file%.o}
         echo
-        echo "void (*const testcases_$basename[])(void) = {"
+        echo "const aceunit_func_t testcases_$basename[] = {"
         for testcase in ${testcases[$basename]}; do echo "    $testcase,"; done
         cat << END
     NULL,

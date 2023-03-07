@@ -11,16 +11,16 @@ void tc2(void) { ran_tc2 = true; }
 bool ran_tc3 = false;
 void tc3(void) { ran_tc3 = true; }
 
-static void (*const zero_tests[])(void) = {
+static const aceunit_func_t zero_tests[] = {
     NULL,
 };
 
-static void (*const one_test[])(void) = {
+static const aceunit_func_t one_test[] = {
     tc1,
     NULL,
 };
 
-static void (*const many_tests[])(void) = {
+static const aceunit_func_t many_tests[] = {
     tc2,
     tc3,
     NULL,
