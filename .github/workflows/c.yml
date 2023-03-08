@@ -1,4 +1,4 @@
-name: C CI
+name: C CI for GCC
 
 on:
   push:
@@ -17,3 +17,5 @@ jobs:
       run: make
     - name: compiler-test
       run: make compiler-test
+    - name: coverage-report
+      run: make -C test/coverage-gcov/
