@@ -1,0 +1,4 @@
+*_Test
+*.gcno
+*.gcda
+*.gcov

@@ -1,5 +1,7 @@
 # Do not include cross in subs, people will not want to run this automatically.
 subs:=\
+    coverage-clang/ \
+    coverage-gcov/ \
     e2eTests/ \
     generatorTests/ \
     special/ \
