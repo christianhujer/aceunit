@@ -13,6 +13,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+    - name: make version
+      run: make -v
     - name: make
       run: make CC=clang
     - name: compiler-test
