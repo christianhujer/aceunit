@@ -13,8 +13,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    - name: install dependencies
-      run: sudo apt-get install llvm
     - name: gmake
       run: gmake CC=clang
     - name: compiler-test
