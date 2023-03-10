@@ -16,3 +16,6 @@ setjmp.exe: AceUnit_SetJmpRunner_Test
 include $(ACEUNIT_HOME)/lib/Makefile
 CFLAGS:=-Md -ansi
 LDFLAGS:=-Md -ansi
+
+clean::
+	$(RM) *.exe
