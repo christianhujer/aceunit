@@ -54,3 +54,10 @@ uninstall:
 ## help:		Print this help text.
 help:
 	@sed -n 's/^## \?//p' $(MAKEFILE_LIST)
+
+.PHONY: debug
+.ONESHELL: debug
+debug:
+	echo subs=$(subs)
+	echo targets=$(targets)
+	echo recurse_template='$(recurse_template)'
