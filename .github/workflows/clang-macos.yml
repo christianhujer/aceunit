@@ -1,0 +1,23 @@
+name: C CI for clang on Mac OS
+
+on:
+  push:
+    branches: [ "trunk" ]
+  pull_request:
+    branches: [ "trunk" ]
+
+jobs:
+  build:
+
+    runs-on: macos-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: install dependencies
+      run: sudo apt-get install llvm
+    - name: gmake
+      run: gmake CC=clang
+    - name: compiler-test
+      run: gmake CC=clang compiler-test
+    - name: coverage-report
+      run: gmake CC=clang -C test/coverage-clang/
