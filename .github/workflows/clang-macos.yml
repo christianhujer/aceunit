@@ -13,9 +13,9 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    - name: gmake
-      run: gmake CC=clang
+    - name: make
+      run: make CC=clang
     - name: compiler-test
-      run: gmake CC=clang compiler-test
+      run: make CC=clang compiler-test
     - name: coverage-report
-      run: gmake CC=clang -C test/coverage-clang/
+      run: make CC=clang -C test/coverage-clang/
