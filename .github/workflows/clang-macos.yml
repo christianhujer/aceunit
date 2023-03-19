@@ -16,7 +16,7 @@ jobs:
     - name: make debug
       run: make debug
     - name: make
-      run: make CC=clang
+      run: make CC=clang ACEUNIT:=$(pwd)/bin/aceunit.zsh
     - name: compiler-test
       run: make CC=clang compiler-test
     - name: coverage-report
