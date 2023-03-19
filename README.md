@@ -74,7 +74,8 @@ The following compilers are planned to be tested soon:
 * `riscv64-linux-gnu`
 * `s390x-linux-gnu`
 * `x86-dos` (bcc - Bruce's C Compiler, tested using dosbox)
-* `x86_64-linux-gnu`
+* `x86_64-unknown-linux-gnu`
+* `x86_64-apple-darwin` (Max OS X; use `aceunit.zsh` instead of `aceunit`, see `.github/workflows/clang-macos.yml`)
 * `x86_64-unknown-freebsd13.1`
 * `x86_64-unknown-haiku`
 * `x86_64-unknown-netbsd9.0` (NetBSD 9.3)
