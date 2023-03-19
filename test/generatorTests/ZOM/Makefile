@@ -43,7 +43,7 @@ actual/%.c: %.o | actual/
 	$(ACEUNIT) $(ACEUNIT_FLAGS) $^ >$@
 
 .PRECIOUS: %/
-%/:
+actual/ characterize/ %/:
 	mkdir -p $@
 
 .PHONY: clean
