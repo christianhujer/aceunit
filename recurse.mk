@@ -1,4 +1,4 @@
-subs?=$(patsubst %/Makefile,%,$(wildcard */Makefile))
+subs?=$(filter-out $(exclude-subs),$(patsubst %/Makefile,%,$(wildcard */Makefile)))
 targets?=all clean
 
 define recurse_template
