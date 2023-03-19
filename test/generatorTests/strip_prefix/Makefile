@@ -1,6 +1,5 @@
 ACEUNIT_HOME:=../../../
 ACEUNIT:=$(ACEUNIT_HOME)/bin/aceunit
-ACEUNIT_FLAGS:=-s _
 
 .PHONY: all
 all: test
@@ -10,7 +9,7 @@ test:: testcases.c
 	diff testcases.c expected.c
 
 testcases.c: fixture.o
-	$(ACEUNIT) $(ACEUNIT_FLAGS) $^ >$@
+	$(ACEUNIT) $(ACEUNIT_FLAGS) -s _ $^ >$@
 
 .PHONY: clean
 clean::

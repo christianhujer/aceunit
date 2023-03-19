@@ -1,6 +1,5 @@
 ACEUNIT_HOME:=../../../
 ACEUNIT:=$(ACEUNIT_HOME)/bin/aceunit
-ACEUNIT_FLAGS:=
 
 .PHONY: all
 all: test
