@@ -15,7 +15,7 @@ tool=objdump
 name=fixtures
 
 loadToolPlugins() {
-    for ac in $(readlink -f $(dirname $ZSH_SCRIPT))/../share/aceunit/*.ac ; do
+    for ac in $(cd "$(dirname "$ZSH_SCRIPT")" ; pwd -P)/../share/aceunit/*.ac ; do
         source $ac
     done
 }
