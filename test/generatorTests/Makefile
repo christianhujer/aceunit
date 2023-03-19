@@ -1,4 +1,4 @@
-ifeq "$(shell uname -a)" "Darwin"
+ifeq "$(shell uname -s)" "Darwin"
 exclude_subs:=sectionName strip_prefix
 endif
 
