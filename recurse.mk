@@ -1,7 +1,7 @@
 subs?=$(patsubst %/Makefile,%,$(wildcard */Makefile))
 targets?=all clean
 
-define recurse_template =
+define recurse_template
 .PHONY: $(1)
 $(1):: $$(subs:%=%-$(1))
 %-$(1):
