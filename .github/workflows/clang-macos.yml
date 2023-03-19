@@ -15,5 +15,3 @@ jobs:
     - uses: actions/checkout@v3
     - name: make
       run: make CC=clang ACEUNIT:=$(pwd)/bin/aceunit.zsh ACEUNIT_FLAGS+="-s _"
-    - name: coverage-report
-      run: make CC=clang -C test/coverage-clang/
