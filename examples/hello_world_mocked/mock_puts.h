@@ -2,9 +2,13 @@
 #define MOCK_PUTS_H
 
 #include <assert.h>
+#include <string.h>
+
+extern char mock_puts_buffer[];
 
 extern int mock_puts(const char *text);
 
-extern void assert_puts(const char *expected);
+#define assert_puts(expected) \
+    assert(strcmp(expected, mock_puts_buffer) == 0)
 
 #endif
