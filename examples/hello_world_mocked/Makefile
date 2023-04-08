@@ -1,6 +1,6 @@
 ACEUNIT_HOME=../../
 ACEUNIT:=$(ACEUNIT_HOME)/bin/aceunit
-CPPFLAGS:=-W -Wall -pedantic -I../../include
+CPPFLAGS:=-W -Wall -pedantic -I../../include -MMD
 ACEUNIT_LIBRARY:=$(ACEUNIT_HOME)/lib/libaceunit-fork.a
 ifeq "$(shell uname -s)" "Darwin"
 OBJCOPY:=llvm-objcopy
@@ -28,3 +28,5 @@ testcases.c: hello_test.o
 .PHONY: clean
 clean::
 	$(RM) hello *.[adios] hello_test
+
+-include *.d
