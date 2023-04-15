@@ -42,6 +42,18 @@ void testNonLeapYears(void) {
 * Make use of existing C features from the hosted environment and POSIX, but _without requiring_ a hosted environment or POSIX.
   It will also work just fine on the freestanding environment of an embedded controller.
 
+## Quick Guide
+
+For each fixture (object file with test cases), AceUnit looks for functions that _start_ with the following names:
+* `beforeAll()` (0‥1) One-time Setup
+* `beforeEach()` (0‥1) Setup per test case
+* `test()` (n) Test cases
+* `afterEach()` (0‥1) Teardown per test case
+* `afterAll()` (0‥1) One-time Teardown
+In addition to that, functions can be prefixed with a user-defined prefix.
+For example, if you have modules and use a prefix convention, you can use this in your tests, too.
+You could name functions like `HeapTest_beforeAll()`, `HeapTest_beforeEach()`, and `HeapTest_test1()` by adding `-p HeapTest_` to the command line options of `aceunit`.
+
 ## Compilers
 
 This new version of AceUnit has been tested extensively using the following compilers:
