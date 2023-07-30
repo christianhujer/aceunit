@@ -6,7 +6,7 @@ declare -g binary
 declare -g tool
 declare -g name
 declare -g -A beforeAll afterAll beforeEach afterEach testcases
-declare -g -A symbols
+declare -g symbols
 declare -g fixtures
 declare -g -A tools
 
