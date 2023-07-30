@@ -92,6 +92,10 @@ The following compilers are planned to be tested soon:
 * `x86_64-unknown-haiku`
 * `x86_64-unknown-netbsd9.0` (NetBSD 9.3)
 
+> [!NOTE]
+> Mac OS users should use aceunit.zsh, and use `-s _`.
+> The installation is currently unaware of the zsh alternative. After installation, replace `aceunit` with `aceunit.zsh`.
+
 ## How to Build
 (In these instructions, replace `make` with your actual GNU `make` command. This is typically `make` on GNU/Linux systems, and `gmake` on other systems.)
 To build and run AceUnit, you need a GNU `bash` shell, GNU `make`, and a C compiler with `objdump`, `readelf`, or `nm` to extract symbol tables from object files.
