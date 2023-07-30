@@ -1,6 +1,7 @@
 #!/usr/bin/env zsh
 
 declare -g prefix
+declare -g strip
 declare -g binary
 declare -g tool
 declare -g name
