@@ -1,7 +1,7 @@
-CC:=bcc
-CFGLAGS:=-Md -ansi
-LDGLAGS:=-Md -ansi
+ACEUNIT_FLAGS:=-t nm -b nm86 -s _
 ACEUNIT_HOME:=../../../
+CC:=bcc
+
 vpath %.c $(ACEUNIT_HOME)/lib/
 
 .PHONY: test-bcc
