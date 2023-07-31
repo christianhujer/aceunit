@@ -96,6 +96,9 @@ The following compilers are planned to be tested soon:
 > Mac OS users should use aceunit.zsh, and use `-s _`.
 > The installation is currently unaware of the zsh alternative. After installation, replace `aceunit` with `aceunit.zsh`.
 
+> [!NOTE]
+> If you use `bcc` for `x86-dos`, run `aceunit` with the flags `-t nm -b nm86 -s _`.
+
 ## How to Build
 (In these instructions, replace `make` with your actual GNU `make` command. This is typically `make` on GNU/Linux systems, and `gmake` on other systems.)
 To build and run AceUnit, you need a GNU `bash` shell, GNU `make`, and a C compiler with `objdump`, `readelf`, or `nm` to extract symbol tables from object files.
@@ -253,6 +256,6 @@ Instead, the generator uses tools like `objdump`, `nm`, or `readelf` to extract 
 ## Dropped Features
 The previous versions of AceUnit had a number of features that have been deliberately dropped to keep things simple:
 <dl>
-<dt>Annotation-style processing</dt><dd>Previous versions of AceUnit used annootation-style processing like `A_Test`, `A_BeforeClass`, and so on. This was a bit fragile and required an extra parser. Annotations will come back once C has annotations. They're on the way, give it a few more years. This also made it possible to get rid of _Java_ for the generator and replace it with a simple shell script.</dd>
+<dt>Annotation-style processing</dt><dd>Previous versions of AceUnit used annotation-style processing like `A_Test`, `A_BeforeClass`, and so on. This was a bit fragile and required an extra parser. Annotations will come back once C has annotations. They're on the way, give it a few more years. This also made it possible to get rid of _Java_ for the generator and replace it with a simple shell script.</dd>
 <dt>Multiple fixture methods</dt><dd>Previous versions of AceUnit allowed for multiple setup and teardown functions per fixture. I don't think this was really used. This has been dropped to save a bit of memory.</dd>
 </dl>
