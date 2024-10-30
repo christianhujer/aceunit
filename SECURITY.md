@@ -1,5 +1,5 @@
 # AceUnit Security Policy
-Being a unit test frameework, AceUnit is meant to be a pure development tool.
+Being a unit test framework, AceUnit is meant to be a pure development tool.
 Its code is not intended to be shipped as part of an actual production system.
 
 Therefore, at present, I believe that coordinated disclosure of security vulnerabilities is not required.
