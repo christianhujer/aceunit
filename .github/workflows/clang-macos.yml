@@ -12,6 +12,6 @@ jobs:
     runs-on: macos-latest
 
     steps:
-    - uses: actions/checkout@v4.1.7
+    - uses: actions/checkout@v4.2.2
     - name: make using zsh instead of bash
       run: ./configure.sh && make CC=clang
