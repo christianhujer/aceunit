@@ -190,7 +190,7 @@ generateExterns() {
     done
 }
 
-generateFxitureStructures() {
+generateFixtureStructures() {
     for file in $fixtures; do
         basename=$(getBasename $file)
         echo
@@ -229,7 +229,7 @@ END
 generateFixtures() {
     generateHeader
     generateExterns
-    generateFxitureStructures
+    generateFixtureStructures
     generateFixtureTable
 }
 
