@@ -57,7 +57,7 @@ test/%_Fixture.c: test/%_Test.o
 
 # Don't delete this. It looks redundant only when building in lib/.
 # But when building somewhere else with vpath set, this is important.
-test/AceUnit_SimpleRunner_Test.o test/AceUnit_AbortRunner_Test.o test/AceUnit_ForkRunner_Test.o test/AceUnit_SetJmpRunner_test.o: | test/
+test/AceUnit_SimpleRunner_Test.o test/AceUnit_AbortRunner_Test.o test/AceUnit_ForkRunner_Test.o test/AceUnit_SetJmpRunner_Test.o: | test/
 test/:
 	mkdir -p $@
 
