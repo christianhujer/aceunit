@@ -269,7 +269,7 @@ The _ForkRunner_ uses POSIX `fork()` for exception handling, so using `longjmp()
 The whole code has been rewritten from scratch, test-driven and with ease-of-use on mind.
 The nomenclature has been updated to match that of JUnit5.
 The generator has been changed from a Java program to a shell script.
-Also, the generator no loner works on the source file, which is fragile.
+Also, the generator no longer works on the source file, which is fragile.
 Instead, the generator uses tools like `objdump`, `nm`, or `readelf` to extract the symbol table and thus introspect the code to discover fixtures and test cases.
 
 ## Trouble Shooting
