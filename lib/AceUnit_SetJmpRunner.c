@@ -1,7 +1,5 @@
 #include <aceunit.h>
 #include <setjmp.h>
-#include <signal.h>
-#include <stdlib.h>
 
 
 jmp_buf *AceUnit_env;
