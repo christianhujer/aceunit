@@ -2,7 +2,7 @@
 
 #include "mock_puts.h"
 
-extern int original_main();
+extern int original_main(void);
 
 void test_hello(void) {
     original_main();
