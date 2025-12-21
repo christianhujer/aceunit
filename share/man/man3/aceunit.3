@@ -139,7 +139,7 @@ cc -c -o leapyear_test.o leapyear_test.c
 aceunit leapyear_test.o >unit_test.c
 cc -c -o unit_test.o unit_test.c
 cc -o unit_test unit_test.o leapyear_test.o leapyear.o -laceunit-abort
-\./aceunit
+\./unit_test
 .EE
 .SH AUTHOR
 Written by Christian Hujer.
