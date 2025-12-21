@@ -18,7 +18,7 @@ test: hello_test
 	./hello_test
 
 mocked_hello.o: hello.o
-	$(OBJCOPY) --redefine-sym main=original_main --redefine-sym puts=mock_puts $^ $@
+	$(OBJCOPY) --redefine-sym $(USER_LABEL_PREFIX)main=$(USER_LABEL_PREFIX)original_main --redefine-sym $(USER_LABEL_PREFIX)puts=$(USER_LABEL_PREFIX)mock_puts $^ $@
 
 hello_test: hello_test.o mock_puts.o mocked_hello.o testcases.o $(ACEUNIT_LIBRARY)
 
@@ -30,3 +30,15 @@ clean::
 	$(RM) hello *.[adios] hello_test
 
 -include *.d
+
+-include .config.mk
+.INTERMEDIATE: .configtest.c .configtest.o
+.configtest.c:
+	echo "int main(void){}" >$@
+
+.config.mk: .configtest.o
+	echo "USER_LABEL_PREFIX:=$$(nm $^ | grep -q " _main" && echo "_" || echo "")" >$@
+
+.PHONY: distclean
+distclean::
+	$(RM) .config.mk .configtest.[cdo]

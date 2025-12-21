@@ -1,3 +1,5 @@
+.config.mk
+.configtest.c
 hello
 hello_test
 *.[adios]
