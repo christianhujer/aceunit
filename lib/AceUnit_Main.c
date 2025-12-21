@@ -10,7 +10,7 @@
 #define A_Ignored
 #endif
 
-int main(A_Ignored int argc, char *argv[]) {
+int main(A_Ignored int argc, char *const argv[]) {
 #if defined(__BCC__)
     AceUnit_Result_t result;
     result.testCaseCount = 0;
