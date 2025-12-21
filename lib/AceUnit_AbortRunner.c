@@ -28,5 +28,6 @@ bool runCatching(void(*code)(void)) {
         success = true;
     }
     signal(SIGABRT, oldHandler);
+    AceUnit_env = NULL;
     return success;
 }
