@@ -24,10 +24,10 @@ libs: \
     libaceunit-fork.a \
     libaceunit-setjmp.a \
 
-libaceunit-simple.a: AceUnit_Main.o AceUnit_Runner.o AceUnit_SimpleRunner.o
-libaceunit-abort.a: AceUnit_Main.o AceUnit_Runner.o AceUnit_AbortRunner.o
-libaceunit-fork.a: AceUnit_Main.o AceUnit_Runner.o AceUnit_ForkRunner.o
-libaceunit-setjmp.a: AceUnit_Main.o AceUnit_Runner.o AceUnit_SetJmpRunner.o
+libaceunit-simple.a: AceUnit_Main.o AceUnit_Runner.o AceUnit_Wrap.o AceUnit_SimpleRunner.o
+libaceunit-abort.a: AceUnit_Main.o AceUnit_Runner.o AceUnit_Wrap.o AceUnit_AbortRunner.o
+libaceunit-fork.a: AceUnit_Main.o AceUnit_Runner.o AceUnit_Wrap.o AceUnit_ForkRunner.o
+libaceunit-setjmp.a: AceUnit_Main.o AceUnit_Runner.o AceUnit_Wrap.o AceUnit_SetJmpRunner.o
 #(%): %
 #	flock $@.lock $(AR) $(ARFLAGS) $@ $<
 %.a:
