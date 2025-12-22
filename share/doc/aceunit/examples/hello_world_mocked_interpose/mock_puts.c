@@ -17,6 +17,6 @@ typedef struct interpose_s {
 } interpose_t;
 
 __attribute__((section("__DATA,__interpose")))
-const interpose_t inerposing_functions[] = {
+const interpose_t interposing_puts[] = {
     { (void *) mock_puts, (void *)puts },
 };
