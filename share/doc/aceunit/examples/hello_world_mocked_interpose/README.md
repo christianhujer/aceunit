@@ -1,3 +1,15 @@
+In case llvm-objcopy isn't found, check where llvm is installed.
+If you installed llvm with Homebrew, run `brew --prefix llvm`.
+It may print something like this:
+```
+/opt/homebrew/opt/llvm
+```
+Append `/bin` and add that to your `PATH`.
+In one step:
+```sh
+export PATH=$(brew --prefix llvm)/bin:$PATH
+```
+
 # Unit Test hello, world
 Yes, that's right.
 A unit test for the hello, world program.
