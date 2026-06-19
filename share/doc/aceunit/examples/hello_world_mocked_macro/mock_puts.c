@@ -5,8 +5,10 @@
 
 #include "mock_puts.h"
 
-char mock_puts_buffer[4096];
+#define BUF_SIZE 4096
+
+char mock_puts_buffer[BUF_SIZE];
 
 int mocked_puts(const char *text) {
-    return sprintf(mock_puts_buffer, "%s\n", text);
+    return snprintf(mock_puts_buffer, BUF_SIZE, "%s\n", text);
 }
