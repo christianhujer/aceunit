@@ -1,10 +1,10 @@
-#include <stdio.h>
+#include <stddef.h>
 
 #include "mock_puts.h"
 
-extern int original_main(void);
+extern int __real_main(void);
 
 void test_hello(void) {
-    original_main();
+    __real_main();
     assert_puts("Hello, world!\n");
 }

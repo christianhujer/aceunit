@@ -17,8 +17,8 @@ hello: hello.o
 test: hello_test
 	./hello_test
 
-hello_test: LOADLIBES+=-Wl,--wrap=puts
-hello_test: hello_test.o mock_puts.o testcases.o $(ACEUNIT_LIBRARY)
+hello_test: LOADLIBES+=-Wl,--wrap=puts -Wl,--wrap=main
+hello_test: hello_test.o hello.o mock_puts.o testcases.o $(ACEUNIT_LIBRARY)
 
 testcases.c: hello_test.o
 	$(ACEUNIT) $(ACEUNIT_FLAGS) $^ >$@
