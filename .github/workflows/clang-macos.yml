@@ -14,4 +14,8 @@ jobs:
     steps:
     - uses: actions/checkout@v6.0.2
     - name: make using zsh instead of bash
-      run: ./configure.sh && PATH=/opt/homebrew/opt/llvm/bin:$PATH make CC=clang
+      run: |
+        LLVM_FORMULA=$(brew list --formula | grep '^llvm' | head -n 1)
+        LLVM_PATH=$(brew --prefix $LLVM_FORMULA)/bin
+        export PATH="$LLVM_PATH:$PATH"
+        ./configure.sh && make CC=clang
