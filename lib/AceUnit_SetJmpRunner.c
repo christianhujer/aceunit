@@ -17,5 +17,6 @@ bool runCatching(void(*code)(void)) {
         (code ? code : nop)();
         success = true;
     }
+    AceUnit_env = NULL;
     return success;
 }
