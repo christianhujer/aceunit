@@ -19,5 +19,5 @@ jobs:
       run: make CC=clang
     - name: compiler-test
       run: make CC=clang compiler-test
-#    - name: coverage-report
-#      run: make CC=clang -C test/coverage-clang/
+    - name: coverage-report
+      run: make CC=clang -C test/coverage-clang/
