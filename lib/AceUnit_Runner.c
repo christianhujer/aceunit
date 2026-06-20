@@ -9,19 +9,15 @@ void AceUnit_run(const AceUnit_Fixture_t **fixtures, AceUnit_Result_t *result) {
         bool beforeAll = runCatching((*fixture)->beforeAll);
         void (*const *testcase)(void);
         for (testcase = &(*fixture)->testcases[0]; *testcase != NULL; testcase++) {
+            bool beforeEachSuccess = beforeAll && runCatching((*fixture)->beforeEach);
+            bool testcaseSuccess = beforeEachSuccess && runCatching(*testcase);
+            bool afterEachSuccess = beforeAll && runCatching((*fixture)->afterEach);
+
             result->testCaseCount++;
-            /* execute testcase only if beforeEach was successful, but execute afterEach in any case. */
-#if defined(__clang__) && (__clang_major__ >= 14)
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wbitwise-instead-of-logical"
-#endif
-            if (beforeAll && ((runCatching((*fixture)->beforeEach) && runCatching(*testcase)) & runCatching((*fixture)->afterEach)))
+            if (testcaseSuccess && afterEachSuccess)
                 result->successCount++;
             else
                 result->failureCount++;
-#if defined(__clang__) && (__clang_major__ >= 14)
-#pragma clang diagnostic pop
-#endif
         }
         if (!runCatching((*fixture)->afterAll))
             result->failureCount++;
