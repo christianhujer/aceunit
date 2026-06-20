@@ -85,7 +85,7 @@ usage() {
 }
 
 version() {
-    echo "$PROG version 3.0.1-SNAPSHOT"
+    echo "$PROG version 3.1.0"
 }
 
 setTool() {
