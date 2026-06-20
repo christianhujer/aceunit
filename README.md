@@ -71,9 +71,9 @@ AceUnit needs the following things to work:
 ## Compilers
 
 This new version of AceUnit has been tested extensively using the following compilers:
-* GCC 11 w/ the following settings on `x86_64`: c90 c99 c11 c17 c2x gnu90 gnu99 gnu11 gnu17 gnu2x
+* GCC 13 w/ the following settings on `x86_64`: c90 c99 c11 c17 c2x gnu90 gnu99 gnu11 gnu17 gnu2x
 * GCC 12 as cross-compiler w/ the following target platforms: aarch64-linux-gnu, alpha-linux-gnu, arm-linux-gnueabi, hppa-linux-gnu, mips64-linux-gnuabi64, mips-linux-gnu, powerpc64le-linux-gnu, powerpc64-linux-gnu, powerpc-linux-gnu, riscv64-linux-gnu, s390x-linux-gnu (hppa64-linux-gnu, m68k-linux-gnu, sh4-linux-gnu, sparc64-linux-gnu exist as targets but are currently broken due to bugs in gcc, qemu, or both)
-* clang 14.0.6
+* clang 17.0.0 (macOS AArch64) / 18.1.3 (Linux x86\_64)
 
 The following compilers are planned to be tested soon:
 * GCC for hppa64, i686, m68k, mips, sh4, sparc64
@@ -129,6 +129,8 @@ Alternatively, you can remove the `objdump.ac` module from `share/aceunit`, or u
 If you want to use AceUnit for testing on your POSIX system, simply run `make && sudo make install`.
 This will install AceUnit into `/usr/local/`.
 You can override the installation location using the `PREFIX` variable, like this: `sudo make install PREFIX=/opt/aceunit/`.
+This is also how you can install it into a project, just set the `PREFIX` variable accordingly.
+
 The `PREFIX` variable only has an effect during installation, you do not need to rebuild.
 
 The same way, you can remove a previous installation by running `sudo make uninstall`.
@@ -140,6 +142,7 @@ If you want to build and test with a different compiler, you can use `make CC=co
 You can also easily cross-compile for multiple targets in parallel.
 The `Makefile` in `aceunit/lib` can be used from other directories.
 See `test/cross-hosted/` for examples of how that works.
+This is useful if you want to use AceUnit in an environment where you want to cross-compile with different compilers.
 
 ## Runners
 AceUnit provides different runners for different needs.
@@ -171,7 +174,7 @@ If a test case fails by raising `SIGABRT`, the runner will catch it.
 If you use `<assert.h>` provided by the system/compiler, it will usually call `abort()`, and that will usually raise `SIGABRT`.
 
 ### ForkRunner
-The ForkRunner uses `fork()` to execute test cases in child processes.
+The ForkRunner uses `fork()` to execute fixtures, tests, and test cases in their own child processes.
 A test case is marked failed if the child ended due to a signal, or if it exited with an exit value other than `EXIT_SUCCESS` (0).
 
 ### Writing your own Runner
