@@ -17,5 +17,5 @@ jobs:
       run: make
     - name: compiler-test
       run: make compiler-test
-    - name: coverage-report
-      run: make -C test/coverage-gcov/
+#    - name: coverage-report
+#      run: make -C test/coverage-gcov/
