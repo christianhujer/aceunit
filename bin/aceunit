@@ -134,7 +134,7 @@ END
 }
 
 getSymbols() {
-    if ! which "$binary" >/dev/null ; then
+    if ! command -v "$binary" >/dev/null ; then
         echo "$binary: File not found." 1>&2
         exit 2
     fi
