@@ -14,4 +14,4 @@ jobs:
     steps:
     - uses: actions/checkout@v6.0.2
     - name: make using zsh instead of bash
-      run: ./configure.sh && make CC=clang
+      run: ./configure.sh && PATH=/opt/homebrew/opt/llvm/bin:$PATH make CC=clang
