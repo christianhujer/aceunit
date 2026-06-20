@@ -28,13 +28,13 @@ void AceUnit_run(const AceUnit_Fixture_t **fixtures, AceUnit_Result_t *result) {
             exit(EXIT_FAILURE);
         }
 
+        int fixtureStatus;
         pid_t fixturePid = fork();
-        if (fixturePid == -1) {
+        switch (fixturePid) {
+        case -1:
             perror("Failed to fork fixture.");
             exit(EXIT_FAILURE);
-        }
-
-        if (fixturePid == 0) {
+        case 0:
             close(pipefd[0]);
 
             AceUnit_Result_t fixtureResult = { 0, 0, 0 };
@@ -45,25 +45,41 @@ void AceUnit_run(const AceUnit_Fixture_t **fixtures, AceUnit_Result_t *result) {
             for (testcase = &(*fixture)->testcases[0]; *testcase != NULL; testcase++) {
                 fixtureResult.testCaseCount++;
 
-                pid_t testPid = fork();
-                if (testPid == -1) {
+                int testenvStatus;
+                pid_t testEnvPid = fork();
+                switch(testEnvPid) {
+                case -1:
                     perror("Failed to fork testcase.");
                     exit(EXIT_FAILURE);
-                }
-
-                if (testPid == 0) {
+                case 0:
                     close(pipefd[1]);
+                    bool testCaseSuccess = false;
 
                     fork_runCatching((*fixture)->beforeEach);
-                    fork_runCatching(*testcase);
+
+                    int executionStatus;
+                    pid_t executionPid = fork();
+                    switch (executionPid) {
+                    case -1:
+                        perror("Failed to fork testcase.");
+                        exit(EXIT_FAILURE);
+                    case 0:
+                        fork_runCatching(*testcase);
+                        exit(EXIT_SUCCESS);
+                    default:
+                        waitpid(executionPid, &executionStatus, 0);
+
+                        if (WIFEXITED(executionStatus) && WEXITSTATUS(executionStatus) == EXIT_SUCCESS)
+                            testCaseSuccess = true;
+                    }
+
                     fork_runCatching((*fixture)->afterEach);
 
-                    exit(EXIT_SUCCESS);
-                } else {
-                    int status;
-                    waitpid(testPid, &status, 0);
+                    exit(testCaseSuccess ? EXIT_SUCCESS : EXIT_FAILURE);
+                default:
+                    waitpid(testEnvPid, &testenvStatus, 0);
 
-                    if (WIFEXITED(status) && WEXITSTATUS(status) == EXIT_SUCCESS)
+                    if (WIFEXITED(testenvStatus) && WEXITSTATUS(testenvStatus) == EXIT_SUCCESS)
                         fixtureResult.successCount++;
                     else
                         fixtureResult.failureCount++;
@@ -75,11 +91,10 @@ void AceUnit_run(const AceUnit_Fixture_t **fixtures, AceUnit_Result_t *result) {
             write(pipefd[1], &fixtureResult, sizeof(AceUnit_Result_t));
             close(pipefd[1]);
             exit(EXIT_SUCCESS);
-        } else {
-            int status;
-            AceUnit_Result_t childTelemetry;
+        default:
             close(pipefd[1]);
-            waitpid(fixturePid, &status, 0);
+            waitpid(fixturePid, &fixtureStatus, 0);
+            AceUnit_Result_t childTelemetry;
             if (read(pipefd[0], &childTelemetry, sizeof(AceUnit_Result_t)) == sizeof(AceUnit_Result_t)) {
                 result->testCaseCount += childTelemetry.testCaseCount;
                 result->successCount += childTelemetry.successCount;
