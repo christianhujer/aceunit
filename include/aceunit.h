@@ -75,7 +75,7 @@ extern void AceUnit_run(const AceUnit_Fixture_t *fixtures[], AceUnit_Result_t *r
  * Implementations must guarantee that they only ever return `true` upon successful completion of the function.
  * Implementations are allowed to not return at all in case of errors.
  * What types of errors are caught and converted to `false` is implementation defined.
- * @param code Function to run.
+ * @param code Function to run. May be `NULL` which counts as success.
  * @return Whether the function was executed successfully.
  * @retval true when the function was executed successfully.
  * @retval false otherwise
