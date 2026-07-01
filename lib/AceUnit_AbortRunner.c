@@ -17,7 +17,7 @@ void AceUnit_abortHandler(int signum) {
 #if defined(__NetBSD__) && defined(__GNUC__) && defined(__ARM_ARCH) && __ARM_ARCH >= 8
 __attribute__((optimize("O0")))
 #endif
-bool runCatching(void(*code)(void)) {
+bool AceUnit_runCatching(void(*code)(void)) {
     if (code == NULL) return true;
     bool success = false;
     void (*oldHandler)(int) = signal(SIGABRT, AceUnit_abortHandler);

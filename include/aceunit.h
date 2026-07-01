@@ -80,7 +80,7 @@ extern void AceUnit_run(const AceUnit_Fixture_t *fixtures[], AceUnit_Result_t *r
  * @retval true when the function was executed successfully.
  * @retval false otherwise
  */
-extern bool runCatching(void(*code)(void));
+extern bool AceUnit_runCatching(void(*code)(void));
 
 /** Fail and abort a test case.
  * Implementations may use different mechanisms for how to actually fail the test case.
