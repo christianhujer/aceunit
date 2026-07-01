@@ -9,10 +9,9 @@ void AceUnit_fail(void) {
     exit(EXIT_FAILURE);
 }
 
-static void nop(void) {}
-
 static bool fork_runCatching(void(*code)(void)) {
-    (code ? code : nop)();
+    if (code == NULL) return true;
+    code();
     return true;
 }
 

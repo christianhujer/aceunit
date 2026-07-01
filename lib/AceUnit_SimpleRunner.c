@@ -6,9 +6,8 @@ void AceUnit_fail(void) {
     abort();
 }
 
-static void nop(void) {}
-
 bool runCatching(void(*code)(void)) {
-    (code ? code : nop)();
+    if (code == NULL) return true;
+    code();
     return true;
 }

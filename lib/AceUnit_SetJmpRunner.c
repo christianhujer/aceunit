@@ -8,13 +8,12 @@ void AceUnit_fail(void) {
     longjmp(*AceUnit_env, 1);
 }
 
-static void nop(void) {}
-
 bool runCatching(void(*code)(void)) {
+    if (code == NULL) return true;
     bool success = false;
     jmp_buf env; AceUnit_env = &env;
     if (!setjmp(env)) {
-        (code ? code : nop)();
+        code();
         success = true;
     }
     AceUnit_env = NULL;
