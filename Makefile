@@ -107,3 +107,5 @@ debug:
 	echo subs=$(subs)
 	echo targets=$(targets)
 	echo recurse_template='$(recurse_template)'
+
+-include .User.mk
