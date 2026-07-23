@@ -276,6 +276,8 @@ Using `longjmp()` for assertions in a test case only serves the purpose of imple
 The _ForkRunner_ uses POSIX `fork()` for exception handling, so using `longjmp()` or catching `SIGABORT` as a workaround to have exception handling in C is not required.
 
 ## Test Fixtures
+A fixture is an object file with test cases (see the Glossary below).
+AceUnit discovers fixtures by introspecting your compiled test object files for functions matching the naming convention described in the Quick Guide, so you do not need to register fixtures manually.
 
 ## What is different from previous versions?
 The whole code has been rewritten from scratch, test-driven and with ease-of-use on mind.
