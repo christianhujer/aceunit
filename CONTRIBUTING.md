@@ -11,6 +11,7 @@
 ## Quality
 - Make sure there is no regression.
   There is an extensive suite of tests.
+  Run `make` to build and run them; run `make compiler-test` to test against multiple C standard versions before submitting a pull request.
 - If you fix a bug, prevent regression by reproducing it first with a test.
 - If you add a new feature, make sure it's tested.
 - AceUnit uses 1TBS style with 4 spaces indentation, Unix format.
