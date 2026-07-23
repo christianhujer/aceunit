@@ -190,6 +190,8 @@ When invoking a fixture or test function, use the provided `AceUnit_runCatching(
 It gracefully accepts `NULL` (treating it as success), so you don't need your own guard for absent `beforeAll`/`beforeEach`/`afterEach`/`afterAll` functions.
 
 ## Workflow
+See [`examples/`](share/doc/aceunit/examples/README.md) for complete worked examples, including mocking and interception techniques.
+
 1. Build AceUnit. Skip this step if you've installed AceUnit in your system and you're testing for the same system.
 2. Build your object files as usual.
 3. Build your test object files (can be included in the previous step).
