@@ -17,6 +17,7 @@
 - AceUnit uses 1TBS style with 4 spaces indentation, Unix format.
   That means no tabs (except for recipes in `Makefile`s), no CRLF, curly braces open at the end of the line.
 - Follow the [SEI CERT C Coding Standard](https://wiki.sei.cmu.edu/confluence/display/c/SEI+CERT+C+Coding+Standard).
+- For local-only Makefile overrides (e.g. `CC`, `CFLAGS`), use a `.User.mk` file in the repository root; it's git-ignored and automatically included.
 
 > If you are unsure about the quality section of these guidelines, you can still submit a pull request.
 > You will receive help to meet the quality guidelines.
