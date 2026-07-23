@@ -186,6 +186,9 @@ If the runners provided out of the box do not suit you, you can simply write you
 Just look at the source code of the existing runners to get inspired.
 They're simple and should be easy to understand.
 
+When invoking a fixture or test function, use the provided `AceUnit_runCatching(void(*code)(void))` helper (declared in `aceunit.h`) instead of calling the function pointer directly.
+It gracefully accepts `NULL` (treating it as success), so you don't need your own guard for absent `beforeAll`/`beforeEach`/`afterEach`/`afterAll` functions.
+
 ## Workflow
 1. Build AceUnit. Skip this step if you've installed AceUnit in your system and you're testing for the same system.
 2. Build your object files as usual.
