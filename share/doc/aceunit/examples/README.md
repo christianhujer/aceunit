@@ -19,7 +19,7 @@ The examples currently show the following things:
     or deal with the side-effect through interception.
   This example is provided in 5 different ways:
   - `hello_world_intercepted_obj`: Uses `objcopy` to override `main()` and intercepts stdout/stderr through redirection.
-  - `hello_world_mocked_interpose`: Uses the interposer of the Darwin/macOS loader for redirecting the `puts()` call to a mock. `main()` is overridden using `ojbcopy`.
+  - `hello_world_mocked_interpose`: Uses the interposer of the Darwin/macOS loader for redirecting the `puts()` call to a mock. `main()` is overridden using `objcopy`.
   - `hello_world_mocked_link`: Wraps `puts()` using the `ld` feature of the GNU/Clang toolchains (not Darwin/macOS).
   - `hello_world_mocked_macro`: Uses a compile-time macro to map `puts()` and `main()` to different functions.
   - `hello_world_mocked_obj`: Uses `objcopy` to override `puts()` with a mock and override `main()`.
