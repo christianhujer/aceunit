@@ -144,6 +144,10 @@ The `Makefile` in `aceunit/lib` can be used from other directories.
 See `test/cross-hosted/` for examples of how that works.
 This is useful if you want to use AceUnit in an environment where you want to cross-compile with different compilers.
 
+### Local build customization
+If you want persistent local overrides (like `CC`, `CFLAGS`, or your own extra targets) without editing the tracked `Makefile`, create a `.User.mk` file in the repository root.
+It is git-ignored and automatically included by the top-level `Makefile` if present.
+
 ## Runners
 AceUnit provides different runners for different needs.
 Out of the box, AceUnit comes with 4 runners: Simple, SetJmp, Abort, and Fork.
