@@ -7,7 +7,7 @@ typeset tool
 typeset name
 typeset -A beforeAll afterAll beforeEach afterEach testcases
 typeset symbols
-typeset fixtures
+typeset -a fixtures
 typeset -A tools
 
 tool=objdump
@@ -23,13 +23,16 @@ if [ -n "$ZSH_VERSION" ]; then
     setopt shwordsplit
 
     loadToolPlugins() {
-        for ac in $(cd "$(dirname "$PROG")" ; pwd -P)/../share/aceunit/*.ac ; do
-            source $ac
+        for ac in "$(cd "$(dirname "$PROG")" || exit 1; pwd -P)"/../share/aceunit/*.ac ; do
+            # shellcheck source=share/aceunit/nm.ac
+            # shellcheck source=share/aceunit/objdump.ac
+            # shellcheck source=share/aceunit/readelf.ac
+            source "$ac"
         done
     }
 
     isToolSupported() {
-        if typeset -f getSymbols_${tool} >/dev/null ; then
+        if typeset -f getSymbols_"${tool}" >/dev/null ; then
             return 0
         else
             return 1
@@ -37,17 +40,21 @@ if [ -n "$ZSH_VERSION" ]; then
     }
 
     supportedTools() {
-        echo ${(k)tools}
+        # shellcheck disable=SC2296
+        echo "${(k)tools}"
     }
 elif [ -n "$BASH_VERSION" ]; then
     loadToolPlugins() {
-        for ac in $(readlink -f $(dirname $PROG)/../share/aceunit)/*.ac ; do
-            source $ac
+        for ac in "$(readlink -f "$(dirname "$PROG")"/../share/aceunit)"/*.ac ; do
+            # shellcheck source=share/aceunit/nm.ac
+            # shellcheck source=share/aceunit/objdump.ac
+            # shellcheck source=share/aceunit/readelf.ac
+            source "$ac"
         done
     }
 
     isToolSupported() {
-        if [[ $(LC_ALL=C type -t getSymbols_${tool}) == function ]] ; then
+        if [[ $(LC_ALL=C type -t getSymbols_"${tool}") == function ]] ; then
             return 0
         else
             return 1
@@ -55,17 +62,20 @@ elif [ -n "$BASH_VERSION" ]; then
     }
 
     supportedTools() {
-        echo ${!tools[@]}
+        echo "${!tools[@]}"
     }
 elif [ -n "$KSH_VERSION" ]; then
     loadToolPlugins() {
-        for ac in $(cd "$(dirname "$PROG")" ; pwd -P)/../share/aceunit/*.ac ; do
-            source $ac
+        for ac in "$(cd "$(dirname "$PROG")" || exit 1; pwd -P)"/../share/aceunit/*.ac ; do
+            # shellcheck source=share/aceunit/nm.ac
+            # shellcheck source=share/aceunit/objdump.ac
+            # shellcheck source=share/aceunit/readelf.ac
+            source "$ac"
         done
     }
 
     isToolSupported() {
-        if typeset -f getSymbols_${tool} >/dev/null ; then
+        if typeset -f getSymbols_"${tool}" >/dev/null ; then
             return 0
         else
             return 1
@@ -73,7 +83,7 @@ elif [ -n "$KSH_VERSION" ]; then
     }
 
     supportedTools() {
-        echo ${!tools[@]}
+        echo "${!tools[@]}"
     }
 else
     echo "$0: error: Unsupported shell for AceUnit."
@@ -139,20 +149,21 @@ getSymbols() {
         exit 2
     fi
     if isToolSupported ; then
-        getSymbols_${tool} $1 $2 $3
+        getSymbols_"${tool}" "$1" "$2" "$3"
     else
         echo "$PROG: internal error: Unsupported tool ${tool}" 1>&2 ; exit 2
     fi
 }
 
 loadFixtures() {
-    for file in $fixtures ; do loadFixture $file ; done
+    for file in "${fixtures[@]}"; do loadFixture "$file" ; done
 }
 
 loadFixture() {
     file=$1
-    basename=$(getBasename $file)
-    symbols=( $(getSymbols $file $prefix) )
+    basename=$(getBasename "$file")
+    # shellcheck disable=SC2207
+    symbols=( $(getSymbols "$file" "$prefix") )
      beforeAll[$basename]=$( printf '%s\n' "${symbols[@]}" | grep "^${prefix}beforeAll" )
       afterAll[$basename]=$( printf '%s\n' "${symbols[@]}" | grep "^${prefix}afterAll" )
     beforeEach[$basename]=$( printf '%s\n' "${symbols[@]}" | grep "^${prefix}beforeEach" )
@@ -162,15 +173,15 @@ loadFixture() {
 
 getBasename() {
     result=${1##*/}
-    echo ${result%.o}
+    echo "${result%.o}"
 }
 
 fixtureName() {
-    echo fixture_$1
+    echo fixture_"$1"
 }
 
 testcasesName() {
-    echo testcases_$1
+    echo testcases_"$1"
 }
 
 generateHeader() {
@@ -181,8 +192,8 @@ END
 }
 
 generateExterns() {
-    for file in $fixtures; do
-        basename=$(getBasename $file)
+    for file in "${fixtures[@]}"; do
+        basename=$(getBasename "$file")
         if [ -z "${testcases[$basename]}" ]; then echo "$file: warning: No test cases found." 1>&2; fi
         for extern in ${beforeAll[$basename]} ${afterAll[$basename]} ${beforeEach[$basename]} ${afterEach[$basename]} ${testcases[$basename]}; do
             echo "extern void $extern(void);"
@@ -191,21 +202,21 @@ generateExterns() {
 }
 
 generateFixtureStructures() {
-    for file in $fixtures; do
-        basename=$(getBasename $file)
+    for file in "${fixtures[@]}"; do
+        basename=$(getBasename "$file")
         echo
-        echo "const aceunit_func_t $(testcasesName $basename)[] = {"
+        echo "const aceunit_func_t $(testcasesName "$basename")[] = {"
         for testcase in ${testcases[$basename]}; do echo "    $testcase,"; done
         cat << END
     NULL,
 };
 
-const AceUnit_Fixture_t $(fixtureName $basename) = {
+const AceUnit_Fixture_t $(fixtureName "$basename") = {
     ${beforeAll[$basename]:-NULL},
     ${afterAll[$basename]:-NULL},
     ${beforeEach[$basename]:-NULL},
     ${afterEach[$basename]:-NULL},
-    $(testcasesName $basename),
+    $(testcasesName "$basename"),
 };
 
 END
@@ -216,9 +227,9 @@ generateFixtureTable() {
     cat <<END
 const AceUnit_Fixture_t *${name}[] = {
 END
-    for file in $fixtures; do
-        basename=$(getBasename $file)
-        echo "    &$(fixtureName $basename),"
+    for file in "${fixtures[@]}"; do
+        basename=$(getBasename "$file")
+        echo "    &$(fixtureName "$basename"),"
     done
     cat <<END
     NULL,
@@ -248,7 +259,7 @@ while getopts "b:hn:p:s:t:v" o; do
     esac
 done
 shift $((OPTIND - 1))
-fixtures=$@
+fixtures=("$@")
 if [[ -z "$binary" ]] ; then
     binary=$tool
 fi
