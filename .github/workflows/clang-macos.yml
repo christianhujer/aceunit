@@ -12,7 +12,7 @@ jobs:
     runs-on: macos-latest
 
     steps:
-    - uses: actions/checkout@v7.0.0
+    - uses: actions/checkout@v7.0.1
     - name: make using zsh instead of bash
       run: |
         LLVM_FORMULA=$(brew list --formula | grep '^llvm' | head -n 1)
