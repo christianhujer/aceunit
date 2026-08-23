@@ -8,3 +8,5 @@ Wink Saville and Christopher Fuhrman have contributed to the previous version of
 Detlef Riekenberg (https://github.com/winspool) has contributed bug reports and pull requests to the new version, mostly regarding C89/C90 support.
 
 Amitai Schleier (https://github.com/schmonz) has contributed patches to make packaging AceUnit for NetBSD and other distributions easier.
+
+Ashish Vaghela (https://github.com/Ashish-CodeJourney) has contributed the website and a lot of documentation improvements.
