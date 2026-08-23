@@ -96,6 +96,11 @@ dist-bin:
 	<dist-bin/$(archive).tar bzip2 -9 >dist-bin/$(archive).tar.bz2
 	<dist-bin/$(archive).tar xz    -9 >dist-bin/$(archive).tar.xz
 
+.PHONY: lint
+## lint:	Runs linters on the project.
+lint:
+	shellcheck -x bin/aceunit
+
 .PHONY: help
 ## help:		Print this help text.
 help:
