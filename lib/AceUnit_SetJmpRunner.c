@@ -2,7 +2,7 @@
 #include <setjmp.h>
 
 
-jmp_buf *AceUnit_env;
+static jmp_buf *AceUnit_env;
 
 void AceUnit_fail(void) {
     longjmp(*AceUnit_env, 1);

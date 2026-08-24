@@ -5,13 +5,13 @@
 #include <stdlib.h>
 
 
-jmp_buf *AceUnit_env;
+static jmp_buf *AceUnit_env;
 
 void AceUnit_fail(void) {
     abort();
 }
 
-void AceUnit_abortHandler(int signum) {
+static void AceUnit_abortHandler(int signum) {
     longjmp(*AceUnit_env, signum);
 }
 
