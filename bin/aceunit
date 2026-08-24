@@ -5,6 +5,7 @@ typeset strip
 typeset binary
 typeset tool
 typeset name
+typeset objectFileSuffix
 typeset -A beforeAll afterAll beforeEach afterEach testcases
 typeset symbols
 typeset -a fixtures
@@ -12,6 +13,7 @@ typeset -A tools
 
 tool=objdump
 name=fixtures
+objectFileSuffix=.o
 
 PROG=$0
 
@@ -117,6 +119,7 @@ Options:
               Example: -b m68k-amigaos-objdump
   -h          Display this help text and stop.
   -n NAME     Use NAME instead of fixtures for the fixture table.
+  -o SUFFIX   Use SUFFIX for object files (default: .o).
   -p PATTERN  Prefix test functions with the specified regex PATTERN;
               PATTERN needs to be understood by grep.
               Example: -p '[^_]\+_' to allow any pattern prefix followed by an underscore.
@@ -173,7 +176,7 @@ loadFixture() {
 
 getBasename() {
     result=${1##*/}
-    echo "${result%.o}"
+    echo "${result%"$objectFileSuffix"}"
 }
 
 fixtureName() {
@@ -246,11 +249,12 @@ generateFixtures() {
 
 loadToolPlugins
 
-while getopts "b:hn:p:s:t:v" o; do
+while getopts "b:hn:o:p:s:t:v" o; do
     case "${o}" in
     b) binary="$OPTARG" ;;
     h) help ;;
     n) name="$OPTARG" ;;
+    o) objectFileSuffix="$OPTARG" ;;
     p) prefix="$OPTARG" ;;
     s) strip="$OPTARG" ;;
     t) setTool "$OPTARG" ;;
