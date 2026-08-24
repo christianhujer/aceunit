@@ -1,5 +1,5 @@
 tools[objdump]=objdump
 
 getSymbols_objdump() {
-    $binary -t "$1" | grep -E ' g     [F ] [^	 ]+[	 ]+' | sed -e 's/.* '$strip'//' | grep '^\('$2'\)'
+    $binary -t "$1" | grep -E ' g     [F ] [^	 ]+[	 ]+' | sed -e 's/.* '$3'//' | grep '^\('$2'\)'
 }
