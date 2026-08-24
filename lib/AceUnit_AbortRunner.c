@@ -1,5 +1,6 @@
 #include <aceunit.h>
 #include <setjmp.h>
+// ReSharper disable once CppUnusedIncludeDirective This is a macOS quirk as setjmp.h is included before signal.h.
 #include <signal.h>
 #include <stdlib.h>
 
@@ -21,7 +22,8 @@ bool AceUnit_runCatching(void(*code)(void)) {
     if (code == NULL) return true;
     bool success = false;
     void (*oldHandler)(int) = signal(SIGABRT, AceUnit_abortHandler);
-    jmp_buf env; AceUnit_env = &env;
+    jmp_buf env;
+    AceUnit_env = &env;
     if (!setjmp(env)) {
         code();
         success = true;
