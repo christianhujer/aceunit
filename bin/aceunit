@@ -149,7 +149,7 @@ getSymbols() {
         exit 2
     fi
     if isToolSupported ; then
-        getSymbols_"${tool}" "$1" "$2" "$3"
+        getSymbols_"${tool}" "$1" "$2"
     else
         echo "$PROG: internal error: Unsupported tool ${tool}" 1>&2 ; exit 2
     fi
