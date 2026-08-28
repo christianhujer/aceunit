@@ -11,8 +11,9 @@ void AceUnit_fail(void) {
 bool AceUnit_runCatching(void(*code)(void)) {
     if (code == NULL) return true;
     bool success = false;
-    jmp_buf env; AceUnit_env = &env;
+    jmp_buf env;
     if (!setjmp(env)) {
+        AceUnit_env = &env;
         code();
         success = true;
     }

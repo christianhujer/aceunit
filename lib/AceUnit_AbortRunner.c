@@ -23,8 +23,8 @@ bool AceUnit_runCatching(void(*code)(void)) {
     bool success = false;
     void (*oldHandler)(int) = signal(SIGABRT, AceUnit_abortHandler);
     jmp_buf env;
-    AceUnit_env = &env;
     if (!setjmp(env)) {
+        AceUnit_env = &env;
         code();
         success = true;
     }
