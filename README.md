@@ -34,7 +34,7 @@ void testNonLeapYears(void) {
 * JUnit 5.x-style naming.
 * Consumes only very little resources.
 * Works for hosted, freestanding,  and even exotic freestanding environments.
-* Supports C89/C90, C99, C11, C17, and C23.
+* Supports C89/C90, C99, C11, C17, C23, and the upcoming C2y.
 * Configurable.
 * Can be run with pure C89/C90 and thus can be used in environments for which C++ is not available or used (i.e. 80x51).
 * Minimal framework noise in the test code.

@@ -8,7 +8,7 @@ include recurse.mk
 
 test-all examples-all: lib-all
 
-versions:=c90 c99 c11 c17 c23 gnu90 gnu99 gnu11 gnu17 gnu23
+versions:=c90 c99 c11 c17 c23 c2y gnu90 gnu99 gnu11 gnu17 gnu23 gnu2y
 ## compiler-test:	Test AceUnit with different versions of C.
 compiler-test: $(versions:%=compiler-test-%)
 
