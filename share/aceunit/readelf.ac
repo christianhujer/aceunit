@@ -2,4 +2,5 @@ tools[readelf]=readelf
 
 getSymbols_readelf() {
     $binary -s "$1" | grep -E ' FUNC    GLOBAL DEFAULT '    | sed -e 's/.* '$3'//' | grep '^\('$2'\)'
+    return ${PIPESTATUS[0]}
 }

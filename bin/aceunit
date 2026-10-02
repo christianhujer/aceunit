@@ -152,7 +152,10 @@ getSymbols() {
         exit 2
     fi
     if isToolSupported ; then
-        getSymbols_"${tool}" "$1" "$2" "$3"
+        if ! getSymbols_"${tool}" "$1" "$2" "$3" ; then
+            echo "$1: error: Cannot get symbols." 1>&2
+            exit 2
+        fi
     else
         echo "$PROG: internal error: Unsupported tool ${tool}" 1>&2 ; exit 2
     fi
@@ -165,8 +168,10 @@ loadFixtures() {
 loadFixture() {
     file=$1
     basename=$(getBasename "$file")
+    local raw_symbols
+    raw_symbols=$(getSymbols "$file" "$prefix" "$strip") || exit $?
     # shellcheck disable=SC2207
-    symbols=( $(getSymbols "$file" "$prefix" "$strip") )
+    symbols=( $raw_symbols )
      beforeAll[$basename]=$( printf '%s\n' "${symbols[@]}" | grep "^${prefix}beforeAll" )
       afterAll[$basename]=$( printf '%s\n' "${symbols[@]}" | grep "^${prefix}afterAll" )
     beforeEach[$basename]=$( printf '%s\n' "${symbols[@]}" | grep "^${prefix}beforeEach" )
