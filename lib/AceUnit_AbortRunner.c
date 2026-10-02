@@ -1,6 +1,6 @@
 #include <aceunit.h>
 #include <setjmp.h>
-// ReSharper disable once CppUnusedIncludeDirective This is a macOS quirk as setjmp.h is included before signal.h.
+/* ReSharper disable once CppUnusedIncludeDirective This is a macOS quirk as setjmp.h is included before signal.h. */
 #include <signal.h>
 #include <stdlib.h>
 
